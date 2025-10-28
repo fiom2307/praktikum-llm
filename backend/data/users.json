@@ -1,6 +1,10 @@
 [
     { 
-        "username": "CoolFrog74", 
+        "username": "CoolFrog74",
         "pizzaCount": 3 
+    },
+    { 
+        "username": "CoolFox12",
+        "pizzaCount": 4 
     }
 ]

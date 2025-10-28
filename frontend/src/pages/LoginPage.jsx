@@ -8,9 +8,7 @@ function LoginPage() {
     const handleLogin = async () => {
         const data = await loginUser(username);
         if (data.exists) {
-            alert(`yey ${data.user.username}`);
-            console.log(data.user)
-            console.log(data.exists)
+            alert(`hi ${data.user.username}, you are logged in :)`);
         } else {
             alert("error");
         }
