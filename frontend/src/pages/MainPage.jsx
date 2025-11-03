@@ -1,46 +1,50 @@
 function MainPage() {
-    const username = "CoolFrog74";
-    const pizzaCount = 3;
-    return (
-        <div className="min-h-screen flex flex-col items-center">
+  const username = "CoolFrog74";
+  const pizzaCount = 3;
 
-            <header className="w-full flex justify-between items-start p-6">
+  return (
+    <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+      {/* Header */}
+      <header className="w-full flex justify-between items-start p-6">
+        <button className="bg-blue-400 hover:bg-blue-500 font-semibold px-4 py-2 rounded-xl shadow-md">
+          Flashcards
+        </button>
 
-                <button className="bg-blue-400 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg">
-                Flashcards
-                </button>
-
-                <div className="text-right">
-                <h2 className="text-xl font-bold">{username}</h2>
-                
-                <p className="">
-                    🍕 Pizza Count: <span className="">{pizzaCount}</span>
-                </p>
-                <button className="bg-blue-400 hover:bg-blue-500 text-white font-semibold px-3 py-1 rounded-lg">
-                    Shop
-                </button>
-            
-                </div>
-            </header>
-
-            <main className="w-full flex flex-col items-center mt-10">
-                <h1 className="text-4xl font-bold mb-10">Praktikum LLM</h1>
-
-                <div className="flex gap-6">
-                <button className="bg-blue-400 hover:bg-blue-500 text-white text-lg font-semibold px-6 py-3 rounded-lg">
-                    Reading
-                </button>
-                <button className="bg-blue-400 hover:bg-blue-500 text-white text-lg font-semibold px-6 py-3 rounded-lg">
-                    Text Production
-                </button>
-                <button className="bg-blue-400 hover:bg-blue-500 text-white text-lg font-semibold px-6 py-3 rounded-lg">
-                    Vocabulary
-                </button>
-                </div>
-            </main>
+        <div className="text-right flex flex-col items-end gap-1">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold">{username}</h2>
+          </div>
+          <p className="text-sm">
+            🍕 <span className="font-semibold">Pizza count:</span> {pizzaCount}
+          </p>
+          <button className="bg-blue-400 hover:bg-blue-500 font-semibold px-3 py-1 rounded-xl shadow-md">
+            Shop
+          </button>
         </div>
-    )
-    
+      </header>
+
+      {/* Main */}
+      <main className="w-full flex flex-col items-center mt-10">
+        <h1 className="text-5xl font-extrabold mb-12 drop-shadow-md">
+          Praktikum LLM
+        </h1>
+
+        <div className="flex gap-16">
+          <button className="bg-green-700 hover:bg-green-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110">
+            Reading
+          </button>
+
+          <button className="bg-white hover:bg-gray-300 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110">
+            Vocabulary
+          </button>
+
+          <button className="bg-red-600 hover:bg-red-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110">
+            Text Production
+          </button>
+        </div>
+      </main>
+    </div>
+  );
 }
 
 export default MainPage;
