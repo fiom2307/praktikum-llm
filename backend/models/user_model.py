@@ -9,6 +9,7 @@ class User:
             "pizzaCount": self.pizza_count
         }
     
+    @staticmethod
     def from_dict(data: dict):
         return User(
             username=data.get("username", ""),
