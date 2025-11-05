@@ -1,10 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { correctText } from "../api/backendApi";
 
 function TextProductionPage() {
     const username = "CoolFrog74"
     const pizzaCount = 3;
 
     const navigate = useNavigate();
+
+    const [userText, setUserText] = useState("");
+    const [correctedText, setCorrectedText] = useState("");
+
+    const handleCorrect = async () => {
+        const corrected = await correctText(userText);
+        setCorrectedText(corrected);
+    };
     
     return (
         <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
@@ -33,6 +43,28 @@ function TextProductionPage() {
                 📖 Text Production
             </h1>
             {/* Main */}
+            <div>
+                <div>
+                    <h3>Your Text</h3>
+                    <textarea
+                        value={userText}
+                        onChange={(e) => setUserText(e.target.value)}
+                        rows={8}
+                        cols={40}
+                    />
+                    <br />
+                    <button onClick={handleCorrect} class="bg-white">Correct</button>
+                </div>
+                <div>
+                    <h3>Corrected by AI</h3>
+                    <textarea
+                        value={correctedText}
+                        readOnly
+                        rows={8}
+                        cols={40}
+                    />
+                </div>
+            </div>
             
         </div>
     );
