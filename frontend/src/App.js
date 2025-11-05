@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; // <-- 【修复点 1】: 确保这里导入了 Navigate
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; // Navigate
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import ShopPage from "./pages/ShopPage"
@@ -8,25 +8,25 @@ import VocabularyPage from "./pages/VocabularyPage";
 import TextProductionPage from "./pages/TextProductionPage";
 
 
-// 辅助函数：检查认证令牌
+// check token
 const getAuthToken = () => {
-    // 从本地存储获取令牌，用于 ProtectedRoute 检查
+
     return localStorage.getItem('authToken'); 
 };
 
 
-// 辅助组件：受保护的路由
+// protected route
 function ProtectedRoute({ children }) {
     
-    // 检查用户是否有有效的 Token
+    // check if the Token is valid
     const isAuthenticated = getAuthToken();
 
     if (!isAuthenticated) {
-        // 如果未登录，则重定向到登录页
+        // 
         return <Navigate to="/login" replace />; 
     }
     
-    // 如果已登录，则渲染子组件
+    // 
     return children; 
 }
 
