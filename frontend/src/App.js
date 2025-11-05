@@ -37,11 +37,11 @@ function App() {
     <Router>
       <Routes>
         
-        {/* 1. 登录页: 所有人都可以访问 */}
+        {/* login page */}
         <Route path="/login" element={<LoginPage />} />
         
 
-        {/* 2. 受保护的路由: 需要登录才能访问 */}
+        {/* protected route */}
         
         <Route path="/" element={
           <ProtectedRoute>
