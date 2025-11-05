@@ -9,13 +9,16 @@ def load_users():
         users_data = json.load(f)
     return [User.from_dict(u) for u in users_data]
 
-
-def find_user(username):
+def authenticate_user(username, password):
     users = load_users()
 
     for user in users:
         if user.username == username:
-            return user.to_dict()
+            if user.password == password:
+                return user.to_dict()
+            else:
+                return None
+            
     return None
 
 

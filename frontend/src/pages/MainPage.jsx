@@ -6,6 +6,13 @@ function MainPage() {
 
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+
+    localStorage.removeItem('authToken');
+
+    navigate("/login")
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
       {/* Header */}
@@ -23,6 +30,13 @@ function MainPage() {
           <p className="text-sm">
             🍕 <span className="font-semibold">Pizza count:</span> {pizzaCount}
           </p>
+
+          <button 
+            onClick={handleLogout} // call logout function
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded-xl shadow-md mt-1">
+            Logout
+          </button>
+          
           <button 
             onClick={() => navigate("/shop")}
             className="bg-blue-400 hover:bg-blue-500 font-semibold px-3 py-1 rounded-xl shadow-md">

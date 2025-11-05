@@ -6,14 +6,17 @@ import pisaImg from "../assets/pisatower.png";
 function LoginPage() {
 
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        const data = await loginUser(username);
+        const data = await loginUser(username, password);
+
         if (data.exists) {
+            localStorage.setItem('authToken', 'logged_in_placeholder');
             navigate("/");
         } else {
-            alert("error");
+            alert("Login failed. Invalid username or password");
         }
     };
     
@@ -31,6 +34,14 @@ function LoginPage() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your username"
+          className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <input
+          type="password" // type="password" to hide 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter your password"
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 

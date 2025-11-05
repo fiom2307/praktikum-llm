@@ -1,10 +1,12 @@
 [
     { 
         "username": "CoolFrog74",
+        "password": "123123",  
         "pizzaCount": 3 
     },
     { 
         "username": "CoolFox12",
+        "password" : "456456",
         "pizzaCount": 4 
     }
 ]
