@@ -14,6 +14,8 @@ function LoginPage() {
 
         if (data.exists) {
             localStorage.setItem('authToken', 'logged_in_placeholder');
+            localStorage.setItem("username", data.user.username);
+            localStorage.setItem("pizzaCount", data.user.pizzaCount)
             navigate("/");
         } else {
             alert("Login failed. Invalid username or password");

@@ -3,8 +3,8 @@ import { useState } from "react";
 import { correctText } from "../api/backendApi";
 
 function TextProductionPage() {
-    const username = "CoolFrog74"
-    const pizzaCount = 3;
+    const pizzaCount = localStorage.getItem("pizzaCount");
+    const username = localStorage.getItem("username");
 
     const navigate = useNavigate();
 

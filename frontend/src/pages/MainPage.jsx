@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
-  const username = "CoolFrog74";
-  const pizzaCount = 3;
-
-  const navigate = useNavigate();
+  const pizzaCount = localStorage.getItem("pizzaCount");
+  const username = localStorage.getItem("username");
+  const navigate = useNavigate();  
 
   const handleLogout = () => {
 
