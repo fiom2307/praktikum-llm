@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import italyMap from "../assets/italy.png";
+
 
 function MainPage() {
   const pizzaCount = localStorage.getItem("pizzaCount");
@@ -13,7 +15,14 @@ function MainPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+    <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black"
+      style={{
+        backgroundImage: `url(${italyMap})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center 20px",
+        backgroundSize: "42% auto",
+      }}>
+      
       {/* Header */}
       <header className="w-full flex justify-between items-start p-6">
         <button 
@@ -45,31 +54,45 @@ function MainPage() {
       </header>
 
       {/* Main */}
-      <main className="w-full flex flex-col items-center mt-10">
-        <h1 className="text-5xl font-extrabold mb-12 drop-shadow-md">
-          Praktikum LLM
+      <main className="relative w-full min-h-screen flex items-center justify-center">
+      {/* Title */}
+      <div className="absolute top-[5%] left-[65%]">
+        <h1 className="text-4xl font-extrabold drop-shadow-md text-center">
+          Linguini Learning Masters
         </h1>
+      </div>
 
-        <div className="flex gap-16">
-          <button 
-            onClick={() => navigate("/reading")}
-            className="bg-green-700 hover:bg-green-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110">
-            Reading
-          </button>
+      {/* Reading */}
+      <div className="absolute top-[1%] left-[30%]">
+        <button
+          onClick={() => navigate("/reading")}
+          className="bg-green-700 hover:bg-green-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
+        >
+          Reading
+        </button>
+      </div>
 
-          <button 
-            onClick={() => navigate("/vocabulary")}
-            className="bg-white hover:bg-gray-300 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110">
-            Vocabulary
-          </button>
+      {/* Vocabulary */}
+      <div className="absolute top-[18%] left-[45%]">
+        <button
+          onClick={() => navigate("/vocabulary")}
+          className="bg-white hover:bg-gray-300 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
+        >
+          Vocabulary
+        </button>
+      </div>
 
-          <button 
-            onClick={() => navigate("/textproduction")}
-            className="bg-red-600 hover:bg-red-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110">
-            Text Production
-          </button>
-        </div>
-      </main>
+      {/* Text Production */}
+      <div className="absolute top-[40%] left-[59.5%]">
+        <button
+          onClick={() => navigate("/textproduction")}
+          className="bg-red-600 hover:bg-red-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
+        >
+          Text Production
+        </button>
+      </div>
+    </main>
+
     </div>
   );
 }
