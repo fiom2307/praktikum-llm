@@ -1,29 +1,45 @@
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import { correctAnswers, createReadingText } from "../api/backendApi";
 import { useState } from "react";
+import LoadingOverlay from "../components/LoadingOverlay";
+import ActionButton from "../components/ActionButton";
 
 function ReadingPage() {
-    const pizzaCount = localStorage.getItem("pizzaCount");
-    const username = localStorage.getItem("username");
-
-    const navigate = useNavigate();
-
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleCorrect = async () => {
-        const corrected = await correctAnswers(userText, generatedText);
-        setCorrectedText(corrected);
+        setLoading(true);
+        try {
+            const corrected = await correctAnswers(userText, generatedText);
+            setCorrectedText(corrected);
+        } catch (error) {
+            console.error("Error executing action:", error);
+            setCorrectedText("Something went wrong, please try again.");
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleReadingText = async () => {
-        const readingText = await createReadingText();
-        setGeneratedText(readingText);
+        setLoading(true);
+        try {
+            const readingText = await createReadingText();
+            setGeneratedText(readingText);
+        } catch (error) {
+            console.error("Error executing action:", error);
+            setGeneratedText("Something went wrong, please try again.");
+        } finally {
+            setLoading(false);
+        }
     }
     
     return (
         <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+            {loading && <LoadingOverlay message="The AI is thinking..." />}
+
             {/* Header */}
             <Header />
 
@@ -31,38 +47,35 @@ function ReadingPage() {
                 📚 Reading
             </h1>
 
-            
             {/* Main */}
             <div>
-                <div>
-                    <h3>Aufgabe</h3>
+                    <h3 className="font-semibold">Aufgabe</h3>
                     <textarea
                         value={generatedText}
                         readOnly
-                        rows={8}
-                        cols={40}
+                        className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-[40rem] h-[15rem] focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     <br />
-                    <button onClick={handleReadingText} class="bg-white">Generate</button>
-                </div>
+                    <ActionButton onClick={handleReadingText}>Generate</ActionButton>
+            </div>
+
+            <div className="flex gap-20">
                 <div>
                     <h3>Your Text</h3>
                     <textarea
                         value={userText}
                         onChange={(e) => setUserText(e.target.value)}
-                        rows={8}
-                        cols={40}
+                        className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-96 h-56 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     <br />
-                    <button onClick={handleCorrect} class="bg-white">Correct</button>
+                    <ActionButton onClick={handleCorrect}>Correct</ActionButton>
                 </div>
                 <div>
                     <h3>Corrected by AI</h3>
                     <textarea
                         value={correctedText}
                         readOnly
-                        rows={8}
-                        cols={40}
+                        className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-96 h-56 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                 </div>
             </div>
