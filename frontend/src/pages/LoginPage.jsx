@@ -2,6 +2,7 @@ import { useState } from "react";
 import { loginUser } from "../api/backendApi";
 import { useNavigate } from "react-router-dom";
 import pisaImg from "../assets/pisatower.png";
+import ActionButton from "../components/ActionButton";
 
 function LoginPage() {
 
@@ -47,12 +48,7 @@ function LoginPage() {
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        <button
-          onClick={handleLogin}
-          className="bg-blue-400 hover:bg-blue-500 text-black font-semibold px-8 py-3 rounded-xl shadow-md transition-transform hover:scale-105"
-        >
-          Enter
-        </button>
+        <ActionButton onClick={handleLogin} className="px-8 py-3">Enter</ActionButton>
       </div>
     </div>
     );

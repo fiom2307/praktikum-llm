@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import ActionButton from "./ActionButton";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -19,12 +20,7 @@ export default function Header() {
     <header className="w-full flex justify-between items-start p-6">
 
       {/* Back Button */}
-      <button
-        onClick={() => navigate("/")}
-        className="bg-blue-400 hover:bg-blue-500 font-semibold px-3 py-1 rounded-xl shadow-md"
-      >
-        ← Back
-      </button>
+      <ActionButton onClick={() => navigate("/")}>← Back</ActionButton>
 
       {/* Username + Pizza Count */}
       <div className="text-right flex flex-col items-end gap-1">

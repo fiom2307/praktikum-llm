@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import italyMap from "../assets/italy.png";
+import ActionButton from "../components/ActionButton";
 
 
 function MainPage() {
@@ -25,11 +26,8 @@ function MainPage() {
       
       {/* Header */}
       <header className="w-full flex justify-between items-start p-6">
-        <button 
-          onClick={() => navigate("/flashcards")}
-          className="bg-blue-400 hover:bg-blue-500 font-semibold px-4 py-2 rounded-xl shadow-md">
-          Flashcards
-        </button>
+
+        <ActionButton onClick={() => navigate("/flashcards")}>Flashcards</ActionButton>
 
         <div className="text-right flex flex-col items-end gap-1">
           <div className="flex items-center gap-2">
@@ -39,17 +37,11 @@ function MainPage() {
             🍕 <span className="font-semibold">Pizza count:</span> {pizzaCount}
           </p>
 
-          <button 
-            onClick={handleLogout} // call logout function
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded-xl shadow-md mt-1">
-            Logout
-          </button>
+
+          <ActionButton onClick={handleLogout} className="bg-red-500 hover:bg-red-600">Log out</ActionButton>
           
-          <button 
-            onClick={() => navigate("/shop")}
-            className="bg-blue-400 hover:bg-blue-500 font-semibold px-3 py-1 rounded-xl shadow-md">
-            Shop
-          </button>
+          <ActionButton onClick={() => navigate("/shop")}>Shop</ActionButton>
+
         </div>
       </header>
 
@@ -83,7 +75,7 @@ function MainPage() {
       </div>
 
       {/* Text Production */}
-      <div className="absolute top-[40%] left-[59.5%]">
+      <div className="absolute top-[40%] left-[59.5%]">        
         <button
           onClick={() => navigate("/textproduction")}
           className="bg-red-600 hover:bg-red-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
