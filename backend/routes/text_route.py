@@ -20,7 +20,7 @@ def correct_text():
         return jsonify({"corrected_text": "GEMINI_API_KEY not found"}), 200
 
     model = genai.GenerativeModel("gemini-2.5-flash")
-    prompt = f"Correct this Italian text for grammar and style:\n\n{user_text}"
+    prompt = f"Korrigiere diesen italienischen Text in Bezug auf Grammatik und Stil:\n\n{user_text}"
 
     response = model.generate_content(prompt)
     corrected_text = response.text.strip()
