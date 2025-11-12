@@ -41,3 +41,23 @@ export async function createReadingText() {
     const data = await response.json();
     return data.reading_text;
 };
+
+export async function generateWordAndClues() {
+    const response = await fetch("http://127.0.0.1:5000/generate_word_and_clues", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+    });
+    const data = await response.json();
+    return data;
+};
+
+export async function checkWord(word, clues, answer) {
+    const response = await fetch("http://127.0.0.1:5000/check_word", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ word: word, clues: clues, answer: answer}),
+    });
+    const data = await response.json();
+    return data;
+};
