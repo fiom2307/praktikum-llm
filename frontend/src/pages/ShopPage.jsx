@@ -1,11 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 function ShopPage() {
-    const pizzaCount = localStorage.getItem("pizzaCount");
-    const username = localStorage.getItem("username");
-
-    const navigate = useNavigate();
-
     const items = [
         { id: 1, emoji: "🍕", name: "Pizza Slice", cost: 0 },
         { id: 2, emoji: "☕", name: "Coffee Cup", cost: 2 },
@@ -18,25 +13,7 @@ function ShopPage() {
     return (
         <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
             {/* Header */}
-            <header className="w-full flex justify-between items-start p-6">
-                
-                {/* Back Button */}
-                <button
-                    onClick={() => navigate("/")}
-                    className="bg-blue-400 hover:bg-blue-500 font-semibold px-3 py-1 rounded-xl shadow-md">
-                        ← Back
-                    </button>
-
-                {/* Username + Pizza Count */}
-                <div className="text-right flex flex-col items-end gap-1">
-                <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-bold">{username}</h2>
-                </div>
-                    <p className="text-sm">
-                    🍕 <span className="font-semibold">Pizza count:</span> {pizzaCount}
-                    </p>
-                </div>
-            </header>
+            <Header />
 
             <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
                 🛍️ Shop
