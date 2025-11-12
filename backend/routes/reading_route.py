@@ -15,7 +15,7 @@ else:
 def correct_answer():
     data = request.get_json()
     user_text = data.get("text", "")
-    generated_text = data.get("generated_text", " ")
+    generated_text = data.get("generatedText", " ")
 
     if not api_key:
         return jsonify({"corrected_answers": "GEMINI_API_KEY not found"}), 200
