@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import italyMap from "../assets/italy.png";
 import ActionButton from "../components/ActionButton";
+import { useUser } from "../context/UserContext";
 
 
 function MainPage() {
-  const pizzaCount = localStorage.getItem("pizzaCount");
-  const username = localStorage.getItem("username");
+  const { username, pizzaCount } = useUser();
+  
   const navigate = useNavigate();  
 
   const handleLogout = () => {
