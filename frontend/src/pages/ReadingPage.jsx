@@ -3,6 +3,8 @@ import { correctAnswers, createReadingText } from "../api/backendApi";
 import { useState } from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ActionButton from "../components/ActionButton";
+import ReactMarkdown from "react-markdown";
+
 
 function ReadingPage() {
     const [userText, setUserText] = useState("");
@@ -49,14 +51,12 @@ function ReadingPage() {
 
             {/* Main */}
             <div>
-                    <h3 className="font-semibold">Aufgabe</h3>
-                    <textarea
-                        value={generatedText}
-                        readOnly
-                        className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-[40rem] h-[15rem] focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
-                    <br />
-                    <ActionButton onClick={handleReadingText}>Generate</ActionButton>
+                <h3 className="font-semibold">Aufgabe</h3>
+                <div className="prose mt-0.5 bg-white rounded-xl shadow-sm p-5 w-[40rem] h-[12rem] overflow-x-auto leading-relaxed">
+                    <ReactMarkdown>{generatedText}</ReactMarkdown>
+                </div>
+                <br />
+                <ActionButton onClick={handleReadingText}>Generate</ActionButton>
             </div>
 
             <div className="flex gap-20">
@@ -71,12 +71,10 @@ function ReadingPage() {
                     <ActionButton onClick={handleCorrect}>Correct</ActionButton>
                 </div>
                 <div>
-                    <h3>Corrected by AI</h3>
-                    <textarea
-                        value={correctedText}
-                        readOnly
-                        className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-96 h-56 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
+                    <h3 className="font-semibold">Corrected by AI</h3>
+                    <div className="prose mt-0.5 bg-white rounded-xl shadow-sm p-3 w-96 h-56 overflow-y-auto leading-relaxed">
+                        <ReactMarkdown>{correctedText}</ReactMarkdown>
+                    </div>
                 </div>
             </div>
         </div>

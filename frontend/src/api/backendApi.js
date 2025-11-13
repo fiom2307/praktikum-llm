@@ -26,7 +26,7 @@ export async function correctAnswers(userText, aiGeneratedText) {
     const response = await fetch("http://127.0.0.1:5000/correct_answers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: userText, generatedText: aiGeneratedText }),
+        body: JSON.stringify({generatedText: aiGeneratedText, text: userText}),
     });
     const data = await response.json();
     return data.corrected_answers;
