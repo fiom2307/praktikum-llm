@@ -1,20 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import ActionButton from "./ActionButton";
+import { useUser } from "../context/UserContext";
 
 export default function Header() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [pizzaCount, setPizzaCount] = useState(0);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username") || "";
-    const storedPizzaCount = Number(localStorage.getItem("pizzaCount")) || 0;
-
-    setUsername(storedUsername);
-    setPizzaCount(storedPizzaCount);
-  }, []);
+  const { username, pizzaCount } = useUser();
 
   return (
     <header className="w-full flex justify-between items-start p-6">

@@ -1,6 +1,7 @@
 import re
 import json
 from services.gemini_service import generate_from_prompt
+from services.user_service import get_user, update_user
 
 def generate_word_and_clues_with_ai():
     prompt = (
@@ -45,3 +46,24 @@ def check_word_with_ai(word: str, clues: list, answer: str):
         return json.loads(clean_text)
     except json.JSONDecodeError:
         return {"raw_response": raw_response}
+    
+def get_current_vocabulary(username):
+    user = get_user(username)
+    if not user:
+        return None
+    return user["currentVocabulary"]
+
+def save_current_vocabulary(username, word, clues, attempts, completed):
+    user = get_user(username)
+    if not user:
+        return None
+
+    user["currentVocabulary"] = {
+        "word": word,
+        "clues": clues,
+        "attempts": attempts,
+        "completed": completed
+    }
+
+    update_user(user)
+    return user["currentVocabulary"]
