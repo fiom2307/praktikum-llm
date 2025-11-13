@@ -1,23 +1,59 @@
 import Header from "../components/Header";
 import ActionButton from "../components/ActionButton";
 import LoadingOverlay from "../components/LoadingOverlay";
-import { generateWordAndClues, checkWord } from "../api/backendApi";
-import { useState } from "react";
+import { useUser } from "../context/UserContext";
+import { incrementPizzaCount } from "../api/pizzaApi";
+import { saveFlashcard, getFlashcards } from "../api/flashcardApi";
+import { generateWordAndClues, checkWord, getCurrentVocabulary, saveCurrentVocabulary } from "../api/vocabularyApi";
+import { useState, useEffect } from "react";
 
 function VocabularyPage() {
+    const { updatePizzaCount } = useUser();
+
     const [loading, setLoading] = useState(false);
     const [clues, setClues] = useState([]);
     const [word, setWord] = useState("");
+    const [attempts, setAttempts] = useState(0);
     const [answer, setAnswer] = useState("");
-    const [status, setStatus] = useState("");
-    const [hint, setHint] = useState("");
+    const [msg, setMsg] = useState("");
+    const [completed, setCompleted] = useState(false);
+    const [flashcardSaved, setFlashcardSaved] = useState(false);
+    const username = localStorage.getItem("username") || "";
+
+    useEffect(() => {
+        async function loadProgress() {
+            
+            const progress = await getCurrentVocabulary(username);
+
+            setWord(progress.word);
+            setClues(progress.clues);
+            setAttempts(progress.attempts);
+            setCompleted(progress.completed);
+
+            const cards = await getFlashcards(username);
+            const exists = cards.some(card => card.word === progress.word);
+            setFlashcardSaved(exists);
+            
+        }
+        loadProgress();
+    }, [username]);
 
     const handleGenerateWordAndClues = async () => {
         setLoading(true);
         try {
-            const data = await generateWordAndClues();            
+            const data = await generateWordAndClues();
+
             setClues(data.clues);
             setWord(data.word);
+
+            // Reset attempts on new word
+            setAttempts(0);
+            setAnswer("");
+            setMsg("");
+            setCompleted(false);
+            setFlashcardSaved(false)
+
+            await saveCurrentVocabulary(username, data.word, data.clues, 0, false);
         } catch (error) {
             console.error("Error executing action:", error);
         } finally {
@@ -26,24 +62,55 @@ function VocabularyPage() {
     }
 
     const handleCheckWord = async () => {
+        if (attempts >= 3) {
+            setMsg(`No more attempts. Generate a new word.`);
+            return;
+        }
+        if (completed) {
+            setMsg("You already completed this word! Generate a new one.");
+            return;
+        }
         setLoading(true);
         try {
             const res = await checkWord(word, clues, answer);
+            let isCompleted = completed;
+
+            const newAttempts = attempts + 1;
+            setAttempts(newAttempts);
+
+
             if (res.status === "almost") {
-                setStatus("Your answer is almost correct. Here is a hint: ");
+                setMsg("Your answer is almost correct. Here is a hint: " +  res.hint);
             } else if (res.status === "correct") {
-                setStatus("Congratulations, your answer is correct");
+                setMsg("Congratulations, your answer is correct. You get 1 pizza");
+                isCompleted = true;
+                setCompleted(true);
+                const res = await incrementPizzaCount(username, 1);
+                updatePizzaCount(res.pizzaCount);
             } else {
-                setStatus("Your answer is incorrect. Try again");
+                setMsg("Your answer is incorrect. Try again");
             }
-            
-            setHint(res.hint)
+
+            await saveCurrentVocabulary(username, word, clues, newAttempts, isCompleted);
+
+            if (newAttempts >= 3 && res.status !== "correct") {
+                setMsg(`This was your last attempt. The correct answer was: ${word}`);
+                await saveFlashcard(username, word);
+            }
+
         } catch (error) {
             console.error("Error executing action:", error);
         } finally {
             setLoading(false);
         }
     }
+
+    const handleSaveFlashcard = async () => {
+        if (flashcardSaved) return;
+        await saveFlashcard(username, word);
+        setFlashcardSaved(true);
+        setMsg("Word added to flashcards!");
+    };
 
     return (
         <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
@@ -58,7 +125,7 @@ function VocabularyPage() {
 
             
             {/* Main */}
-            <div className="px-80 flex flex-col items-center">
+            <div className="px-60 flex flex-col items-center">
                 <ActionButton className="mb-2" onClick={handleGenerateWordAndClues}>Generate</ActionButton>
                 <div className="flex gap-10 mb-4">
                     <p className="font-bold">CLUES: </p>
@@ -68,18 +135,29 @@ function VocabularyPage() {
                         </p>
                     ))}
                 </div>
-                <input
-                    type="text"
-                    value={answer}
-                    onChange={(e) => setAnswer(e.target.value)}
-                    placeholder="Enter your answer"
-                    className="border-2 border-gray-400 rounded-xl px-4 py-3 mb-2 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-                <ActionButton onClick={handleCheckWord}>Check Answer</ActionButton>
-                <div className="text-center mt-4">
-                    <p>{status}</p>
-                    <p>{hint}</p>
+                <div className="flex">
+                    <input
+                        type="text"
+                        value={answer}
+                        onChange={(e) => setAnswer(e.target.value)}
+                        placeholder="Enter your answer"
+                        className="border-2 border-gray-400 rounded-xl px-4 py-3 mr-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                    <ActionButton onClick={handleCheckWord}>Check Answer</ActionButton>
                 </div>
+                
+                <div className="text-center mt-4">
+                    <p>Attempts: {attempts}</p>
+                    <p>{msg}</p>
+                </div>
+
+                {completed && !flashcardSaved && (
+                    <ActionButton
+                        onClick={handleSaveFlashcard}
+                    >
+                        Add to Flashcards
+                    </ActionButton>
+                )}
             </div>
         </div>
     );
