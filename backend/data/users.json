@@ -1,12 +1,40 @@
 [
-    { 
+    {
         "username": "CoolFrog74",
-        "password": "123123",  
-        "pizzaCount": 3 
+        "password": "123123",
+        "pizzaCount": 8,
+        "currentVocabulary": {
+            "word": "telefono",
+            "clues": [
+                "Lo usi per chiamare.",
+                "\u00c8 un oggetto elettronico.",
+                "Ha uno schermo."
+            ],
+            "attempts": 1,
+            "completed": true
+        },
+        "flashcards": [
+            {
+                "word": "viaggiare"
+            },
+            {
+                "word": "citt\u00e0"
+            },
+            {
+                "word": "telefono"
+            }
+        ]
     },
-    { 
+    {
         "username": "CoolFox12",
-        "password" : "456456",
-        "pizzaCount": 4 
+        "password": "456456",
+        "pizzaCount": 4,
+        "currentVocabulary": {
+            "word": "",
+            "clues": [],
+            "attempts": 0,
+            "completed": false
+        },
+        "flashcards": []
     }
 ]
