@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import { correctAnswers, createReadingText } from "../api/backendApi";
+import { correctAnswers, createReadingText } from "../api/readingApi";
 import { useState } from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ActionButton from "../components/ActionButton";

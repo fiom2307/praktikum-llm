@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "../api/backendApi";
+import { loginUser } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import pisaImg from "../assets/pisatower.png";
 import ActionButton from "../components/ActionButton";

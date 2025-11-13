@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { correctText } from "../api/backendApi";
+import { correctText } from "../api/writingApi";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Header from "../components/Header";
 import ReactMarkdown from "react-markdown";
