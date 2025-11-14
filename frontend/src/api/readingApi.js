@@ -12,7 +12,7 @@ export async function correctAnswers(userText, aiGeneratedText) {
 };
 
 export async function createReadingText() {
-    const response = await fetch("`${API_BASE_URL}/create_reading_text`", {
+    const response = await fetch(`${API_BASE_URL}/create_reading_text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
