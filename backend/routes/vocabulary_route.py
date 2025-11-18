@@ -14,8 +14,9 @@ def check_word():
     word = data.get("word", "").strip()
     clues = data.get("clues", [])
     answer = data.get("answer", "").strip()
+    username = data.get("username")
 
-    result = check_word_with_ai(word, clues, answer)
+    result = check_word_with_ai(username, word, clues, answer)
     return jsonify(result)
 
 @vocabulary_routes.route("/get_current_vocabulary", methods=["POST"])

@@ -3,16 +3,19 @@ import { correctText } from "../api/writingApi";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Header from "../components/Header";
 import ReactMarkdown from "react-markdown";
+import { useUser } from "../context/UserContext";
 
 function TextProductionPage() {
+    const { username } = useUser();
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleCorrect = async () => {
+        if (!username) return alert("Please log in to submit text for correction.");
         setLoading(true);
         try {
-            const corrected = await correctText(userText);
+            const corrected = await correctText(username, userText);
             setCorrectedText(corrected);
         } catch (error) {
             console.error("Error correcting text:", error);

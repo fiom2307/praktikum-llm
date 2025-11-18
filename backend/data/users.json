@@ -2,13 +2,59 @@
     {
         "username": "CoolFrog74",
         "password": "123123",
-        "pizzaCount": 8,
+        "pizzaCount": 12,
+        "history": [
+            {
+                "timestamp": "2025-11-18T21:41:00.960205",
+                "module": "reading",
+                "details": {
+                    "submitted_answers": "1. Geschichte\n2. Musik\n3. Keine Ahnung",
+                    "ai_correction": "Gerne, hier ist der Vergleich der Sch\u00fclerantworten mit den Fragen und dem Text:\n\n---\n\n**Text:**\n\nL'Italia \u00e8 famosa per le sue feste e celebrazioni durante tutto l'anno. Queste occasioni sono molto importanti per la cultura italiana, e anche per i giovani. Ci sono feste religiose, come le celebrazioni dei santi patroni in molti paesi, e anche festival di musica moderna.\n\nPer i giovani, partecipare a queste feste significa spesso incontrare amici. \u00c8 un momento per stare insieme all'aperto, ascoltare musica, ballare e mangiare cibo tradizionale. Molte citt\u00e0 e piccoli paesi organizzano concerti gratuiti nelle piazze, specialmente in estate. Questo crea un'atmosfera speciale dove le persone di tutte le et\u00e0 possono divertirsi.\n\nLe feste sono un bel mix di vecchio e nuovo. Mantengono vive le tradizioni e la storia locale, ma offrono anche uno spazio per la cultura giovanile e per nuove esperienze. I giovani apprezzano la possibilit\u00e0 di celebrare la loro identit\u00e0, divertirsi e sentirsi parte di una comunit\u00e0 viva e colorata. \u00c8 un modo fantastico per passare il tempo e scoprire l'Italia.\n\n---\n\n**Vergleich und Korrektur:**\n\n1.  **Wof\u00fcr ist Italien laut dem Text ber\u00fchmt?**\n    *   **Sch\u00fclerantwort:** Geschichte\n    *   **Bewertung:** **Falsch**\n    *   **Richtige Antwort:** Italien ist ber\u00fchmt f\u00fcr seine **Feste und Feierlichkeiten** (\"feste e celebrazioni\").\n    *   **Erkl\u00e4rung:** Der erste Satz des Textes lautet: \"L'Italia \u00e8 famosa per le sue feste e celebrazioni durante tutto l'anno.\" Geschichte wird zwar im Kontext der Traditionen erw\u00e4hnt, aber nicht als das, wof\u00fcr Italien *ber\u00fchmt* ist.\n\n2.  **Was machen junge Leute oft, wenn sie an diesen Festen teilnehmen?**\n    *   **Sch\u00fclerantwort:** Musik\n    *   **Bewertung:** **Falsch** (zu unvollst\u00e4ndig)\n    *   **Richtige Antwort:** Junge Leute **treffen Freunde, sind zusammen im Freien, h\u00f6ren Musik, tanzen und essen traditionelles Essen**.\n    *   **Erkl\u00e4rung:** Der Text sagt: \"Per i giovani, partecipare a queste feste significa spesso incontrare amici. \u00c8 un momento per stare insieme all'aperto, ascoltare musica, ballare e mangiare cibo tradizionale.\" \"Musik\" allein ist nur ein kleiner Teil der Aktivit\u00e4ten.\n\n3.  **Welche Art von Veranstaltungen organisieren St\u00e4dte und D\u00f6rfer oft auf den Pl\u00e4tzen, besonders im Sommer?**\n    *   **Sch\u00fclerantwort:** Keine Ahnung\n    *   **Bewertung:** **Falsch**\n    *   **Richtige Antwort:** Sie organisieren **kostenlose Konzerte** (\"concerti gratuiti\").\n    *   **Erkl\u00e4rung:** Der Text gibt klar an: \"Molte citt\u00e0 e piccoli paesi organizzano concerti gratuiti nelle piazze, specialmente in estate.\"\n\n---\n\n**Zus\u00e4tzliche Antworten f\u00fcr die nicht beantworteten Fragen:**\n\n4.  **Was stellen diese Feste in Bezug auf Tradition und Modernit\u00e4t dar?**\n    *   **Richtige Antwort:** Die Feste stellen **eine sch\u00f6ne Mischung aus Alt und Neu** dar. Sie halten Traditionen und die lokale Geschichte lebendig, bieten aber auch Raum f\u00fcr Jugendkultur und neue Erfahrungen.\n    *   **Erkl\u00e4rung:** Der Text formuliert: \"Le feste sono un bel mix di vecchio e nuovo. Mantengono vive le tradizioni e la storia locale, ma offrono anche uno spazio per la cultura giovanile e per nuove esperienze.\"\n\n5.  **Was sch\u00e4tzen junge Leute an diesen Festen?**\n    *   **Richtige Antwort:** Junge Leute sch\u00e4tzen die M\u00f6glichkeit, **ihre Identit\u00e4t zu feiern, Spa\u00df zu haben und sich als Teil einer lebendigen und farbenfrohen Gemeinschaft zu f\u00fchlen**.\n    *   **Erkl\u00e4rung:** Im letzten Absatz steht: \"I giovani apprezzano la possibilit\u00e0 di celebrare la loro identit\u00e0, divertirsi e sentirsi parte di una comunit\u00e0 viva e colorata.\""
+                }
+            },
+            {
+                "timestamp": "2025-11-18T21:42:06.258727",
+                "module": "vocabulary",
+                "details": {
+                    "word": "cucinare",
+                    "final_answer": "cucinare",
+                    "status": "correct",
+                    "attempts_made": "N/A"
+                }
+            },
+            {
+                "timestamp": "2025-11-18T21:50:29.779177",
+                "module": "reading",
+                "details": {
+                    "submitted_answers": "1. keine Ahnung\n2. keine Ahnung\n3. keine Ahnung",
+                    "ai_correction": "Gerne, hier ist der Vergleich der Sch\u00fclerantworten mit den richtigen Antworten basierend auf dem Text:\n\n---\n\n**Sch\u00fclerantworten:**\n\n1.  keine Ahnung\n2.  keine Ahnung\n3.  keine Ahnung\n\n---\n\n**Vergleich und Korrektur:**\n\nAlle Sch\u00fclerantworten sind **falsch**, da sie keine Inhalte liefern. Hier sind die korrekten Antworten und Erkl\u00e4rungen:\n\n---\n\n1.  **Wann wartet die Person jedes Jahr mit Begeisterung?**\n    *   **Sch\u00fclerantwort:** Falsch (keine Ahnung)\n    *   **Richtige Antwort:** Die Person wartet jedes Jahr mit Begeisterung auf **den Sommer**.\n    *   **Erkl\u00e4rung:** Im Text steht explizit: \"Ogni anno aspetto l'estate con entusiasmo.\" (Jedes Jahr warte ich mit Begeisterung auf den Sommer.)\n\n2.  **Was macht die Person gerne, wenn sie am Meer ist?**\n    *   **Sch\u00fclerantwort:** Falsch (keine Ahnung)\n    *   **Richtige Antwort:** Am Meer schwimmt die Person gerne im frischen Wasser, sonnt sich am Strand, baut Sandburgen, spielt Federball (racchettoni), macht abends Spazierg\u00e4nge entlang der K\u00fcste und isst Eis.\n    *   **Erkl\u00e4rung:** Der Text listet auf: \"mi piace nuotare nell'acqua fresca e prendere il sole sulla spiaggia. Costruiamo castelli di sabbia e giochiamo a racchettoni. La sera, facciamo una passeggiata lungo la costa e mangiamo un buon gelato.\"\n\n3.  **Was ist angenehm, wenn die Person in den Bergen ist?**\n    *   **Sch\u00fclerantwort:** Falsch (keine Ahnung)\n    *   **Richtige Antwort:** In den Bergen ist die **saubere Luft** und die **Stille** angenehm.\n    *   **Erkl\u00e4rung:** Der Text sagt klar: \"L'aria \u00e8 pulita e il silenzio \u00e8 piacevole.\" (Die Luft ist sauber und die Stille ist angenehm.)\n\n4.  **Warum sind Ferien ein besonderer Moment f\u00fcr die Person?**\n    *   **Sch\u00fclerantwort:** Falsch (nicht beantwortet)\n    *   **Richtige Antwort:** Ferien sind ein besonderer Moment, um **mit der Familie zusammen zu sein und den Stress von Schule oder Arbeit zu vergessen**.\n    *   **Erkl\u00e4rung:** Der Text erkl\u00e4rt: \"Le vacanze sono un momento speciale per stare con la famiglia e dimenticare lo stress della scuola o del lavoro.\"\n\n5.  **Welche Art von Ort m\u00f6chte die Person in Zukunft vielleicht besuchen?**\n    *   **Sch\u00fclerantwort:** Falsch (nicht beantwortet)\n    *   **Richtige Antwort:** Die Person m\u00f6chte in Zukunft vielleicht **neue Orte entdecken, vielleicht eine Kunststadt wie Rom**.\n    *   **Erkl\u00e4rung:** Der Text erw\u00e4hnt: \"Spero di poter viaggiare e scoprire nuovi posti in futuro, forse una citt\u00e0 d'arte come Roma.\""
+                }
+            },
+            {
+                "timestamp": "2025-11-18T21:51:33.305562",
+                "module": "vocabulary",
+                "details": {
+                    "word": "musica",
+                    "final_answer": "musica",
+                    "status": "correct",
+                    "attempts_made": "N/A"
+                }
+            },
+            {
+                "timestamp": "2025-11-18T21:52:00.533460",
+                "module": "writing",
+                "details": {
+                    "submitted_text": "Incontro i miei amici e mangio un gelat.",
+                    "ai_correction": "Assolutamente! Die korrigierte Version ist:\n\n**Incontro i miei amici e mangio un gelato.**\n\n**Korrekturen und Erkl\u00e4rungen:**\n\n*   **\"gelat\"** wurde zu **\"gelato\"** korrigiert. \"Gelato\" ist die korrekte italienische Form f\u00fcr \"Eis\" (als Speise). \"Gelat\" ist kein italienisches Wort."
+                }
+            }
+        ],
         "currentVocabulary": {
-            "word": "telefono",
+            "word": "musica",
             "clues": [
-                "Lo usi per chiamare.",
-                "\u00c8 un oggetto elettronico.",
-                "Ha uno schermo."
+                "Si ascolta spesso.",
+                "Ha molte canzoni.",
+                "Ti fa ballare."
             ],
             "attempts": 1,
             "completed": true
@@ -22,6 +68,15 @@
             },
             {
                 "word": "telefono"
+            },
+            {
+                "word": "scuola"
+            },
+            {
+                "word": "cucinare"
+            },
+            {
+                "word": "musica"
             }
         ]
     },
@@ -29,6 +84,7 @@
         "username": "CoolFox12",
         "password": "456456",
         "pizzaCount": 4,
+        "history": [],
         "currentVocabulary": {
             "word": "",
             "clues": [],

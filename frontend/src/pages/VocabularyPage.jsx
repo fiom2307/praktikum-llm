@@ -8,7 +8,7 @@ import { generateWordAndClues, checkWord, getCurrentVocabulary, saveCurrentVocab
 import { useState, useEffect } from "react";
 
 function VocabularyPage() {
-    const { updatePizzaCount } = useUser();
+    const { updatePizzaCount , username} = useUser();
 
     const [loading, setLoading] = useState(false);
     const [clues, setClues] = useState([]);
@@ -18,7 +18,7 @@ function VocabularyPage() {
     const [msg, setMsg] = useState("");
     const [completed, setCompleted] = useState(false);
     const [flashcardSaved, setFlashcardSaved] = useState(false);
-    const username = localStorage.getItem("username") || "";
+
 
     useEffect(() => {
         async function loadProgress() {
@@ -72,7 +72,7 @@ function VocabularyPage() {
         }
         setLoading(true);
         try {
-            const res = await checkWord(word, clues, answer);
+            const res = await checkWord(username, word, clues, answer);
             let isCompleted = completed;
 
             const newAttempts = attempts + 1;

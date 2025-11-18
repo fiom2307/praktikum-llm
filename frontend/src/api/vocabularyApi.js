@@ -10,11 +10,11 @@ export async function generateWordAndClues() {
     return data;
 };
 
-export async function checkWord(word, clues, answer) {
+export async function checkWord(username, word, clues, answer) {
     const response = await fetch(`${API_BASE_URL}/check_word`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ word: word, clues: clues, answer: answer}),
+        body: JSON.stringify({ username: username, word: word, clues: clues, answer: answer}),
     });
     const data = await response.json();
     return data;

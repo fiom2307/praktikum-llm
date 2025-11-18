@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from services.auth_service import authenticate_user
+from services.user_service import get_user
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -18,5 +19,20 @@ def login():
         return jsonify({"exists": True, "user": user})
     else:
         return jsonify({"exists": False, "message": "Invalid credentials"}), 401
+    
+
+@auth_routes.route("/history/<string:username>", methods=["GET"])
+def get_user_history(username):
+    # 
+    
+    user = get_user(username)
+
+    if not user:
+        return jsonify({"message": f"User {username} not found"}), 404
+    
+    # 
+    history_data = user.get("history", []) 
+    
+    return jsonify({"username": username, "history": history_data}), 200
 
     

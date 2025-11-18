@@ -1,6 +1,7 @@
 from services.gemini_service import generate_from_prompt
+from services.user_service import add_history_entry
 
-def correct_answers_ai(generated_text: str, user_text: str):
+def correct_answers_ai(username: str, generated_text: str, user_text: str):
     
     prompt = (
         "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. Gib die richtige antwort und "
@@ -9,6 +10,16 @@ def correct_answers_ai(generated_text: str, user_text: str):
     )
     
     corrected = generate_from_prompt(prompt)
+
+    add_history_entry(
+        username=username, 
+        module="reading", 
+        details={
+            "submitted_answers": user_text,
+            "ai_correction": corrected
+        }
+    )
+
     return {"corrected_answers": corrected}
     
 def generate_reading_text_from_ai():
