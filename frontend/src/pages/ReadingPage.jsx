@@ -4,18 +4,22 @@ import { useState } from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ActionButton from "../components/ActionButton";
 import ReactMarkdown from "react-markdown";
+import { useUser } from "../context/UserContext";
 
 
 function ReadingPage() {
+    const { username } = useUser();
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleCorrect = async () => {
+        if (!username) return alert("Please log in to submit answers.");
+        
         setLoading(true);
         try {
-            const corrected = await correctAnswers(userText, generatedText);
+            const corrected = await correctAnswers(username, userText, generatedText);
             setCorrectedText(corrected);
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);

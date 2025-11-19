@@ -3,20 +3,22 @@ import { loginUser } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import pisaImg from "../assets/pisatower.png";
 import ActionButton from "../components/ActionButton";
+import { useUser } from "../context/UserContext";
 
 function LoginPage() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { loginUserContext } = useUser();
 
     const handleLogin = async () => {
         const data = await loginUser(username, password);
 
         if (data.exists) {
             localStorage.setItem('authToken', 'logged_in_placeholder');
-            localStorage.setItem("username", data.user.username);
-            localStorage.setItem("pizzaCount", data.user.pizzaCount)
+            loginUserContext(data.user);
+            
             navigate("/");
         } else {
             alert("Accesso non riuscito. Nome utente o password non validi.");

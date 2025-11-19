@@ -19,8 +19,20 @@ export function UserProvider({ children }) {
         localStorage.setItem("pizzaCount", newCount);
     };
 
+    //
+    const updateUsername = (newUsername) => {
+        setUsername(newUsername);
+        localStorage.setItem("username", newUsername);
+    }
+    
+    //
+    const loginUserContext = (userData) => {
+        updateUsername(userData.username);
+        updatePizzaCount(userData.pizzaCount);
+    }
+
     return (
-        <UserContext.Provider value={{ username, pizzaCount, updatePizzaCount }}>
+        <UserContext.Provider value={{ username, pizzaCount, updatePizzaCount, loginUserContext }}>
             {children}
         </UserContext.Provider>
     );

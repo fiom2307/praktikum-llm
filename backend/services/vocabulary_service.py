@@ -2,6 +2,7 @@ import re
 import json
 from services.gemini_service import generate_from_prompt
 from services.user_service import get_user, update_user
+from services.user_service import add_history_entry
 
 def generate_word_and_clues_with_ai():
     prompt = (
@@ -23,7 +24,7 @@ def generate_word_and_clues_with_ai():
         return {"raw_response": raw_response}
     
 
-def check_word_with_ai(word: str, clues: list, answer: str):
+def check_word_with_ai(username: str, word: str, clues: list, answer: str):
 
     prompt = (
         f"Word: {word}\n"
@@ -43,10 +44,30 @@ def check_word_with_ai(word: str, clues: list, answer: str):
     clean_text = re.sub(r"```json|```", "", raw_response).strip()
 
     try:
-        return json.loads(clean_text)
+        #
+        result = json.loads(clean_text)
+        
+        #
+        if result.get("status") in ["correct", "almost"]:
+             add_history_entry(
+                username=username, 
+                module="vocabulary", 
+                details={
+                    "word": word,
+                    "final_answer": answer,
+                    "status": result.get("status"),
+                    "attempts_made": "N/A" 
+                }
+            )
+        
+        #
+        return result
+    
     except json.JSONDecodeError:
+        #
         return {"raw_response": raw_response}
     
+
 def get_current_vocabulary(username):
     user = get_user(username)
     if not user:

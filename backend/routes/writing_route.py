@@ -7,7 +7,8 @@ writing_routes = Blueprint("writing_routes", __name__)
 def correct_text():
     data = request.get_json()
     user_text = data.get("text", "")
+    username = data.get("username")
 
-    result = correct_text_with_ai(user_text)
+    result = correct_text_with_ai(username, user_text)
 
     return jsonify(result)

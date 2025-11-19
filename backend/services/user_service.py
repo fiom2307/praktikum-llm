@@ -1,3 +1,4 @@
+from datetime import datetime
 import json, os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -26,3 +27,29 @@ def update_user(updated_user):
             save_users(users)
             return updated_user
     return None
+
+def add_history_entry(username: str, module: str, details: dict):
+    """
+    add the user history and save it in users.json。
+    
+    :param username: username
+    :param module:  ('reading', 'vocabulary', 'writing')
+    :param details: activity details
+    """
+    updated_user = get_user(username)
+    if not updated_user:
+        return False
+
+    if "history" not in updated_user:
+        updated_user["history"] = []
+    
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "module": module,
+        "details": details
+    }
+    
+    updated_user["history"].append(entry)
+    
+    result = update_user(updated_user)
+    return result is not None
