@@ -35,11 +35,11 @@ function MainPage() {
             <h2 className="text-xl font-bold">{username}</h2>
           </div>
           <p className="text-sm">
-            🍕 <span className="font-semibold">Pizza count:</span> {pizzaCount}
+            🍕 <span className="font-semibold">Pizze:</span> {pizzaCount}
           </p>
 
 
-          <ActionButton onClick={handleLogout} className="bg-red-500 hover:bg-red-600">Log out</ActionButton>
+          <ActionButton onClick={handleLogout} className="bg-red-500 hover:bg-red-600">Esci</ActionButton>
           
           <ActionButton onClick={() => navigate("/shop")}>Shop</ActionButton>
 
@@ -51,7 +51,7 @@ function MainPage() {
       {/* Title */}
       <div className="absolute top-[5%] left-[65%]">
         <h1 className="text-4xl font-extrabold drop-shadow-md text-center">
-          Linguini Learning Masters
+          Maestri dell’Apprendimento Linguini
         </h1>
       </div>
 
@@ -61,7 +61,7 @@ function MainPage() {
           onClick={() => navigate("/reading")}
           className="bg-green-700 hover:bg-green-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
         >
-          Reading
+          Lettura
         </button>
       </div>
 
@@ -71,7 +71,7 @@ function MainPage() {
           onClick={() => navigate("/vocabulary")}
           className="bg-white hover:bg-gray-300 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
         >
-          Vocabulary
+          Vocabolario
         </button>
       </div>
 
@@ -81,7 +81,7 @@ function MainPage() {
           onClick={() => navigate("/textproduction")}
           className="bg-red-600 hover:bg-red-800 text-xl font-semibold px-12 py-6 rounded-2xl shadow-lg transition-transform hover:scale-110"
         >
-          Text Production
+          Produzione scritta
         </button>
       </div>
     </main>

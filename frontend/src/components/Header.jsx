@@ -11,7 +11,7 @@ export default function Header() {
     <header className="w-full flex justify-between items-start p-6">
 
       {/* Back Button */}
-      <ActionButton onClick={() => navigate("/")}>← Back</ActionButton>
+      <ActionButton onClick={() => navigate("/")}>← Indietro</ActionButton>
 
       {/* Username + Pizza Count */}
       <div className="text-right flex flex-col items-end gap-1">
@@ -19,7 +19,7 @@ export default function Header() {
           <h2 className="text-xl font-bold">{username}</h2>
         </div>
         <p className="text-sm">
-          🍕 <span className="font-semibold">Pizza count:</span> {pizzaCount}
+          🍕 <span className="font-semibold">Pizze:</span> {pizzaCount}
         </p>
       </div>
     </header>

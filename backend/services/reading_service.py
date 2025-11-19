@@ -18,7 +18,7 @@ def generate_reading_text_from_ai():
         "Ferien, Schule und Freizeit, Identität und Zukunftspläne, kulturelle Unterschiede zwischen "
         "Nord- und Süditalien, Liebe und Freundschaft, italienische Feste und Jugendkultur, Lesen und "
         "Literatur oder italienische Feiertage und Traditionen. "
-        "Erstelle danach fünf Fragen zu deinem Text. Schreibe einfach den Text auf Italienisch, aber die Fragen auf deutsch, ohne zu "
+        "Erstelle danach fünf Fragen zu deinem Text. Schreibe einfach den Text auf Italienisch die Fragen auch, ohne zu "
         "sagen, über welche Themen er handelt, und ohne jegliche zusätzliche Interaktion. Beachte, dass das Italienisch-Niveau A2 sein muss."
     )
     

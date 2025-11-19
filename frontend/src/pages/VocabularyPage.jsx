@@ -55,7 +55,7 @@ function VocabularyPage() {
 
             await saveCurrentVocabulary(username, data.word, data.clues, 0, false);
         } catch (error) {
-            console.error("Error executing action:", error);
+            console.error("Errore durante l’esecuzione dell’azione:", error);
         } finally {
             setLoading(false);
         }
@@ -99,7 +99,7 @@ function VocabularyPage() {
             }
 
         } catch (error) {
-            console.error("Error executing action:", error);
+            console.error("Errore durante l’esecuzione dell’azione:", error);
         } finally {
             setLoading(false);
         }
@@ -114,21 +114,21 @@ function VocabularyPage() {
 
     return (
         <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
-            {loading && <LoadingOverlay message="The AI is thinking..." />}
+            {loading && <LoadingOverlay message="L’IA sta pensando…" />}
             
             {/* Header */}
             <Header />
 
             <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
-                📒 Vocabulary
+                📒 Vocabolario
             </h1>
 
             
             {/* Main */}
             <div className="px-60 flex flex-col items-center">
-                <ActionButton className="mb-2" onClick={handleGenerateWordAndClues}>Generate</ActionButton>
+                <ActionButton className="mb-2" onClick={handleGenerateWordAndClues}>Genera</ActionButton>
                 <div className="flex gap-10 mb-4">
-                    <p className="font-bold">CLUES: </p>
+                    <p className="font-bold">INDIZI: </p>
                     {clues.map((clue, index) => (
                         <p key={index} className="">
                             {clue}
@@ -140,14 +140,14 @@ function VocabularyPage() {
                         type="text"
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
-                        placeholder="Enter your answer"
+                        placeholder="Inserisci la tua risposta"
                         className="border-2 border-gray-400 rounded-xl px-4 py-3 mr-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
-                    <ActionButton onClick={handleCheckWord}>Check Answer</ActionButton>
+                    <ActionButton onClick={handleCheckWord}>Controlla la risposta</ActionButton>
                 </div>
                 
                 <div className="text-center mt-4">
-                    <p>Attempts: {attempts}</p>
+                    <p>Tentativi: {attempts}</p>
                     <p>{msg}</p>
                 </div>
 
@@ -155,7 +155,7 @@ function VocabularyPage() {
                     <ActionButton
                         onClick={handleSaveFlashcard}
                     >
-                        Add to Flashcards
+                        Aggiungi alle flashcard
                     </ActionButton>
                 )}
             </div>

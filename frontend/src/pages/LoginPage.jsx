@@ -19,7 +19,7 @@ function LoginPage() {
             localStorage.setItem("pizzaCount", data.user.pizzaCount)
             navigate("/");
         } else {
-            alert("Login failed. Invalid username or password");
+            alert("Accesso non riuscito. Nome utente o password non validi.");
         }
     };
     
@@ -36,7 +36,7 @@ function LoginPage() {
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter your username"
+          placeholder="Inserisci il tuo nome utente"
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
@@ -44,11 +44,11 @@ function LoginPage() {
           type="password" // type="password" to hide 
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
+          placeholder="Inserisci la tua password"
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        <ActionButton onClick={handleLogin} className="px-8 py-3">Enter</ActionButton>
+        <ActionButton onClick={handleLogin} className="px-8 py-3">Accedi</ActionButton>
       </div>
     </div>
     );
