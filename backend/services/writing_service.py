@@ -4,8 +4,11 @@ from services.user_service import add_history_entry
 def correct_text_with_ai(username: str, user_text: str):
 
     prompt = (
-        "Korrigiere diesen italienischen Text in Bezug auf Grammatik und Stil:\n\n"
-        f"{user_text}"
+        f"Korrigieren sie den text auf grammatik und still: {user_text}"
+        "\nDanach gib eine kurze Erklärung AUF DEUTSCH (nur Erklärung, nichts mehr)."
+        "Am Ende gib einen kurzen, positiven Kommentar AUF DEUTSCH zur Motivation des Schülers."
+        "Wiederhole den user Text NICHT noch einmal."
+        "\nGib am Ende einen positiven Kommentar, der den Schüler motiviert, egal ob er gut oder schlecht abschneidet."
     )
 
     corrected = generate_from_prompt(prompt)
