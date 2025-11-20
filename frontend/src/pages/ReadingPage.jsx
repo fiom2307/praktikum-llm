@@ -14,32 +14,35 @@ function ReadingPage() {
     const [generatedText, setGeneratedText] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const handleCorrect = async () => {
-        if (!username) return alert("Please log in to submit answers.");
-        
+    async function runAction(action, onSuccess, onError) {
         setLoading(true);
         try {
-            const corrected = await correctAnswers(username, userText, generatedText);
-            setCorrectedText(corrected);
+            const result = await action();
+            onSuccess(result);
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);
-            setCorrectedText("Qualcosa è andato storto, per favore riprova.");
+            onError("Qualcosa è andato storto, per favore riprova.");
         } finally {
             setLoading(false);
         }
     }
 
+    const handleCorrect = async () => {
+        if (!username) return alert("Per favore, accedi per inviare le risposte.");
+        
+        runAction(
+            () => correctAnswers(username, userText, generatedText),
+            (result) => setCorrectedText(result),
+            (msg) => setCorrectedText(msg)
+        );
+    }
+
     const handleReadingText = async () => {
-        setLoading(true);
-        try {
-            const readingText = await createReadingText();
-            setGeneratedText(readingText);
-        } catch (error) {
-            console.error("Errore durante l’esecuzione dell’azione:", error);
-            setGeneratedText("Qualcosa è andato storto, per favore riprova.");
-        } finally {
-            setLoading(false);
-        }
+        runAction(
+        () => createReadingText(),
+        (result) => setGeneratedText(result),
+        (msg) => setGeneratedText(msg)
+        );
     }
     
     return (
