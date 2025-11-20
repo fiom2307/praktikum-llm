@@ -5,7 +5,8 @@ def correct_answers_ai(username: str, generated_text: str, user_text: str):
     
     prompt = (
         "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. Gib die richtige antwort und "
-        f"erkläre sie kurz. Diese ist der text von vorher \n\n{generated_text}." 
+        f"erkläre sie kurz. Diese ist der text von vorher \n\n{generated_text}. Gib mir nur die korrigierten Antworten, sag nichts Weiteres." 
+        "\nGib am Ende einen positiven Kommentar, der den Schüler motiviert, egal ob er gut oder schlecht abschneidet."
         f"\n\n Diese ist der antwort der schuler: {user_text},"
     )
     
@@ -21,9 +22,9 @@ def correct_answers_ai(username: str, generated_text: str, user_text: str):
     )
 
     return {"corrected_answers": corrected}
-    
-def generate_reading_text_from_ai():
 
+def generate_reading_text_from_ai():
+    
     prompt = (
         "Schreibe einen kurzen Text im Italienisch von etwa 150 Wörtern über eines der folgenden Themen: "
         "Ferien, Schule und Freizeit, Identität und Zukunftspläne, kulturelle Unterschiede zwischen "
