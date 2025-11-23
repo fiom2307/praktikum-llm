@@ -6,6 +6,7 @@ import FlashcardsPage from "./pages/FlashcardsPage";
 import ReadingPage from "./pages/ReadingPage";
 import VocabularyPage from "./pages/VocabularyPage";
 import TextProductionPage from "./pages/TextProductionPage";
+import RegisterPage from "./pages/RegisterPage";
 
 
 // check token
@@ -37,8 +38,10 @@ function App() {
     <Router>
       <Routes>
         
-        {/* login page */}
+        {/* login and register page */}
         <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/register" element={<RegisterPage />} />
         
 
         {/* protected route */}

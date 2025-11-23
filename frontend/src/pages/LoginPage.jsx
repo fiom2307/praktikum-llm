@@ -51,6 +51,16 @@ function LoginPage() {
         />
 
         <ActionButton onClick={handleLogin} className="px-8 py-3">Accedi</ActionButton>
+
+        {/* register */}
+        <p className="mt-2 text-sm">
+          Non hai un account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-blue-600 underline cursor-pointer hover:text-blue-800">
+              Registrati ora!
+            </span>
+        </p>
       </div>
     </div>
     );

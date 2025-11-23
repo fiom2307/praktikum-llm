@@ -2,7 +2,7 @@
     {
         "username": "CoolFrog74",
         "password": "123123",
-        "pizzaCount": 12,
+        "pizzaCount": 13,
         "history": [
             {
                 "timestamp": "2025-11-18T21:41:00.960205",
@@ -191,14 +191,24 @@
                     "submitted_text": "Mi pice las scuola en glin scachi",
                     "ai_correction": "Mi piace la scuola e gli scacchi.\n\n**Erkl\u00e4rung:**\n*   \"Mi pice\" wurde zu \"Mi piace\". \"Piace\" ist die korrekte Form des Verbs \"piacere\" (m\u00f6gen/gefallen) f\u00fcr die 3. Person Singular (\"es gef\u00e4llt mir\"). \"Pice\" existiert nicht.\n*   \"las scuola\" wurde zu \"la scuola\". \"Scuola\" (Schule) ist feminin Singular und ben\u00f6tigt den femininen Singularartikel \"la\". \"Las\" ist der feminine Pluralartikel.\n*   \"en glin scachi\" wurde zu \"e gli scacchi\". \"e\" bedeutet \"und\". \"gli\" ist der korrekte maskuline Pluralartikel f\u00fcr \"scacchi\" (Schach). Die urspr\u00fcngliche Formulierung war sehr unklar, aber \"e gli scacchi\" ist die wahrscheinlichste Interpretation, um \"und Schach\" auszudr\u00fccken.\n\nDu bist auf einem tollen Weg, dich im Italienischen auszudr\u00fccken! Jede Korrektur ist ein wertvoller Schritt nach vorne. Bleib dran, du machst das super!"
                 }
+            },
+            {
+                "timestamp": "2025-11-23T16:24:34.484463",
+                "module": "vocabulary",
+                "details": {
+                    "word": "telefono",
+                    "final_answer": "telefono",
+                    "status": "correct",
+                    "attempts_made": "N/A"
+                }
             }
         ],
         "currentVocabulary": {
-            "word": "musica",
+            "word": "telefono",
             "clues": [
-                "Si ascolta spesso.",
-                "Ha molte canzoni.",
-                "Ti fa ballare."
+                "Lo usi per chiamare.",
+                "Ha uno schermo.",
+                "\u00c8 nel tuo tasca."
             ],
             "attempts": 1,
             "completed": true
@@ -228,6 +238,19 @@
         "username": "CoolFox12",
         "password": "456456",
         "pizzaCount": 4,
+        "history": [],
+        "currentVocabulary": {
+            "word": "",
+            "clues": [],
+            "attempts": 0,
+            "completed": false
+        },
+        "flashcards": []
+    },
+    {
+        "username": "admin",
+        "password": "000000",
+        "pizzaCount": 999999,
         "history": [],
         "currentVocabulary": {
             "word": "",

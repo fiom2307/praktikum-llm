@@ -13,3 +13,18 @@ export async function loginUser(username, password) {
 
     return response.json();
 }
+
+export async function checkUsername(username) {
+    const response = await fetch(`${API_BASE_URL}/check_username/${username}`);
+    return response.json(); 
+}
+
+export async function registerUser(username, password) {
+    const response = await fetch(`${API_BASE_URL}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+    });
+
+    return response.json();
+}

@@ -53,3 +53,25 @@ def add_history_entry(username: str, module: str, details: dict):
     
     result = update_user(updated_user)
     return result is not None
+
+def add_user(username, password):
+    users = load_users()
+
+    new_user = {
+        "username": username,
+        "password": password,
+        "pizzaCount": 0,
+        "history": [],
+        "currentVocabulary": {
+            "word": "",
+            "clues": [],
+            "attempts": 0,
+            "completed": False
+        },
+        "flashcards": []
+    }
+
+    users.append(new_user)
+    save_users(users)
+
+    return new_user
