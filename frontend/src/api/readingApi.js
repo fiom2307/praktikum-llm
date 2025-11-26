@@ -8,7 +8,7 @@ export async function correctAnswers(username, userText, aiGeneratedText) {
         body: JSON.stringify({username: username, generatedText: aiGeneratedText, text: userText}),
     });
     const data = await response.json();
-    return data.corrected_answers;
+    return data;
 };
 
 export async function createReadingText() {

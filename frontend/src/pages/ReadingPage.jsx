@@ -5,14 +5,17 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import ActionButton from "../components/ActionButton";
 import ReactMarkdown from "react-markdown";
 import { useUser } from "../context/UserContext";
+import { incrementPizzaCount } from "../api/pizzaApi";
 
 
 function ReadingPage() {
-    const { username } = useUser();
+    const { updatePizzaCount, username } = useUser();
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
+    const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
+
 
     async function runAction(action, onSuccess, onError) {
         setLoading(true);
@@ -28,16 +31,32 @@ function ReadingPage() {
     }
 
     const handleCorrect = async () => {
-        if (!username) return alert("Per favore, accedi per inviare le risposte.");
+        if (completed) {
+            setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
+            return;
+        }
         
         runAction(
-            () => correctAnswers(username, userText, generatedText),
-            (result) => setCorrectedText(result),
-            (msg) => setCorrectedText(msg)
+        async () => {
+            const result = await correctAnswers(username, userText, generatedText);
+
+            setCorrectedText(result.corrected_answers);
+            
+            const res = await incrementPizzaCount(username, result.pizzas);
+            updatePizzaCount(res.pizzaCount);
+
+            setCompleted(true);
+
+            return result;
+        },
+        (result) => {setCorrectedText(result.corrected_answers)},
+        (msg) => setCorrectedText(msg)
         );
     }
 
     const handleReadingText = async () => {
+        if (!username) return alert("Per favore, accedi per inviare le risposte.");
+        setCompleted(false);
         runAction(
         () => createReadingText(),
         (result) => setGeneratedText(result),
