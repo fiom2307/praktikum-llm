@@ -201,6 +201,22 @@
                     "status": "correct",
                     "attempts_made": "N/A"
                 }
+            },
+            {
+                "timestamp": "2025-11-26T19:09:51.716411",
+                "module": "reading",
+                "details": {
+                    "submitted_answers": "1. keine Ahnung\n2. \n3.",
+                    "ai_correction": "**Frage 1:** falsch\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Die erste erw\u00e4hnte Feier ist klar im Text benannt.\n**Richtige Antwort:** Capodanno (1\u00b0 gennaio)\n\n**Frage 2:** falsch\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Der Text beschreibt deutlich, was Familien zu Pasqua machen.\n**Richtige Antwort:** Die Familien essen zusammen.\n\n**Frage 3:** falsch\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Das Datum von Ferragosto und die typischen Aktivit\u00e4ten sind im Text beschrieben.\n**Richtige Antwort:** Ferragosto ist am 15. August. Viele Italiener fahren ans Meer oder in die Berge, um sich auszuruhen.\n\n**Frage 4:** falsch\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Der Text bezeichnet eine Feier explizit als die gr\u00f6\u00dfte.\n**Richtige Antwort:** Natale\n\n**Frage 5:** falsch\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Der Text erkl\u00e4rt am Ende, warum die Feste wichtig sind.\n**Richtige Antwort:** Sie sind sehr wichtig f\u00fcr die italienische Kultur und um gut zusammen zu sein.\n\nDas ist noch nicht ganz das Gelbe vom Ei, aber jede Reise beginnt mit dem ersten Schritt! Beim n\u00e4chsten Mal schau dir den Text ganz genau an, du schaffst das!\n\nPizzas 0"
+                }
+            },
+            {
+                "timestamp": "2025-11-26T19:12:38.755108",
+                "module": "writing",
+                "details": {
+                    "submitted_text": "Ciao a tuttio, ma chiama nonsochi en mi piace la scuola",
+                    "ai_correction": "Ciao a tutti, mi chiamo Nonsochi e mi piace la scuola.\n\n**Erkl\u00e4rung:**\nDie Korrekturen betreffen die Endung von \"tutti\" (alle), die korrekte Verbform f\u00fcr \"ich hei\u00dfe\" (\"mi chiamo\" statt \"chiama\") und das Wort f\u00fcr \"und\" (\"e\" statt \"en\").\n\nSuper gemacht! Es ist toll zu sehen, dass du dich traust, S\u00e4tze zu formulieren. Das ist der beste Weg, um eine neue Sprache zu lernen. Mach weiter so!"
+                }
             }
         ],
         "currentVocabulary": {
@@ -238,7 +254,16 @@
         "username": "CoolFox12",
         "password": "456456",
         "pizzaCount": 4,
-        "history": [],
+        "history": [
+            {
+                "timestamp": "2025-11-26T19:14:16.139677",
+                "module": "reading",
+                "details": {
+                    "submitted_answers": "1. keine Ahnung\n2. \n3. ",
+                    "ai_correction": "**Frage 1:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler wusste die Antwort nicht. Im Text werden Natale (Weihnachten) und Pasqua (Ostern) als religi\u00f6se Feste erw\u00e4hnt.\n**Richtige Antwort:** Natale e Pasqua\n\n**Frage 2:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Zu Weihnachten versammeln sich die Familien, essen typische Gerichte, tauschen Geschenke aus und viele gehen zur Mitternachtsmesse.\n**Richtige Antwort:** Le famiglie si riuniscono, mangiano piatti tipici, scambiano regali e molte persone vanno in chiesa per la Messa di mezzanotte.\n\n**Frage 3:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Der Giorno della Repubblica wird am 2. Juni gefeiert.\n**Richtige Antwort:** Il 2 giugno.\n\n**Frage 4:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Zu Ferragosto fahren viele Italiener ans Meer oder in die Berge.\n**Richtige Antwort:** Molti italiani vanno al mare o in montagna.\n\n**Frage 5:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat keine Antwort gegeben. Die Feste sind wichtig, um die italienischen Traditionen und die Kultur am Leben zu erhalten.\n**Richtige Antwort:** Sono importanti per mantenere vive le tradizioni e la cultura italiana.\n\nGib nicht auf! Es ist wichtig, den Text aufmerksam zu lesen, um die Antworten zu finden. Beim n\u00e4chsten Mal schaffst du das sicher, wenn du dir etwas mehr Zeit nimmst, die Informationen zu entdecken.\n\nPizzas 0"
+                }
+            }
+        ],
         "currentVocabulary": {
             "word": "",
             "clues": [],
@@ -256,6 +281,42 @@
             "word": "",
             "clues": [],
             "attempts": 0,
+            "completed": false
+        },
+        "flashcards": []
+    },
+    {
+        "username": "CoolTiger36",
+        "password": "789789",
+        "pizzaCount": 0,
+        "history": [
+            {
+                "timestamp": "2025-11-30T22:44:14.118506",
+                "module": "reading",
+                "details": {
+                    "submitted_answers": "1. keine Ahnung\n2. keine Ahnung\n3. keine Ahnung",
+                    "ai_correction": "**Frage 1:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Die Antwort \"keine Ahnung\" ist nicht korrekt. Der Text gibt die Antwort explizit an.\n**Richtige Antwort:** Zwei wichtige nationale Feste, die im Text erw\u00e4hnt werden, sind Natale und Pasqua (oder Ferragosto).\n\n**Frage 2:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Die Antwort \"keine Ahnung\" ist nicht korrekt. Der Text beschreibt detailliert, was Familien zu Weihnachten tun.\n**Richtige Antwort:** Zu Natale versammeln sich die Familien, um zusammen zu Abend zu essen und sich Geschenke auszutauschen.\n\n**Frage 3:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Die Antwort \"keine Ahnung\" ist nicht korrekt. Der Text liefert genaue Informationen zum Datum und den Aktivit\u00e4ten an Ferragosto.\n**Richtige Antwort:** Ferragosto wird am 15. August gefeiert. Viele Italiener fahren an diesem Tag ans Meer, in die Berge oder entspannen mit Freunden und Familie.\n\n**Frage 4:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat diese Frage nicht beantwortet. Der Text beschreibt weitere Feierlichkeiten.\n**Richtige Antwort:** Neben den nationalen Feiertagen gibt es in Italien viele lokale Feiern, wie die Feste der Schutzheiligen, die oft historische Paraden, Musik, T\u00e4nze und Essensst\u00e4nde umfassen.\n\n**Frage 5:** falsche Antwort\n--------------------\n**Erkl\u00e4rung:** Der Sch\u00fcler hat diese Frage nicht beantwortet. Der Text erkl\u00e4rt die Bedeutung der Traditionen.\n**Richtige Antwort:** Die Traditionen sind wichtig, weil sie dazu beitragen, die Menschen zusammenzuhalten, Momente der Freude zu teilen und die reiche italienische Kultur lebendig zu halten.\n\nEs ist in Ordnung, wenn man mal nicht weiterwei\u00df. Mit etwas mehr \u00dcbung und Aufmerksamkeit beim Lesen wirst du die Antworten sicher finden! Gib nicht auf!\n\nPizzas 0"
+                }
+            },
+            {
+                "timestamp": "2025-11-30T22:49:32.779149",
+                "module": "vocabulary",
+                "details": {
+                    "word": "studiare",
+                    "final_answer": "scuola",
+                    "status": "almost",
+                    "attempts_made": "N/A"
+                }
+            }
+        ],
+        "currentVocabulary": {
+            "word": "studiare",
+            "clues": [
+                "Fare i compiti.",
+                "Imparare per la scuola.",
+                "Lo fai a scuola."
+            ],
+            "attempts": 1,
             "completed": false
         },
         "flashcards": []

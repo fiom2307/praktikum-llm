@@ -7,6 +7,7 @@ import ReadingPage from "./pages/ReadingPage";
 import VocabularyPage from "./pages/VocabularyPage";
 import TextProductionPage from "./pages/TextProductionPage";
 import RegisterPage from "./pages/RegisterPage";
+import CityMenuPage from "./pages/CityMenuPage";
 
 
 // check token
@@ -49,6 +50,12 @@ function App() {
         <Route path="/" element={
           <ProtectedRoute>
             <MainPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/city/:cityName" element={
+          <ProtectedRoute>
+            <CityMenuPage />
           </ProtectedRoute>
         } />
 
