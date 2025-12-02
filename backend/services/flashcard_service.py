@@ -1,26 +1,36 @@
-from services.user_service import get_user, update_user
+from database import SessionLocal
+from models import Flashcard
 
-def save_flashcard(username, word):
-    user = get_user(username)
-    if not user:
-        return None
-    
-    if "flashcards" not in user or user["flashcards"] is None:
-        user["flashcards"] = []
+def save_flashcard(user_id, word, definition=None):
+    db = SessionLocal()
+    try:
+        # check duplicates
+        existing = (
+            db.query(Flashcard)
+            .filter(Flashcard.user_id == user_id, Flashcard.word == word)
+            .first()
+        )
 
-    # for duplicates
-    for card in user["flashcards"]:
-        if card["word"] == word:
-            return card
-    
-    new_card = { "word": word }
-    user["flashcards"].append(new_card)
+        if existing:
+            return existing
 
-    update_user(user)
-    return new_card
+        new_card = Flashcard(
+            user_id=user_id,
+            word=word,
+            definition=definition or ""
+        )
 
-def get_flashcards(username):
-    user = get_user(username)
-    if not user:
-        return None
-    return user.get("flashcards", [])
+        db.add(new_card)
+        db.commit()
+        db.refresh(new_card)
+
+        return new_card
+    finally:
+        db.close()
+
+def get_flashcards(user_id):
+    db = SessionLocal()
+    try:
+        return db.query(Flashcard).filter(Flashcard.user_id == user_id).all()
+    finally:
+        db.close()

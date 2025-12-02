@@ -1,8 +1,8 @@
 import re
 import json
 from services.gemini_service import generate_from_prompt
-from services.user_service import get_user, update_user
-from services.user_service import add_history_entry
+from database import SessionLocal
+from models import VocabularyHistory
 
 def generate_word_and_clues_with_ai():
     prompt = (
@@ -23,8 +23,24 @@ def generate_word_and_clues_with_ai():
     except json.JSONDecodeError:
         return {"raw_response": raw_response}
     
+def save_vocabulary_history(user_id: int, word: str, clues: list, answer: str, attempt: int):
+    db = SessionLocal()
+    try:
+        entry = VocabularyHistory(
+            user_id=user_id,
+            word=word,
+            clues=clues,
+            user_answer=answer,
+            user_attempt=attempt
+        )
+        db.add(entry)
+        db.commit()
+        return entry
+    finally:
+        db.close()
+    
 
-def check_word_with_ai(username: str, word: str, clues: list, answer: str):
+def check_word_with_ai(userId: int, word: str, clues: list, answer: str, attempt: int):
 
     prompt = (
         f"Word: {word}\n"
@@ -43,48 +59,29 @@ def check_word_with_ai(username: str, word: str, clues: list, answer: str):
     raw_response = generate_from_prompt(prompt)
     clean_text = re.sub(r"```json|```", "", raw_response).strip()
 
+    save_vocabulary_history(
+        user_id=userId,
+        word=word,
+        clues=clues,
+        answer=answer,
+        attempt=attempt,
+    )
+
     try:
-        #
-        result = json.loads(clean_text)
-        
-        #
-        if result.get("status") in ["correct", "almost"]:
-             add_history_entry(
-                username=username, 
-                module="vocabulary", 
-                details={
-                    "word": word,
-                    "final_answer": answer,
-                    "status": result.get("status"),
-                    "attempts_made": "N/A" 
-                }
-            )
-        
-        #
-        return result
-    
+        return json.loads(clean_text)
     except json.JSONDecodeError:
-        #
         return {"raw_response": raw_response}
-    
 
-def get_current_vocabulary(username):
-    user = get_user(username)
-    if not user:
-        return None
-    return user["currentVocabulary"]
+def get_last_vocabulary_entry(user_id: int):
+    db = SessionLocal()
+    try:
+        entry = (
+            db.query(VocabularyHistory)
+        .filter(VocabularyHistory.user_id == user_id)
+        .order_by(VocabularyHistory.created_at.desc())
+        .first()
+        )
 
-def save_current_vocabulary(username, word, clues, attempts, completed):
-    user = get_user(username)
-    if not user:
-        return None
-
-    user["currentVocabulary"] = {
-        "word": word,
-        "clues": clues,
-        "attempts": attempts,
-        "completed": completed
-    }
-
-    update_user(user)
-    return user["currentVocabulary"]
+        return entry
+    finally:
+        db.close()

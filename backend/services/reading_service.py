@@ -1,9 +1,25 @@
 from services.gemini_service import generate_from_prompt
-from services.user_service import add_history_entry
+from database import SessionLocal
+from models import ReadingHistory
 import re
 
+def save_reading_history(user_id, llm_question, user_answer, llm_feedback):
+    db = SessionLocal()
+    try:
+        entry = ReadingHistory(
+            user_id=user_id,
+            llm_question=llm_question,
+            user_answer=user_answer,
+            llm_feedback=llm_feedback
+        )
+        db.add(entry)
+        db.commit()
+        db.refresh(entry)
+        return entry
+    finally:
+        db.close()
 
-def correct_answers_ai(username: str, generated_text: str, user_text: str):
+def correct_answers_ai(user_id: int, generated_text: str, user_text: str):
     
     prompt = (
         "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. "
@@ -35,13 +51,11 @@ def correct_answers_ai(username: str, generated_text: str, user_text: str):
     
     print("Pizzas: ", pizzas)
 
-    add_history_entry(
-        username=username, 
-        module="reading", 
-        details={
-            "submitted_answers": user_text,
-            "ai_correction": corrected
-        }
+    save_reading_history(
+        user_id=user_id,
+        llm_question=generated_text,
+        user_answer=user_text,
+        llm_feedback=corrected
     )
 
     return {"corrected_answers": corrected, "pizzas" : pizzas}
