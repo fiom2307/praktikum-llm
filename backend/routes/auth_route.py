@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
-from services.auth_service import authenticate_user
-from services.user_service import get_user, add_user
+from services.auth_service import authenticate_user, register_user
+from services.user_service import get_user_by_username
+from models import user_to_dict
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -16,29 +17,14 @@ def login():
     user = authenticate_user(username, password)
 
     if user:
-        return jsonify({"exists": True, "user": user})
+        return jsonify({"exists": True, "user": user_to_dict(user)})
     else:
         return jsonify({"exists": False, "message": "Invalid credentials"}), 401
-    
-
-@auth_routes.route("/history/<string:username>", methods=["GET"])
-def get_user_history(username):
-    # 
-    
-    user = get_user(username)
-
-    if not user:
-        return jsonify({"message": f"User {username} not found"}), 404
-    
-    # 
-    history_data = user.get("history", []) 
-    
-    return jsonify({"username": username, "history": history_data}), 200
 
     
 @auth_routes.route("/check_username/<string:username>", methods=["GET"])
 def check_username(username):
-    user = get_user(username)
+    user = get_user_by_username(username)
     return jsonify({"exists": user is not None})
 
 
@@ -54,9 +40,9 @@ def register():
     if len(password) < 6:
         return jsonify({"success": False, "message": "Password must be at least 6 characters"}), 400
 
-    if get_user(username):
+    if get_user_by_username(username):
         return jsonify({"success": False, "message": "Username already exists"}), 409
 
-    new_user = add_user(username, password)
+    new_user = register_user(username, password)
 
-    return jsonify({"success": True, "user": new_user}), 201
+    return jsonify({"success": True, "user": user_to_dict(new_user)}), 201

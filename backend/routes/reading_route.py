@@ -8,11 +8,11 @@ reading_routes = Blueprint("reading_routes", __name__)
 @reading_routes.route("/correct_answers", methods=["POST"])
 def correct_answer():
     data = request.get_json()
-    username = data.get("username")
+    user_id = data.get("userId")
     user_text = data.get("text", "")
     generated_text = data.get("generatedText", "")
 
-    response = correct_answers_ai(username, generated_text, user_text)
+    response = correct_answers_ai(user_id, generated_text, user_text)
 
     return jsonify(response)
 

@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from services.vocabulary_service import generate_word_and_clues_with_ai, check_word_with_ai, get_current_vocabulary, save_current_vocabulary 
+from services.vocabulary_service import generate_word_and_clues_with_ai, check_word_with_ai, get_last_vocabulary_entry
+from models import vocabulary_to_dict
 
 vocabulary_routes = Blueprint("vocabulary_routes", __name__)
 
@@ -14,31 +15,21 @@ def check_word():
     word = data.get("word", "").strip()
     clues = data.get("clues", [])
     answer = data.get("answer", "").strip()
-    username = data.get("username")
+    userId = data.get("userId")
+    attempt = data.get("attempt")
 
-    result = check_word_with_ai(username, word, clues, answer)
+    result = check_word_with_ai(userId, word, clues, answer, attempt)
     return jsonify(result)
 
-@vocabulary_routes.route("/get_current_vocabulary", methods=["POST"])
-def get_current_vocab():
-    data = request.get_json()
-    username = data.get("username")
+@vocabulary_routes.route("/vocabulary/last/<int:user_id>", methods=["GET"])
+def get_last_vocabulary(user_id):
 
-    current_vocabulary = get_current_vocabulary(username)
+    entry = get_last_vocabulary_entry(user_id)
 
-    if current_vocabulary is None:
-        return jsonify({"error": "User not found"}), 404
-    
-    return jsonify(current_vocabulary)
+    if entry is None:
+        return jsonify({"exists": False, "message": "No history entries found"})
 
-@vocabulary_routes.route("/save_current_vocabulary", methods=["POST"])
-def save_current_vocab():
-    data = request.get_json()
-    username = data["username"]
-    word = data["word"]
-    clues = data["clues"]
-    attempts = data["attempts"]
-    completed = data["completed"]
-
-    vocabulary = save_current_vocabulary(username, word, clues, attempts, completed)
-    return jsonify(vocabulary)
+    return jsonify({
+        "exists": True,
+        "history": vocabulary_to_dict(entry)
+    })
