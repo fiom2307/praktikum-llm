@@ -8,7 +8,7 @@ function FlashcardsPage() {
 
     useEffect(() => {
         async function loadFlashcards() {
-            const cards = await getFlashcards(username);
+            const cards = await getFlashcards();
             setFlashcards(cards);
         }
         loadFlashcards();

@@ -16,12 +16,15 @@ function LoginPage() {
         const data = await loginUser(username, password);
 
         if (data.exists) {
-            localStorage.setItem('authToken', 'logged_in_placeholder');
-            loginUserContext(data.user);
-            
-            navigate("/");
+          localStorage.setItem('userId', data.user.id);
+          localStorage.setItem('username', data.user.username);
+
+          localStorage.setItem('authToken', 'logged_in_placeholder');
+          loginUserContext(data.user);
+          
+          navigate("/");
         } else {
-            alert("Accesso non riuscito. Nome utente o password non validi.");
+          alert("Accesso non riuscito. Nome utente o password non validi.");
         }
     };
     

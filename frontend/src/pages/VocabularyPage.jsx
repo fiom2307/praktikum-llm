@@ -4,11 +4,12 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { useUser } from "../context/UserContext";
 import { incrementPizzaCount } from "../api/pizzaApi";
 import { saveFlashcard, getFlashcards } from "../api/flashcardApi";
-import { generateWordAndClues, checkWord, getCurrentVocabulary, saveCurrentVocabulary } from "../api/vocabularyApi";
+import { generateWordAndClues, checkWord, getLastVocabularyEntry } from "../api/vocabularyApi";
 import { useState, useEffect } from "react";
 
 function VocabularyPage() {
-    const { updatePizzaCount , username} = useUser();
+    const { updatePizzaCount } = useUser();
+    const username = localStorage.getItem("username");
 
     const [loading, setLoading] = useState(false);
     const [clues, setClues] = useState([]);
@@ -18,19 +19,43 @@ function VocabularyPage() {
     const [msg, setMsg] = useState("");
     const [completed, setCompleted] = useState(false);
     const [flashcardSaved, setFlashcardSaved] = useState(false);
+    const [canGenerate, setCanGenerate] = useState(true);
 
 
     useEffect(() => {
         async function loadProgress() {
             
-            const progress = await getCurrentVocabulary(username);
+            const result = await getLastVocabularyEntry();
 
+            if(!result || !result.exists) {
+                setWord("");
+                setClues([]);
+                setAttempts(0);
+                setCompleted(false);
+                setFlashcardSaved(false);
+                setCanGenerate(true);
+                return;
+            }
+
+            const progress = result.history;
+
+            if(progress.completed) {
+                setWord("");
+                setClues([]);
+                setAttempts(0);
+                setCompleted(false);
+                setFlashcardSaved(false);
+                setCanGenerate(true);
+                return;
+            }
+            
             setWord(progress.word);
             setClues(progress.clues);
-            setAttempts(progress.attempts);
+            setAttempts(progress.attempt);
             setCompleted(progress.completed);
+            setCanGenerate(false);
 
-            const cards = await getFlashcards(username);
+            const cards = await getFlashcards();
             const exists = cards.some(card => card.word === progress.word);
             setFlashcardSaved(exists);
             
@@ -39,6 +64,11 @@ function VocabularyPage() {
     }, [username]);
 
     const handleGenerateWordAndClues = async () => {
+        if (!canGenerate) {
+            setMsg("Completa primero la palabra actual prima di generarne una nuova.");
+            return;
+        }
+
         setLoading(true);
         try {
             const data = await generateWordAndClues();
@@ -53,7 +83,7 @@ function VocabularyPage() {
             setCompleted(false);
             setFlashcardSaved(false)
 
-            await saveCurrentVocabulary(username, data.word, data.clues, 0, false);
+            setCanGenerate(true);
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);
         } finally {
@@ -72,30 +102,29 @@ function VocabularyPage() {
         }
         setLoading(true);
         try {
-            const res = await checkWord(username, word, clues, answer);
-            let isCompleted = completed;
+            setCanGenerate(false);
 
             const newAttempts = attempts + 1;
             setAttempts(newAttempts);
 
+            const res = await checkWord(word, clues, answer, newAttempts);
 
             if (res.status === "almost") {
                 setMsg("Your answer is almost correct. Here is a hint: " +  res.hint);
             } else if (res.status === "correct") {
                 setMsg("Congratulations, your answer is correct. You get 1 pizza");
-                isCompleted = true;
                 setCompleted(true);
-                const res = await incrementPizzaCount(username, 1);
+                const res = await incrementPizzaCount(1);
                 updatePizzaCount(res.pizzaCount);
+                setCanGenerate(true);
             } else {
                 setMsg("Your answer is incorrect. Try again");
             }
 
-            await saveCurrentVocabulary(username, word, clues, newAttempts, isCompleted);
-
             if (newAttempts >= 3 && res.status !== "correct") {
                 setMsg(`This was your last attempt. The correct answer was: ${word}`);
-                await saveFlashcard(username, word);
+                setCanGenerate(true);
+                await saveFlashcard(word);
             }
 
         } catch (error) {
@@ -107,7 +136,7 @@ function VocabularyPage() {
 
     const handleSaveFlashcard = async () => {
         if (flashcardSaved) return;
-        await saveFlashcard(username, word);
+        await saveFlashcard(word);
         setFlashcardSaved(true);
         setMsg("Word added to flashcards!");
     };
@@ -126,7 +155,11 @@ function VocabularyPage() {
             
             {/* Main */}
             <div className="px-60 flex flex-col items-center">
-                <ActionButton className="mb-2" onClick={handleGenerateWordAndClues}>Genera</ActionButton>
+                <ActionButton 
+                    className="mb-2" 
+                    onClick={handleGenerateWordAndClues}
+                    disabled={!canGenerate}
+                >Genera</ActionButton>
                 <div className="flex gap-10 mb-4">
                     <p className="font-bold">INDIZI: </p>
                     {clues.map((clue, index) => (

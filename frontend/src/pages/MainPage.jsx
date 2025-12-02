@@ -5,7 +5,8 @@ import { useUser } from "../context/UserContext";
 
 
 function MainPage() {
-  const { username, pizzaCount } = useUser();
+  const { pizzaCount } = useUser();
+  const username = localStorage.getItem("username");
   
   const navigate = useNavigate();  
 

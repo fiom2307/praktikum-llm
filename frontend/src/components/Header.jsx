@@ -5,7 +5,8 @@ import { useUser } from "../context/UserContext";
 export default function Header() {
   const navigate = useNavigate();
 
-  const { username, pizzaCount } = useUser();
+  const { pizzaCount } = useUser();
+  const username = localStorage.getItem("username");
 
   return (
     <header className="w-full flex justify-between items-start p-6">

@@ -9,7 +9,8 @@ import { incrementPizzaCount } from "../api/pizzaApi";
 
 
 function ReadingPage() {
-    const { updatePizzaCount, username } = useUser();
+    const username = localStorage.getItem("username");
+    const { updatePizzaCount } = useUser();
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
@@ -38,11 +39,11 @@ function ReadingPage() {
         
         runAction(
         async () => {
-            const result = await correctAnswers(username, userText, generatedText);
+            const result = await correctAnswers(userText, generatedText);
 
             setCorrectedText(result.corrected_answers);
             
-            const res = await incrementPizzaCount(username, result.pizzas);
+            const res = await incrementPizzaCount(result.pizzas);
             updatePizzaCount(res.pizzaCount);
 
             setCompleted(true);
