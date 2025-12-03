@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header"; 
-import ActionButton from "../components/ActionButton";
 import MascotOverlay from "../components/MascotOverlay";
+import vocImg from "../assets/vocabulary.png";
+import readingImg from "../assets/reading.png"
+import writingImg from "../assets/writing.png"
 
 function CityMenuPage() {
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ function CityMenuPage() {
   const currentCity = cityConfig[cityName.toLowerCase()] || { title: cityName, level: "Livello Base" };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+    <div className="min-h-screen flex flex-col items-center text-black">
       
       {/* showMascot */}
       {showMascot && (
@@ -73,34 +75,45 @@ function CityMenuPage() {
       </div>
 
       {/* three function button of MainPage  */}
-      <div className="flex flex-col gap-6 w-full max-w-md px-6">
+      <div className="px-32">
+        <div className="flex flex-row gap-4 px-10 justify-center grid-cols-3">
         <button
           onClick={() => navigate("/reading")}
-          className="bg-green-700 hover:bg-green-800 text-white text-2xl font-semibold py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-4"
-        >
-          <span>📖</span> Lettura (Reading)
+          className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
+          >
+          <img
+          src={readingImg}
+          alt="Flashcards"
+          className="object-contain"
+          />
+          Lettura
         </button>
 
         <button
           onClick={() => navigate("/vocabulary")}
-          className="bg-white hover:bg-gray-200 text-black text-2xl font-semibold py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-4"
-        >
-          <span>📒</span> Vocabolario (Vocabulary)
+          className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105">
+          <img
+          src={vocImg}
+          alt="Flashcards"
+          className="object-contain"
+          />
+          Vocabolario
         </button>
 
         <button
           onClick={() => navigate("/textproduction")}
-          className="bg-red-600 hover:bg-red-800 text-white text-2xl font-semibold py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-4"
-        >
-          <span>✍️</span> Produzione scritta (Writing)
+          className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105">
+          <img
+          src={writingImg}
+          alt="Flashcards"
+          className="object-contain"
+          />
+          Produzione scritta
         </button>
       </div>
-
-      <div className="mt-12 mb-10">
-        <ActionButton onClick={() => navigate("/")} className="bg-gray-500 hover:bg-gray-600">
-          ← Back to Map
-        </ActionButton>
       </div>
+
+     <br />
     </div>
   );
 }
