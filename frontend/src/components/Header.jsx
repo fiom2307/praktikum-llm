@@ -52,18 +52,14 @@ export default function Header({ onBack }) {
   return (
     <header className="w-full flex justify-between items-center px-6 py-4 mb-8 bg-[#3399bd] text-white relative z-30">
 
-      {/* App title */}
-      {/* <p
-        className="font-bold cursor-pointer text-lg"
-        onClick={() => navigate("/")}
-      >
-        Maestri dell’Apprendimento Linguini
-      </p> */}
-      <button
-        onClick={handleBackClick}
-      >
-        <FaArrowLeft />
-      </button>
+      {/* Left: back button or title (on home) */}
+      {location.pathname === "/" ? (
+        <p className="font-bold text-lg">Maestri dell’Apprendimento Linguini</p>
+      ) : (
+        <button onClick={handleBackClick} className="text-2xl">
+          <FaArrowLeft />
+        </button>
+      )}
 
       {/* Right side */}
       <div className="flex items-center gap-6 text-lg">
