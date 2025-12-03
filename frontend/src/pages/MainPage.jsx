@@ -21,7 +21,7 @@ function MainPage() {
     <div
       className="absolute group z-10 cursor-pointer"
       style={{ top: top, left: left, transform: 'translate(-50%, -100%)' }}
-      onClick={() => navigate(`/city/${city}`)}
+      onClick={() => navigate(`/city/${city}`, { state: { initialEntry: true } })}
     >
       {/* rotate-45 + rounded-br-none water drop shaped */}
       <div className="relative w-12 h-12 bg-red-500 border-4 border-white shadow-xl rounded-full rounded-br-none transform rotate-45 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-2 group-hover:bg-red-600 flex items-center justify-center">

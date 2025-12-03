@@ -6,6 +6,7 @@ import ActionButton from "../components/ActionButton";
 import ReactMarkdown from "react-markdown";
 import { useUser } from "../context/UserContext";
 import { incrementPizzaCount } from "../api/pizzaApi";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 function ReadingPage() {
@@ -16,6 +17,22 @@ function ReadingPage() {
     const [generatedText, setGeneratedText] = useState("");
     const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+    // 
+    const location = useLocation();
+    const fromCity = location.state?.fromCity;
+
+    // 
+    const handleBack = () => {
+        if (fromCity) {
+            // 
+            navigate(`/city/${fromCity}`);
+        } else {
+            // 
+            navigate("/");
+        }
+    };
 
 
     async function runAction(action, onSuccess, onError) {
@@ -70,7 +87,7 @@ function ReadingPage() {
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
 
             {/* Header */}
-            <Header />
+            <Header onBack={handleBack} />
 
             <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
                 📚 Lettura

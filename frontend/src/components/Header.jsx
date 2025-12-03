@@ -2,17 +2,27 @@ import { useNavigate } from "react-router-dom";
 import ActionButton from "./ActionButton";
 import { useUser } from "../context/UserContext";
 
-export default function Header() {
+export default function Header({ onBack }) {
   const navigate = useNavigate();
 
   const { pizzaCount } = useUser();
   const username = localStorage.getItem("username");
 
+  const handleBackClick = () => {
+    if (onBack) {
+      // 
+      onBack();
+    } else {
+      // back to main page
+      navigate("/");
+    }
+  };
+
   return (
     <header className="w-full flex justify-between items-start p-6">
 
       {/* Back Button */}
-      <ActionButton onClick={() => navigate("/")}>← Indietro</ActionButton>
+      <ActionButton onClick={handleBackClick}>← Indietro</ActionButton>
 
       {/* Username + Pizza Count */}
       <div className="text-right flex flex-col items-end gap-1">

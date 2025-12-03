@@ -6,6 +6,7 @@ import { incrementPizzaCount } from "../api/pizzaApi";
 import { saveFlashcard, getFlashcards } from "../api/flashcardApi";
 import { generateWordAndClues, checkWord, getLastVocabularyEntry } from "../api/vocabularyApi";
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function VocabularyPage() {
     const { updatePizzaCount } = useUser();
@@ -20,6 +21,19 @@ function VocabularyPage() {
     const [completed, setCompleted] = useState(false);
     const [flashcardSaved, setFlashcardSaved] = useState(false);
     const [canGenerate, setCanGenerate] = useState(true);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const fromCity = location.state?.fromCity;
+    const handleBack = () => {
+        if (fromCity) {
+            // to city
+            navigate(`/city/${fromCity}`);
+        } else {
+            // to main page
+            navigate("/");
+        }
+    };
 
 
     useEffect(() => {
@@ -146,7 +160,7 @@ function VocabularyPage() {
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
             
             {/* Header */}
-            <Header />
+            <Header onBack={handleBack} />
 
             <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
                 📒 Vocabolario
