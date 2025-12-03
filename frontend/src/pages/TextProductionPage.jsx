@@ -3,11 +3,26 @@ import { correctText } from "../api/writingApi";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Header from "../components/Header";
 import ReactMarkdown from "react-markdown";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function TextProductionPage() {
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+    
+    const location = useLocation();
+    const fromCity = location.state?.fromCity; 
+
+    
+    const handleBack = () => {
+        if (fromCity) {
+            navigate(`/city/${fromCity}`);
+        } else {
+            navigate("/");
+        }
+    };
 
     const handleCorrect = async () => {
         setLoading(true);
@@ -27,7 +42,7 @@ function TextProductionPage() {
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
 
             {/* Header */}
-            <Header />
+            <Header onBack={handleBack} />
 
             <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
                 📖 Produzione scritta

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams , useLocation} from "react-router-dom";
 import Header from "../components/Header"; 
 import ActionButton from "../components/ActionButton";
 import MascotOverlay from "../components/MascotOverlay";
@@ -9,7 +9,11 @@ function CityMenuPage() {
   // (e.g. /city/torino -> cityName = "torino")
   const { cityName } = useParams();
 
-  const [showMascot, setShowMascot] = useState(true);
+  const location = useLocation();
+
+  const isInitialEntry = location.state?.initialEntry === true;
+
+  const [showMascot, setShowMascot] = useState(isInitialEntry);
 
   // Dialogue of each cities
   const cityDialogues = {
@@ -75,21 +79,21 @@ function CityMenuPage() {
       {/* three function button of MainPage  */}
       <div className="flex flex-col gap-6 w-full max-w-md px-6">
         <button
-          onClick={() => navigate("/reading")}
+          onClick={() => navigate("/reading", { state: { fromCity: cityName } })}
           className="bg-green-700 hover:bg-green-800 text-white text-2xl font-semibold py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-4"
         >
           <span>📖</span> Lettura (Reading)
         </button>
 
         <button
-          onClick={() => navigate("/vocabulary")}
+          onClick={() => navigate("/vocabulary", { state: { fromCity: cityName } })}
           className="bg-white hover:bg-gray-200 text-black text-2xl font-semibold py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-4"
         >
           <span>📒</span> Vocabolario (Vocabulary)
         </button>
 
         <button
-          onClick={() => navigate("/textproduction")}
+          onClick={() => navigate("/textproduction", { state: { fromCity: cityName } })}
           className="bg-red-600 hover:bg-red-800 text-white text-2xl font-semibold py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-4"
         >
           <span>✍️</span> Produzione scritta (Writing)
