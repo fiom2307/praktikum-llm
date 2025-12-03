@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams , useLocation} from "react-router-dom";
 import Header from "../components/Header"; 
 import MascotOverlay from "../components/MascotOverlay";
 import vocImg from "../assets/vocabulary.png";
@@ -11,7 +11,11 @@ function CityMenuPage() {
   // (e.g. /city/torino -> cityName = "torino")
   const { cityName } = useParams();
 
-  const [showMascot, setShowMascot] = useState(true);
+  const location = useLocation();
+
+  const isInitialEntry = location.state?.initialEntry === true;
+
+  const [showMascot, setShowMascot] = useState(isInitialEntry);
 
   // Dialogue of each cities
   const cityDialogues = {
@@ -78,7 +82,7 @@ function CityMenuPage() {
       <div className="px-32">
         <div className="flex flex-row gap-4 px-10 justify-center grid-cols-3">
         <button
-          onClick={() => navigate("/reading")}
+          onClick={() => navigate("/reading", { state: { fromCity: cityName } })}
           className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
           >
           <img
@@ -90,7 +94,7 @@ function CityMenuPage() {
         </button>
 
         <button
-          onClick={() => navigate("/vocabulary")}
+          onClick={() => navigate("/vocabulary", { state: { fromCity: cityName } })}
           className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105">
           <img
           src={vocImg}
@@ -101,7 +105,7 @@ function CityMenuPage() {
         </button>
 
         <button
-          onClick={() => navigate("/textproduction")}
+          onClick={() => navigate("/textproduction", { state: { fromCity: cityName } })}
           className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105">
           <img
           src={writingImg}

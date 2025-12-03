@@ -288,7 +288,7 @@
     {
         "username": "CoolTiger36",
         "password": "789789",
-        "pizzaCount": 0,
+        "pizzaCount": 1,
         "history": [
             {
                 "timestamp": "2025-11-30T22:44:14.118506",
@@ -307,6 +307,16 @@
                     "status": "almost",
                     "attempts_made": "N/A"
                 }
+            },
+            {
+                "timestamp": "2025-12-01T18:26:36.242174",
+                "module": "vocabulary",
+                "details": {
+                    "word": "studiare",
+                    "final_answer": "studiare",
+                    "status": "correct",
+                    "attempts_made": "N/A"
+                }
             }
         ],
         "currentVocabulary": {
@@ -316,9 +326,13 @@
                 "Imparare per la scuola.",
                 "Lo fai a scuola."
             ],
-            "attempts": 1,
-            "completed": false
+            "attempts": 2,
+            "completed": true
         },
-        "flashcards": []
+        "flashcards": [
+            {
+                "word": "studiare"
+            }
+        ]
     }
 ]

@@ -1,27 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import italyMap from "../assets/italy.png";
-import ActionButton from "../components/ActionButton";
-import { useUser } from "../context/UserContext";
+import Header from "../components/Header";
 
 
-function MainPage() {
-  const { pizzaCount } = useUser();
-  const username = localStorage.getItem("username");
-  
-  const navigate = useNavigate();  
-
-  const handleLogout = () => {
-
-    localStorage.removeItem('authToken');
-
-    navigate("/login")
-  }
+function MainPage() {  
+  const navigate = useNavigate();
 
   const MapNode = ({ top, left, number, city }) => (
     <div
       className="absolute group z-10 cursor-pointer"
       style={{ top: top, left: left, transform: 'translate(-50%, -100%)' }}
-      onClick={() => navigate(`/city/${city}`)}
+      onClick={() => navigate(`/city/${city}`, { state: { initialEntry: true } })}
     >
       {/* rotate-45 + rounded-br-none water drop shaped */}
       <div className="relative w-12 h-12 bg-red-500 border-4 border-white shadow-xl rounded-full rounded-br-none transform rotate-45 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-2 group-hover:bg-red-600 flex items-center justify-center">
@@ -46,31 +35,11 @@ function MainPage() {
     <div className="min-h-screen flex flex-col items-center  text-black overflow-hidden">
       
       {/* Header */}
-      <header className="w-full flex justify-between items-start p-6 z-20">
-        <ActionButton onClick={() => navigate("/flashcards")}>Flashcards</ActionButton>
-
-        <div className="text-right flex flex-col items-end gap-1">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold">{username}</h2>
-          </div>
-          <p className="text-sm">
-            🍕 <span className="font-semibold">Pizze:</span> {pizzaCount}
-          </p>
-          <div className="flex gap-2">
-            <ActionButton onClick={handleLogout} className="bg-red-500 hover:bg-red-600">Esci</ActionButton>
-            <ActionButton onClick={() => navigate("/shop")}>Shop</ActionButton>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content Area */}
       <main className="flex flex-col items-center justify-center w-full flex-grow relative pb-10">
         
-        {/* Title */}
-        <h1 className="text-4xl font-extrabold drop-shadow-md text-center mb-8 z-20">
-          Maestri dell’Apprendimento Linguini
-        </h1>
-
         {/*  Map Container */}
        
         <div className="relative w-full max-w-4xl flex justify-center">
