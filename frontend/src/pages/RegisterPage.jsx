@@ -52,7 +52,7 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center bg-blue-200 text-black">
+    <div className="min-h-screen flex flex-col justify-start items-center  text-black">
       <div className="flex flex-col items-center gap-4 w-full max-w-sm">
 
         <img

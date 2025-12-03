@@ -23,7 +23,7 @@ function TextProductionPage() {
     };
     
     return (
-        <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+        <div className="min-h-screen flex flex-col items-center  text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
 
             {/* Header */}

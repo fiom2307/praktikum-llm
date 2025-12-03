@@ -43,7 +43,7 @@ function MainPage() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center  text-black overflow-hidden">
       
       {/* Header */}
       <header className="w-full flex justify-between items-start p-6 z-20">
