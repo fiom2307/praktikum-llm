@@ -19,7 +19,7 @@ function FlashcardsPage() {
             {/* Header */}
             <Header />
 
-            <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
+            <h1 className="text-4xl font-extrabold mb-8 drop-shadow-md text-center">
                 Flashcard
             </h1>
 

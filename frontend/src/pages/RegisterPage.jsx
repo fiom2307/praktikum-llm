@@ -107,7 +107,7 @@ function RegisterPage() {
         )}
 
         {/* Submit button */}
-        <ActionButton onClick={handleRegister} className="px-8 py-3 mt-2">
+        <ActionButton onClick={handleRegister} className="bg-[#f8edd5] hover:bg-[#e7d9ba] px-8 py-3 mt-2">
           Crea Account
         </ActionButton>
 

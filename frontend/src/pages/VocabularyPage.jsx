@@ -163,7 +163,7 @@ function VocabularyPage() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center  text-black">
+        <div className="min-h-screen flex flex-col items-center text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
             
             {/* Header */}

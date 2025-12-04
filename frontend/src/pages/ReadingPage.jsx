@@ -100,7 +100,7 @@ function ReadingPage() {
                     <ReactMarkdown>{generatedText}</ReactMarkdown>
                 </div>
                 <br />
-                <ActionButton onClick={handleReadingText}>Genera</ActionButton>
+                <ActionButton onClick={handleReadingText} className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Genera</ActionButton>
             </div>
 
             <div className="flex gap-20">
@@ -112,7 +112,7 @@ function ReadingPage() {
                         className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-96 h-56 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     <br />
-                    <ActionButton onClick={handleCorrect}>Correggi</ActionButton>
+                    <ActionButton onClick={handleCorrect} className="bg-[#f8edd5] hover:bg-[#e7d9ba]" >Correggi</ActionButton>
                 </div>
                 <div>
                     <h3 className="font-semibold">Corretto dall’IA</h3>

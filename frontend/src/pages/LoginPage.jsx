@@ -53,7 +53,7 @@ function LoginPage() {
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        <ActionButton onClick={handleLogin} className="px-8 py-3">Accedi</ActionButton>
+        <ActionButton onClick={handleLogin} className="bg-[#f8edd5] hover:bg-[#e7d9ba] px-8 py-3">Accedi</ActionButton>
 
         {/* register */}
         <p className="mt-2 text-sm">

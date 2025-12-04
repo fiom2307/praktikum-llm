@@ -66,15 +66,13 @@ function CityMenuPage() {
       {/* Head Components */}
       <Header />
 
-      <div className="flex flex-col items-center mt-10 mb-12">
+      <div className="flex flex-col items-center mb-6">
         <h1 className="text-5xl font-extrabold drop-shadow-md text-center capitalize">
           📍 {currentCity.title}
         </h1>
         <p className="text-xl mt-2 font-semibold text-gray-700">{currentCity.level}</p>
         <p className="text-lg mt-4 max-w-2xl text-center px-4">
           Benvenuto a {currentCity.title}! Scegli la tua sfida.
-          <br/>
-          (Welcome to {currentCity.title}！Please choose your task)
         </p>
       </div>
 
@@ -117,7 +115,6 @@ function CityMenuPage() {
       </div>
       </div>
 
-     <br />
     </div>
   );
 }
