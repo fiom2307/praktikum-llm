@@ -11,10 +11,15 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Validation states
   const [usernameExists, setUsernameExists] = useState(false);
   const [passwordTooShort, setPasswordTooShort] = useState(false);
+  const [passwordTooLong, setPasswordTooLong] = useState(false);
+  const [passwordNoUppercase, setPasswordNoUppercase] = useState(false);
+  const [passwordNoSpecial, setPasswordNoSpecial] = useState(false);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
 
+  // Username check (database)
   useEffect(() => {
     if (username.trim().length > 0) {
       checkUsername(username).then((res) => {
@@ -25,18 +30,35 @@ function RegisterPage() {
     }
   }, [username]);
 
+  // Password rules check
   useEffect(() => {
     setPasswordTooShort(password.length > 0 && password.length < 6);
+    setPasswordTooLong(password.length > 16);
+
+    setPasswordNoUppercase(password.length > 0 && !/[A-Z]/.test(password));
+    setPasswordNoSpecial(
+      password.length > 0 && !/[!@#$%^&*()_\-+=.?]/.test(password)
+    );
   }, [password]);
 
+  // Confirm password match
   useEffect(() => {
     setPasswordMismatch(
       confirmPassword.length > 0 && password !== confirmPassword
     );
   }, [password, confirmPassword]);
 
+  // Register handler
   const handleRegister = async () => {
-    if (usernameExists || passwordTooShort || passwordMismatch) {
+    // Prevent submission if errors exist
+    if (
+      usernameExists ||
+      passwordTooShort ||
+      passwordTooLong ||
+      passwordNoUppercase ||
+      passwordNoSpecial ||
+      passwordMismatch
+    ) {
       alert("Per favore, correggi gli errori prima di creare un account.");
       return;
     }
@@ -52,7 +74,7 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center  text-black">
+    <div className="min-h-screen flex flex-col justify-start items-center text-black">
       <div className="flex flex-col items-center gap-4 w-full max-w-sm">
 
         <img
@@ -61,7 +83,7 @@ function RegisterPage() {
           className="w-45 h-45 object-contain -mb-6"
         />
 
-        {/* Username input */}
+        {/* Username */}
         <input
           type="text"
           value={username}
@@ -69,14 +91,13 @@ function RegisterPage() {
           placeholder="Crea un nome utente"
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-
         {usernameExists && (
           <p className="text-red-600 text-sm -mt-2">
             Questo nome utente esiste già!
           </p>
         )}
 
-        {/* Password input */}
+        {/* Password */}
         <input
           type="password"
           value={password}
@@ -85,9 +106,25 @@ function RegisterPage() {
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
+        {/* Password validation messages */}
         {passwordTooShort && (
           <p className="text-red-600 text-sm -mt-2">
             La password deve avere almeno 6 caratteri!
+          </p>
+        )}
+        {passwordTooLong && (
+          <p className="text-red-600 text-sm -mt-2">
+            La password non può superare 16 caratteri!
+          </p>
+        )}
+        {passwordNoUppercase && (
+          <p className="text-red-600 text-sm -mt-2">
+            La password deve contenere almeno una lettera maiuscola (A–Z)!
+          </p>
+        )}
+        {passwordNoSpecial && (
+          <p className="text-red-600 text-sm -mt-2">
+            La password deve contenere almeno un carattere speciale (!@#$%^&*…)
           </p>
         )}
 
@@ -99,19 +136,21 @@ function RegisterPage() {
           placeholder="Ripeti la password"
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-
         {passwordMismatch && (
           <p className="text-red-600 text-sm -mt-2">
             Le password non coincidono!
           </p>
         )}
 
-        {/* Submit button */}
-        <ActionButton onClick={handleRegister} className="bg-[#f8edd5] hover:bg-[#e7d9ba] px-8 py-3 mt-2">
+        {/* Submit */}
+        <ActionButton
+          onClick={handleRegister}
+          className="bg-[#f8edd5] hover:bg-[#e7d9ba] px-8 py-3 mt-2"
+        >
           Crea Account
         </ActionButton>
 
-        {/* Link back to login */}
+        {/* Back to login */}
         <p className="mt-2 text-sm">
           Hai già un account?{" "}
           <span

@@ -2,6 +2,9 @@ from flask import Blueprint, jsonify, request
 from services.auth_service import authenticate_user, register_user
 from services.user_service import get_user_by_username
 from models import user_to_dict
+import re
+
+PASSWORD_REGEX = r"^(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{6,16}$"
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -35,14 +38,26 @@ def register():
     password = data.get("password")
 
     if not username or not password:
-        return jsonify({"success": False, "message": "Missing username or password"}), 400
+        return jsonify({"success": False, "message": "Nome utente o password mancante"}), 400
 
+    # --- Password validation ---
     if len(password) < 6:
-        return jsonify({"success": False, "message": "Password must be at least 6 characters"}), 400
+        return jsonify({"success": False, "message": "La password deve contenere almeno 6 caratteri"}), 400
 
+    if len(password) > 16:
+        return jsonify({"success": False, "message": "La password non può superare i 16 caratteri"}), 400
+
+    if not re.match(PASSWORD_REGEX, password):
+        return jsonify({
+            "success": False,
+            "message": "La password deve contenere almeno una lettera maiuscola e un carattere speciale"
+        }), 400
+
+    # --- Username already exists? ---
     if get_user_by_username(username):
-        return jsonify({"success": False, "message": "Username already exists"}), 409
+        return jsonify({"success": False, "message": "Il nome utente esiste già"}), 409
 
+    # --- Create new user ---
     new_user = register_user(username, password)
 
     return jsonify({"success": True, "user": user_to_dict(new_user)}), 201
