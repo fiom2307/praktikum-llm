@@ -18,6 +18,10 @@ export default function Header({ onBack }) {
     }
   };
 
+  const handleInventoryClick = () => {
+        navigate("/inventory");
+  };
+
   return (
     <header className="w-full flex justify-between items-start p-6">
 
@@ -27,6 +31,9 @@ export default function Header({ onBack }) {
       {/* Username + Pizza Count */}
       <div className="text-right flex flex-col items-end gap-1">
         <div className="flex items-center gap-2">
+          <ActionButton onClick={handleInventoryClick} className="mr-2">
+              🎒My Backpack
+          </ActionButton>
           <h2 className="text-xl font-bold">{username}</h2>
         </div>
         <p className="text-sm">

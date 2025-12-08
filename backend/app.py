@@ -10,7 +10,18 @@ import models
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, resources={r"/*": {"origins": "*"}})
+
+    CORS(app, resources={r"/*": {
+        "origins": 
+            ["http://localhost:3000", 
+            "http://127.0.0.1:3000",
+            "http://localhost:3001", 
+            "http://127.0.0.1:3001",
+            "http://localhost:3002",
+            "http://127.0.0.1:3002"], # React frontend address
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }})
 
     Base.metadata.create_all(bind=engine)
 

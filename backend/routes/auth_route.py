@@ -20,7 +20,11 @@ def login():
         return jsonify({"exists": True, "user": user_to_dict(user)})
     else:
         return jsonify({"exists": False, "message": "Invalid credentials"}), 401
+    
 
+@auth_routes.route("/logout", methods=["POST"])
+def logout():
+    return jsonify({"success": True, "message": "Logged out"}), 200
     
 @auth_routes.route("/check_username/<string:username>", methods=["GET"])
 def check_username(username):

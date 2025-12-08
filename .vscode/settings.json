@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": false
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "ep-falling-poetry-agmhfpbx-pooler.c-2.eu-central-1.aws.neon.tech",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Praktikum Neon DB",
+            "database": "neondb",
+            "username": "neondb_owner",
+            "password": "npg_ymcBFRYAKb58"
+        }
+    ]
+}

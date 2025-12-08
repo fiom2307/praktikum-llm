@@ -8,6 +8,7 @@ import VocabularyPage from "./pages/VocabularyPage";
 import TextProductionPage from "./pages/TextProductionPage";
 import RegisterPage from "./pages/RegisterPage";
 import CityMenuPage from "./pages/CityMenuPage";
+import InventoryPage from "./pages/InventoryPage";
 
 
 // check token
@@ -87,6 +88,12 @@ function App() {
            <ProtectedRoute>
             <TextProductionPage />
            </ProtectedRoute>
+        } />
+
+        <Route path="/inventory" element={
+          <ProtectedRoute>
+            <InventoryPage />
+          </ProtectedRoute>
         } />
         
       </Routes>

@@ -1,0 +1,81 @@
+from models.shop_history_model import ShopHistoryModel
+from database import SessionLocal
+from sqlalchemy.exc import SQLAlchemyError
+from models.user_model import User
+from data.shop_items import SHOP_ITEMS as ITEMS_LIST
+
+SHOP_ITEMS_DICT = {item["id"]: item for item in ITEMS_LIST}
+
+def purchase_item(username, item_id, item_cost):
+    db = SessionLocal()
+    try:
+
+        item = SHOP_ITEMS_DICT.get(item_id) 
+        
+        if not item:
+            return None, "Item not found."
+        
+        if item['cost'] != item_cost:
+            return None, f"Price mismatch. Server price is {item['cost']}."
+            
+        user = db.query(User).filter(User.username == username).first()
+        if not user:
+            return None, "User not found."
+            
+        if user.pizza_count < item_cost:
+            return None, f"Insufficient pizza count. You have {user.pizza_count}, need {item_cost}."
+            
+        user.pizza_count -= item_cost
+        
+        new_purchase = ShopHistoryModel(
+            user_id=user.id,
+            item_id=item_id,
+            item_name=item['name'], 
+            item_cost=item_cost
+        )
+        db.add(new_purchase)
+        
+        db.commit()
+        
+        return user.pizza_count, None
+        
+    except SQLAlchemyError as e:
+        db.rollback()
+        print(f"Database error: {e}")
+        return None, "Database error occurred."
+    except Exception as e:
+        db.rollback()
+        print(f"Error: {e}")
+        return None, "An internal error occurred."
+    finally:
+        db.close()
+
+def get_user_inventory(username):
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.username == username).first()
+        if not user:
+            return []
+
+        inventory_records = db.query(ShopHistoryModel).filter(
+            ShopHistoryModel.user_id == user.id
+        ).order_by(ShopHistoryModel.purchased_at.desc()).all()
+        
+        inventory = []
+        for r in inventory_records:
+            item_info = SHOP_ITEMS_DICT.get(r.item_id)
+            emoji = item_info['emoji'] if item_info else "📦"
+            
+            inventory.append({
+                "id": r.id, 
+                "item_id": r.item_id, 
+                "item_name": r.item_name,
+                "emoji": emoji,
+                "purchased_at": r.purchased_at.isoformat() 
+            })
+        
+        return inventory
+    finally:
+        db.close()
+
+    

@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, func
+from sqlalchemy.orm import relationship
 from database import Base
 
 
@@ -11,6 +12,7 @@ class User(Base):
     user_group = Column(String)
     pizza_count = Column(Integer, default=0)
     created_at = Column(TIMESTAMP, server_default=func.now())
+    inventory = relationship("ShopHistoryModel", back_populates="user")
 
 
 def user_to_dict(user):
