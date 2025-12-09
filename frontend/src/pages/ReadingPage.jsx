@@ -22,16 +22,22 @@ function ReadingPage() {
     // 
     const location = useLocation();
     const fromCity = location.state?.fromCity;
+    const fromMode = location.state?.fromMode;
 
     // 
     const handleBack = () => {
-        if (fromCity) {
-            // 
-            navigate(`/city/${fromCity}`);
-        } else {
-            // 
-            navigate("/");
+        if (fromMode === "free") {
+            navigate("/free");
+            return;
         }
+
+  
+        if (fromCity) {
+            navigate(`/city/${fromCity}`);
+            return;
+        }
+
+        navigate("/");
     };
 
 

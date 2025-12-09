@@ -64,7 +64,7 @@ export default function Header({ onBack }) {
       {/* Right side */}
       <div className="flex items-center gap-6 text-lg">
         {/* Pizza Count */}
-        <span className="">Pizze: {pizzaCount}</span>
+        <span className="">Pizze: 🍕{pizzaCount}</span>
 
         <div className="h-4 w-[2px] bg-white/60"></div>
 

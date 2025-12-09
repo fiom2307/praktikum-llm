@@ -1,88 +1,68 @@
 import { useNavigate } from "react-router-dom";
-import italyMap from "../assets/italy.png";
 import Header from "../components/Header";
 
+// Görselleri ekliyoruz
+import italyImg from "../assets/italy.png";
+import helloImg from "../assets/hello.png";
 
-function MainPage() {  
+function MainPage() {
   const navigate = useNavigate();
 
-  const MapNode = ({ top, left, number, city }) => (
-    <div
-      className="absolute group z-10 cursor-pointer"
-      style={{ top: top, left: left, transform: 'translate(-50%, -100%)' }}
-      onClick={() => navigate(`/city/${city}`, { state: { initialEntry: true } })}
-    >
-      {/* rotate-45 + rounded-br-none water drop shaped */}
-      <div className="relative w-12 h-12 bg-red-500 border-4 border-white shadow-xl rounded-full rounded-br-none transform rotate-45 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-2 group-hover:bg-red-600 flex items-center justify-center">
-        
-        <span className="transform -rotate-45 text-white font-bold text-xl">
-          {number}
-        </span>
-
-      </div>
-
-      <div className="absolute -bottom-2 left-1/2 w-8 h-2 bg-black/30 blur-sm rounded-full transform -translate-x-1/2" />
-
-      {/* show city label */}
-      <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-gray-900 text-white text-sm px-3 py-1 rounded-lg whitespace-nowrap shadow-md pointer-events-none transition-opacity">
-        {city.charAt(0).toUpperCase() + city.slice(1)}
-        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
-      </div>
-    </div>
-  );
-
   return (
-    <div className="min-h-screen flex flex-col items-center  text-black overflow-hidden">
-      
-      {/* Header */}
+    <div className="min-h-screen flex flex-col text-black">
       <Header />
 
-      {/* Main Content Area */}
-      <main className="flex flex-col items-center justify-center w-full flex-grow relative pb-10">
-        
-        {/*  Map Container */}
-       
-        <div className="relative w-full max-w-4xl flex justify-center">
-          
-          <img 
-            src={italyMap} 
-            alt="Map of Italy" 
-            className="max-h-[70vh] w-auto object-contain drop-shadow-2xl" 
+      <main className="flex-1 flex flex-col lg:flex-row items-stretch justify-center gap-8 px-6 lg:px-16 py-10">
+
+        {/* STORY MODE CARD */}
+        <div
+          onClick={() => navigate("/story")}
+          className="flex-1 bg-[#faf3e0] rounded-3xl shadow-lg p-8 flex flex-col items-center cursor-pointer transition-all hover:scale-[1.01] hover:shadow-2xl"
+        >
+          <h2 className="text-3xl font-extrabold mb-3">Modalità storia</h2>
+
+          <img
+            src={italyImg}
+            alt="Italy Map"
+            className="w-80 h-auto mt-12 mb-12 drop-shadow-lg"
           />
 
-          {/* 📍 Node 1: Torino */}
-          <MapNode 
-            top="27%"   
-            left="32%" 
-            number="1" 
-            city="torino"
-          />
+          <p className="text-lg text-gray-700 text-center max-w-md">
+            Parti dal nord e viaggia città per città. 
+            Completa le attività per sbloccare la prossima città.
+          </p>
 
-          {/* 📍 Node 2: Venezia  */}
-          <MapNode 
-            top="24%" 
-            left="48%" 
-            number="2" 
-            city="venezia"
-          />
-
-          {/* 📍 Node 3: Roma */}
-          <MapNode 
-            top="55%" 
-            left="51%" 
-            number="3" 
-            city="roma"
-          />
-          
+          <p className="mt-8 text-sm text-gray-500 italic">
+            Clicca sulla scheda per iniziare il viaggio.
+          </p>
         </div>
-        
-        <p className="mt-4 text-gray-600 italic">Seleziona una città per iniziare (select a city to start)</p>
-      </main>
 
+        {/* FREE MODE CARD */}
+        <div
+          onClick={() => navigate("/free")}
+          className="flex-1 bg-[#faf3e0] rounded-3xl shadow-lg p-8 flex flex-col items-center cursor-pointer transition-all hover:scale-[1.01] hover:shadow-2xl"
+        >
+          <h2 className="text-3xl font-extrabold mb-3">Modalità libera</h2>
+
+          <img
+            src={helloImg}
+            alt="Free Mode"
+            className="w-64 h-auto mt-2 mb-6 drop-shadow-lg"
+          />
+
+          <p className="text-lg text-gray-700 text-center max-w-md">
+            Usa liberamente lettura, vocabolario e 
+            produzione scritta senza seguire l&apos;ordine delle città.
+          </p>
+
+          <p className="mt-8 text-sm text-gray-500 italic">
+            Clicca sulla scheda per esplorare liberamente.
+          </p>
+        </div>
+
+      </main>
     </div>
   );
-
-
 }
 
 export default MainPage;
