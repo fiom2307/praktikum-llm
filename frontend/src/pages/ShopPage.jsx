@@ -1,7 +1,15 @@
 import Header from "../components/Header";
 import { useUser } from "../context/UserContext"; 
-import { buyItem } from "../api/shopApi"; 
-import { useState } from "react";
+import { buyItem, getInventory } from "../api/shopApi"; 
+import { useState, useEffect } from "react";
+
+//all images
+import darthVaderImg from "../assets/darthVader.png"; 
+import gladiatorImg from "../assets/gladiator.png";
+import chefImg from "../assets/chef.png";          
+import godfatherImg from "../assets/godfather.png"; 
+import maradonaImg from "../assets/maradona.png";   
+import ferrariImg from "../assets/ferrari.png";     
 
 
 function ShopPage() {
@@ -11,13 +19,37 @@ function ShopPage() {
     const [isBuying, setIsBuying] = useState(false);
 
     const items = [
-        { id: 1, emoji: "🍕", name: "Pizza Slice", cost: 0 },
-        { id: 2, emoji: "☕", name: "Coffee Cup", cost: 2 },
-        { id: 3, emoji: "🎁", name: "Sticker Pack", cost: 3 },
-        { id: 4, emoji: "📚", name: "Grammar Book", cost: 4 },
-        { id: 5, emoji: "🎧", name: "Music Pass", cost: 5 },
-        { id: 6, emoji: "💡", name: "Hint Token", cost: 6 },
+        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 1, consumable: false, img: darthVaderImg },
+        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 1, consumable: false, img: gladiatorImg },
+        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 1, consumable: false, img: chefImg },
+        { id: 4, emoji: "🌹", name: "The Godfather", cost: 1, consumable: false, img: godfatherImg },
+        { id: 5, emoji: "⚽", name: "Maradona", cost: 2, consumable: false, img: maradonaImg },
+        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 1, consumable: false, img: ferrariImg },
+        // more further items
     ];
+
+    useEffect(() => {
+        const fetchOwnedItems = async () => {
+            const currentUsername = localStorage.getItem("username");
+            if (!currentUsername) return;
+
+            try {
+                const inventory = await getInventory(currentUsername);
+                
+                const ownedMap = {};
+                inventory.forEach(item => {
+                    ownedMap[item.item_id] = true;
+                });
+                
+                setBoughtItems(ownedMap);
+                
+            } catch (err) {
+                console.error("Failed to load inventory in shop:", err);
+            }
+        };
+
+        fetchOwnedItems();
+    }, []);
 
     const handleBuy = async (item, cost) => {
 
@@ -57,7 +89,7 @@ function ShopPage() {
 
     
     return (
-        <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+        <div className="min-h-screen flex flex-col items-center  text-black">
             {/* Header */}
             <Header />
 
@@ -78,7 +110,17 @@ function ShopPage() {
                                 isBought ? 'opacity-70 border-2 border-green-500' : ''
                             }`}
                         >
-                            <span className="text-6xl mb-4">{item.emoji}</span>
+
+                            {item.img ? (
+                                <img 
+                                    src={item.img} 
+                                    alt={item.name} 
+                                    className="h-24 w-auto object-contain mb-4 drop-shadow-md"
+                                />
+                            ) : (
+                                <span className="text-6xl mb-4">{item.emoji}</span>
+                            )}
+
                             <h3 className="text-xl font-bold mb-6">{item.name}</h3>
                             
                             <button 

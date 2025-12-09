@@ -1,12 +1,13 @@
 import { useState } from "react";
-import mascotImg from "../assets/hello.png";
+import defaultMascotImg from "../assets/hello.png";
+
 
 /**
  * @param {Array} dialogues - DialogueArray ["Ciao!", "...", "..."]
  * @param {Function} onComplete - DialogueEndFunction
  */
 
-function MascotOverlay({ dialogues, onComplete }) {
+function MascotOverlay({ dialogues, onComplete , currentImage}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
 
@@ -34,12 +35,12 @@ function MascotOverlay({ dialogues, onComplete }) {
         
         {/* mascot image */}
         <img 
-          src={mascotImg} 
+          src={currentImage || defaultMascotImg} 
           alt="Mascot" 
           className="w-1/3 md:w-1/4 object-contain drop-shadow-2xl animate-bounce-slow"
           style={{ maxHeight: "60vh" }} 
         />
-
+        
         {/* Dialogue Box */}
         <div className="relative bg-white border-4 border-blue-500 rounded-3xl p-6 mb-20 ml-[-20px] shadow-xl w-full max-w-lg min-h-[150px] flex flex-col justify-between animate-fade-in-up">
           

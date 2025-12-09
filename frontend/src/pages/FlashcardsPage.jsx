@@ -15,11 +15,11 @@ function FlashcardsPage() {
     }, [username]);
 
     return (
-        <div className="min-h-screen flex flex-col items-center bg-blue-200 text-black">
+        <div className="min-h-screen flex flex-col items-center text-black">
             {/* Header */}
             <Header />
 
-            <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
+            <h1 className="text-4xl font-extrabold mb-8 drop-shadow-md text-center">
                 Flashcard
             </h1>
 

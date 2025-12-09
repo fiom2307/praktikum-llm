@@ -21,6 +21,15 @@ def purchase_item(username, item_id, item_cost):
         user = db.query(User).filter(User.username == username).first()
         if not user:
             return None, "User not found."
+        
+        if item.get("is_costume") or item_id in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]: 
+            existing_item = db.query(ShopHistoryModel).filter(
+                ShopHistoryModel.user_id == user.id,
+                ShopHistoryModel.item_id == item_id
+            ).first()
+
+            if existing_item:
+                return None, "Hai già acquistato questo oggetto! (You already own this item)"
             
         if user.pizza_count < item_cost:
             return None, f"Insufficient pizza count. You have {user.pizza_count}, need {item_cost}."

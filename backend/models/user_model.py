@@ -12,6 +12,7 @@ class User(Base):
     user_group = Column(String)
     pizza_count = Column(Integer, default=0)
     created_at = Column(TIMESTAMP, server_default=func.now())
+    current_costume_id = Column(Integer, default=0, nullable=False)
     inventory = relationship("ShopHistoryModel", back_populates="user")
 
 
@@ -23,5 +24,6 @@ def user_to_dict(user):
         "username": user.username,
         "user_group": user.user_group,
         "pizza_count": user.pizza_count,
+        "current_costume_id": user.current_costume_id,
         "created_at": user.created_at.isoformat() if user.created_at else None,
     }

@@ -1,0 +1,1 @@
+SELECT * from shop_history

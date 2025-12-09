@@ -15,12 +15,13 @@ function LoginPage() {
     const handleLogin = async () => {
         const data = await loginUser(username, password);
 
-        if (data.exists) {
+        if (data && data.exists) {
+          loginUserContext(data);
+
           localStorage.setItem('userId', data.user.id);
           localStorage.setItem('username', data.user.username);
 
           localStorage.setItem('authToken', 'logged_in_placeholder');
-          loginUserContext(data.user);
           
           navigate("/");
         } else {
@@ -29,7 +30,7 @@ function LoginPage() {
     };
     
     return (
-    <div className="min-h-screen flex flex-col justify-start items-center bg-blue-200 text-black">
+    <div className="min-h-screen flex flex-col justify-start items-center  text-black">
       <div className="flex flex-col items-center gap-4 w-full max-w-sm">
         <img
           src={pisaImg}
@@ -53,7 +54,7 @@ function LoginPage() {
           className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        <ActionButton onClick={handleLogin} className="px-8 py-3">Accedi</ActionButton>
+        <ActionButton onClick={handleLogin} className="bg-[#f8edd5] hover:bg-[#e7d9ba] px-8 py-3">Accedi</ActionButton>
 
         {/* register */}
         <p className="mt-2 text-sm">
