@@ -9,6 +9,8 @@ import TextProductionPage from "./pages/TextProductionPage";
 import RegisterPage from "./pages/RegisterPage";
 import CityMenuPage from "./pages/CityMenuPage";
 import InventoryPage from "./pages/InventoryPage";
+import StoryPage from "./pages/StoryPage";
+import FreeModePage from "./pages/FreeModePage";
 
 
 // check token
@@ -51,6 +53,18 @@ function App() {
         <Route path="/" element={
           <ProtectedRoute>
             <MainPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/story" element={
+          <ProtectedRoute>
+            <StoryPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/free" element={
+          <ProtectedRoute>
+            <FreeModePage />
           </ProtectedRoute>
         } />
 

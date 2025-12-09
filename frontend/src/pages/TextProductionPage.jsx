@@ -14,14 +14,21 @@ function TextProductionPage() {
     
     const location = useLocation();
     const fromCity = location.state?.fromCity; 
-
+    const fromMode = location.state?.fromMode;
     
     const handleBack = () => {
+        if (fromMode === "free") {
+            navigate("/free");
+            return;
+        }
+
+  
         if (fromCity) {
             navigate(`/city/${fromCity}`);
-        } else {
-            navigate("/");
+            return;
         }
+
+        navigate("/");
     };
 
     const handleCorrect = async () => {
