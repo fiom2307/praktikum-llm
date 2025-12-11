@@ -126,20 +126,21 @@ function CityMenuPage() {
 
       {/* City title and info */}
       <div className="flex flex-col items-center mb-6">
-        <h1 className="text-5xl font-extrabold drop-shadow-md text-center capitalize">
+        <h1 className="text-3xl sm:text-5xl font-extrabold drop-shadow-md text-center capitalize">
           📍 {currentCity.title}
         </h1>
-        <p className="text-xl mt-2 font-semibold text-gray-700">
+        <p className="text-lg sm:text-xl mt-2 font-semibold text-gray-700">
           {currentCity.level}
         </p>
-        <p className="text-lg mt-4 max-w-2xl text-center px-4">
+        <p className="text-base sm:text-lg mt-4 max-w-2xl text-center px-4">
           Benvenuto a {currentCity.title}! Scegli la tua sfida.
         </p>
       </div>
 
       {/* Reading / Vocabulary / Writing buttons */}
-      <div className="px-32">
-        <div className="flex flex-row gap-4 px-10 justify-center grid-cols-3">
+      <div className="w-full flex justify-center">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center px-4 sm:px-10 lg:px-32">
           <button
             onClick={() =>
               navigate("/reading", { state: { fromCity: cityName } })
@@ -173,6 +174,7 @@ function CityMenuPage() {
       </div>
     </div>
   );
+
 }
 
 export default CityMenuPage;

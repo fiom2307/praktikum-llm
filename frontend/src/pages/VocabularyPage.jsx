@@ -172,21 +172,19 @@ function VocabularyPage() {
     return (
         <div className="min-h-screen flex flex-col items-center text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
-            
             {/* Header */}
             <Header onBack={handleBack} />
 
-            <main className="w-full max-w-6xl px-60 relative pr-[280px] overflow-hidden">
-                <h1 className="text-4xl font-extrabold my-10 drop-shadow-md">
+            {/* Main container */}
+            <main className="items-center justify-center flex flex-col w-full max-w-6xl px-4 sm:px-10 lg:px-32 xl:px-60 relative lg:pr-[280px] overflow-visible">
+                <h1 className="text-3xl sm:text-4xl font-extrabold my-10 drop-shadow-md text-left">
                     Vocabolario
                 </h1>
 
-                
-                {/* Main */}
+                {/* Main content */}
                 <div className="flex flex-col items-start gap-2">
-                    
-                    <ActionButton 
-                        className="bg-[#3399bd] hover:bg-[#2992b7] text-lg mb-6" 
+                    <ActionButton
+                        className="bg-[#3399bd] hover:bg-[#2992b7] text-lg mb-6"
                         onClick={handleGenerateWordAndClues}
                         disabled={!canGenerate}
                     >
@@ -201,29 +199,34 @@ function VocabularyPage() {
                             ))}
                         </ul>
                     </div>
-                    <div className="flex gap-4">
+
+                    {/* Input + Button */}
+                    <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
                         <input
                             type="text"
                             value={answer}
                             onChange={(e) => setAnswer(e.target.value)}
                             placeholder="Inserisci la tua risposta"
                             disabled={!word}
-                            className="border border-gray-400 rounded-xl px-8 py-3 text-center focus:outline-none focus:ring-2 focus:ring-[#3399bd]"
+                            className="border border-gray-400 rounded-xl px-8 py-3 text-center focus:outline-none focus:ring-2 focus:ring-[#3399bd] w-full sm:w-auto"
                         />
-                        <ActionButton 
+
+                        <ActionButton
                             onClick={handleCheckWord}
-                            className="bg-[#f8edd5] hover:bg-[#e7d9ba] text-lg z-10"
+                            className="bg-[#f8edd5] hover:bg-[#e7d9ba] text-lg"
                             disabled={!word}
                         >
                             Controlla la risposta
                         </ActionButton>
                     </div>
-                    
+
+                    {/* Attempts */}
                     <div className="flex mt-4 gap-2 text-xl">
-                        <p className="font-bold">Tentativi: </p>
+                        <p className="font-bold">Tentativi:</p>
                         <p>{attempts}</p>
                     </div>
 
+                    {/* Flashcard button */}
                     {completed && !flashcardSaved && (
                         <ActionButton
                             onClick={handleSaveFlashcard}
@@ -233,11 +236,9 @@ function VocabularyPage() {
                         </ActionButton>
                     )}
                 </div>
-                
             </main>
 
-            {/* Mascot + bubble */}
-            <div className="absolute right-80 top-48 w-[320px] h-[420px]">
+            <div className="absolute hidden lg:block right-60 top-48 w-[320px] h-[420px]">
                 {msg && (
                     <div className="absolute top-10 right-44 bg-white shadow-lg rounded-3xl px-5 py-3 text-lg leading-relaxed w-64 z-10 relative">
                         {msg}
@@ -248,6 +249,22 @@ function VocabularyPage() {
                     src={wolf}
                     alt="Mascotte"
                     className="w-[300px] absolute left-6 bottom-0 z-0"
+                    style={{ transform: "scaleX(-1)" }}
+                />
+            </div>
+
+            {/* Mascot for mobile (smaller, centered) */}
+            <div className="lg:hidden mt-10 flex flex-col items-center">
+                {msg && (
+                    <div className="bg-white shadow-lg rounded-3xl px-5 py-3 text-lg leading-relaxed w-64 relative mb-4 text-center">
+                        {msg}
+                    </div>
+                )}
+
+                <img
+                    src={wolf}
+                    alt="Mascotte"
+                    className="w-48"
                     style={{ transform: "scaleX(-1)" }}
                 />
             </div>

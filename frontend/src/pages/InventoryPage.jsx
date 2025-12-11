@@ -67,7 +67,7 @@ function InventoryPage() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center bg-blue-100 text-black">
+        <div className="min-h-screen flex flex-col items-center text-black">
             <Header />
 
             <h1 className="text-4xl font-extrabold mt-8 mb-8 drop-shadow-md text-center">
@@ -89,7 +89,7 @@ function InventoryPage() {
                     
                     {/* return to default */}
                     <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                         <div className={`bg-white rounded-2xl shadow-md p-6 flex flex-col gap-4 ${currentCostumeId === 0 ? 'border-2 border-green-500' : ''}`}>
+                        <div className={`bg-white rounded-2xl shadow-md p-6 flex flex-col gap-4 ${currentCostumeId === 0 ? 'border-2 border-green-500' : ''}`}>
                             <div className="flex items-center gap-5">
                                 {/* show default image */}
                                 <img src={defaultMascotImg} alt="Default" className="w-20 h-20 object-contain bg-gray-100 rounded-full p-2"/>
@@ -110,7 +110,7 @@ function InventoryPage() {
                             >
                                 {currentCostumeId === 0 ? "Attuale (Current)" : "Rimuovi Costume (Unequip)"}
                             </button>
-                         </div>
+                        </div>
                     </div>
 
                     {/* item list */}

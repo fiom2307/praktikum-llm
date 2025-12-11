@@ -19,19 +19,18 @@ function ReadingPage() {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-    // 
+    //
     const location = useLocation();
     const fromCity = location.state?.fromCity;
     const fromMode = location.state?.fromMode;
 
-    // 
+    //
     const handleBack = () => {
         if (fromMode === "free") {
             navigate("/free");
             return;
         }
 
-  
         if (fromCity) {
             navigate(`/city/${fromCity}`);
             return;
@@ -59,70 +58,97 @@ function ReadingPage() {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
         }
-        
+
         runAction(
-        async () => {
-            const result = await correctAnswers(userText, generatedText);
+            async () => {
+                const result = await correctAnswers(userText, generatedText);
 
-            setCorrectedText(result.corrected_answers);
-            
-            const res = await incrementPizzaCount(result.pizzas);
-            updatePizzaCount(res.pizzaCount);
+                setCorrectedText(result.corrected_answers);
+                
+                const res = await incrementPizzaCount(result.pizzas);
+                updatePizzaCount(res.pizzaCount);
 
-            setCompleted(true);
+                setCompleted(true);
 
-            return result;
-        },
-        (result) => {setCorrectedText(result.corrected_answers)},
-        (msg) => setCorrectedText(msg)
+                return result;
+            },
+            (result) => setCorrectedText(result.corrected_answers),
+            (msg) => setCorrectedText(msg)
         );
-    }
+    };
 
     const handleReadingText = async () => {
         if (!username) return alert("Per favore, accedi per inviare le risposte.");
         setCompleted(false);
         runAction(
-        () => createReadingText(),
-        (result) => setGeneratedText(result),
-        (msg) => setGeneratedText(msg)
+            () => createReadingText(),
+            (result) => setGeneratedText(result),
+            (msg) => setGeneratedText(msg)
         );
-    }
-    
+    };
+
+
     return (
-        <div className="min-h-screen flex flex-col items-center  text-black">
+        <div className="min-h-screen flex flex-col items-center text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
 
             {/* Header */}
             <Header onBack={handleBack} />
 
-            <h1 className="text-4xl font-extrabold mt-0 mb-8 drop-shadow-md text-center">
+            <h1 className="text-3xl sm:text-4xl font-extrabold drop-shadow-md text-center mb-6">
                 📚 Lettura
             </h1>
 
             {/* Main */}
-            <div>
-                <h3 className="font-semibold">Esercizio</h3>
-                <div className="prose mt-0.5 bg-white rounded-xl shadow-sm p-5 w-[40rem] h-[12rem] overflow-x-auto leading-relaxed">
+            <div className="flex items-center justify-center flex-col mb-8 w-full">
+                <h3 className="font-semibold mb-2">Esercizio</h3>
+
+                <div className="
+                    prose bg-white rounded-xl shadow-sm p-5 
+                    w-full max-w-2xl 
+                    h-60 sm:h-52 
+                    overflow-y-auto leading-relaxed mb-3
+                ">
                     <ReactMarkdown>{generatedText}</ReactMarkdown>
                 </div>
-                <br />
-                <ActionButton onClick={handleReadingText} className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Genera</ActionButton>
+
+                <ActionButton 
+                    onClick={handleReadingText} 
+                    className="bg-[#f8edd5] hover:bg-[#e7d9ba]"
+                >
+                    Genera
+                </ActionButton>
             </div>
 
-            <div className="flex gap-20">
-                <div>
-                    <h3>Il tuo testo</h3>
+            <div className="
+                flex flex-col lg:flex-row 
+                gap-10 lg:gap-20 
+                w-full max-w-5xl 
+                items-center lg:items-start
+            ">
+                {/* User text */}
+                <div className="flex items-center justify-center flex-col w-full max-w-md">
+                    <h3 className="font-semibold">Il tuo testo</h3>
                     <textarea
                         value={userText}
                         onChange={(e) => setUserText(e.target.value)}
-                        className="mt-0.5 resize-none rounded-xl shadow-sm p-3 w-96 h-56 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="
+                            mt-1 mb-3 resize-none rounded-xl shadow-sm p-3 
+                            w-full h-56 
+                            focus:outline-none focus:ring-2 focus:ring-blue-400
+                        "
                     />
-                    <br />
-                    <ActionButton onClick={handleCorrect} className="bg-[#f8edd5] hover:bg-[#e7d9ba]" >Correggi</ActionButton>
+                    <ActionButton onClick={handleCorrect}className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Correggi</ActionButton>
                 </div>
-                <div>
+
+                {/* AI correction */}
+                <div className="flex flex-col items-center w-full max-w-md">
                     <h3 className="font-semibold">Corretto dall’IA</h3>
-                    <div className="prose mt-0.5 bg-white rounded-xl shadow-sm p-3 w-96 h-56 overflow-y-auto leading-relaxed">
+
+                    <div className="
+                        prose bg-white rounded-xl shadow-sm p-3 mt-1
+                        w-full h-56 overflow-y-auto leading-relaxed
+                    ">
                         <ReactMarkdown>{correctedText}</ReactMarkdown>
                     </div>
                 </div>
