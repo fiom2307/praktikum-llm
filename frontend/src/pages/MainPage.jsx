@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import { useUser } from "../context/UserContext";
 
 // Görselleri ekliyoruz
 import italyImg from "../assets/italy.png";
-import helloImg from "../assets/hello.png";
+import Mascot from "../components/MascotOutfit";
 
 function MainPage() {
   const navigate = useNavigate();
+  const { currentCostumeId } = useUser();
+  
 
   return (
     <div className="min-h-screen flex flex-col text-black">
@@ -44,11 +47,7 @@ function MainPage() {
         >
           <h2 className="text-3xl font-extrabold mb-3">Modalità libera</h2>
 
-          <img
-            src={helloImg}
-            alt="Free Mode"
-            className="w-64 h-auto mt-2 mb-6 drop-shadow-lg"
-          />
+          <Mascot costumeId={currentCostumeId} alt="Free Mode" className="w-64 h-auto mt-2 mb-6 drop-shadow-lg" ></Mascot>
 
           <p className="text-lg text-gray-700 text-center max-w-md">
             Usa liberamente lettura, vocabolario e 

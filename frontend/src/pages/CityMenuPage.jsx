@@ -5,16 +5,7 @@ import MascotOverlay from "../components/MascotOverlay";
 import { useUser } from "../context/UserContext";
 import vocImg from "../assets/vocabulary.png";
 import readingImg from "../assets/reading.png";
-import writingImg from "../assets/writing.png";
-
-// mascot outfits
-import defaultMascot from "../assets/hello.png"; 
-import darthVaderImg from "../assets/darthVader.png";
-import gladiatorImg from "../assets/gladiator.png";
-import chefImg from "../assets/chef.png";          
-import godfatherImg from "../assets/godfather.png"; 
-import maradonaImg from "../assets/maradona.png";   
-import ferrariImg from "../assets/ferrari.png";     
+import writingImg from "../assets/writing.png";  
 
 function CityMenuPage() {
   const navigate = useNavigate();
@@ -25,18 +16,6 @@ function CityMenuPage() {
 
   const isInitialEntry = location.state?.initialEntry === true;
   const [showMascot, setShowMascot] = useState(isInitialEntry);
-
-  const COSTUME_MAP = {
-    0: defaultMascot,  // default: hello
-    1: darthVaderImg,  // ID 1: Darth Vader
-    2: gladiatorImg,    // ID 2: Gladiator
-    3: chefImg,      // ID 3 -> Chef
-    4: godfatherImg, // ID 4 -> Godfather
-    5: maradonaImg,  // ID 5 -> Maradona
-    6: ferrariImg    // ID 6 -> Ferrari
-  };
-
-  const currentMascotImg = COSTUME_MAP[currentCostumeId] || defaultMascot;
 
   // Dialogue of each cities
   // Dialogue of each city (simple Italian + small English hint)
@@ -117,7 +96,7 @@ function CityMenuPage() {
         <MascotOverlay 
           dialogues={currentDialogue} 
           onComplete={() => setShowMascot(false)} 
-          currentImage={currentMascotImg}
+          currentImage={currentCostumeId}
         />
       )}
 

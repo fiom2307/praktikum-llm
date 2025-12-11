@@ -7,7 +7,7 @@ import { saveFlashcard, getFlashcards } from "../api/flashcardApi";
 import { generateWordAndClues, checkWord, getLastVocabularyEntry } from "../api/vocabularyApi";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import wolf from "../assets/hello.png";
+import Mascot from "../components/MascotOutfit";
 
 function VocabularyPage() {
     const { updatePizzaCount } = useUser();
@@ -28,6 +28,7 @@ function VocabularyPage() {
     const location = useLocation();
     const fromCity = location.state?.fromCity;
     const fromMode = location.state?.fromMode;
+    const { currentCostumeId } = useUser();
     
     const handleBack = () => {
         if (fromMode === "free") {
@@ -35,7 +36,6 @@ function VocabularyPage() {
             return;
         }
 
-  
         if (fromCity) {
             navigate(`/city/${fromCity}`);
             return;
@@ -245,12 +245,8 @@ function VocabularyPage() {
                         <div className="absolute -right-2 top-6 w-0 h-0 border-l-8 border-l-white border-y-8 border-y-transparent"></div>
                     </div>
                 )}
-                <img
-                    src={wolf}
-                    alt="Mascotte"
-                    className="w-[300px] absolute left-6 bottom-0 z-0"
-                    style={{ transform: "scaleX(-1)" }}
-                />
+
+                <Mascot costumeId={currentCostumeId} alt="Mascotte" className="w-[300px] absolute left-6 bottom-0 z-0" style={{ transform: "scaleX(-1)" }}></Mascot>
             </div>
 
             {/* Mascot for mobile (smaller, centered) */}
@@ -261,12 +257,7 @@ function VocabularyPage() {
                     </div>
                 )}
 
-                <img
-                    src={wolf}
-                    alt="Mascotte"
-                    className="w-48"
-                    style={{ transform: "scaleX(-1)" }}
-                />
+                <Mascot costumeId={currentCostumeId} alt="Mascotte" className="w-48" style={{ transform: "scaleX(-1)" }}></Mascot>
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import defaultMascotImg from "../assets/hello.png";
+import Mascot from "../components/MascotOutfit";
 
 
 /**
@@ -34,12 +34,7 @@ function MascotOverlay({ dialogues, onComplete , currentImage}) {
       <div className={`relative flex items-end w-full max-w-5xl px-4 transition-transform duration-500 ${isExiting ? "translate-y-full" : "translate-y-0"}`}>
         
         {/* mascot image */}
-        <img 
-          src={currentImage || defaultMascotImg} 
-          alt="Mascot" 
-          className="w-1/3 md:w-1/4 object-contain drop-shadow-2xl animate-bounce-slow"
-          style={{ maxHeight: "60vh" }} 
-        />
+        <Mascot costumeId={currentImage} className="w-1/3 md:w-1/4 object-contain drop-shadow-2xl animate-bounce-slow" style={{ maxHeight: "60vh" }} ></Mascot>
         
         {/* Dialogue Box */}
         <div className="relative bg-white border-4 border-blue-500 rounded-3xl p-6 mb-20 ml-[-20px] shadow-xl w-full max-w-lg min-h-[150px] flex flex-col justify-between animate-fade-in-up">

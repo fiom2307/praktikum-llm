@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { getInventory } from '../api/shopApi';
 import { useUser } from '../context/UserContext';
 
-import defaultMascotImg from "../assets/hello.png";
+import defaultMascotImg from "../assets/outfits/hello.png";
 // all costumes
-import darthVaderImg from "../assets/darthVader.png";
-import gladiatorImg from "../assets/gladiator.png";
-import chefImg from "../assets/chef.png";          
-import godfatherImg from "../assets/godfather.png"; 
-import maradonaImg from "../assets/maradona.png";   
-import ferrariImg from "../assets/ferrari.png";     
+import darthVaderImg from "../assets/outfits/darthVader.png";
+import gladiatorImg from "../assets/outfits/gladiator.png";
+import chefImg from "../assets/outfits/chef.png";          
+import godfatherImg from "../assets/outfits/godfather.png"; 
+import maradonaImg from "../assets/outfits/maradona.png";   
+import ferrariImg from "../assets/outfits/ferrari.png";     
 
 function InventoryPage() {
     const { currentCostumeId, equipCostumeContext } = useUser();
