@@ -3,15 +3,7 @@ import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { getInventory } from '../api/shopApi';
 import { useUser } from '../context/UserContext';
-
-import defaultMascotImg from "../assets/outfits/hello.png";
-// all costumes
-import darthVaderImg from "../assets/outfits/darthVader.png";
-import gladiatorImg from "../assets/outfits/gladiator.png";
-import chefImg from "../assets/outfits/chef.png";          
-import godfatherImg from "../assets/outfits/godfather.png"; 
-import maradonaImg from "../assets/outfits/maradona.png";   
-import ferrariImg from "../assets/outfits/ferrari.png";     
+import Mascot from '../components/MascotOutfit';
 
 function InventoryPage() {
     const { currentCostumeId, equipCostumeContext } = useUser();
@@ -19,15 +11,6 @@ function InventoryPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const COSTUME_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-
-    const COSTUME_IMG_MAP = {
-        1: darthVaderImg,
-        2: gladiatorImg,
-        3: chefImg,
-        4: godfatherImg,
-        5: maradonaImg,
-        6: ferrariImg
-    };
 
     useEffect(() => {
         const fetchInventory = async () => {
@@ -92,7 +75,7 @@ function InventoryPage() {
                         <div className={`bg-white rounded-2xl shadow-md p-6 flex flex-col gap-4 ${currentCostumeId === 0 ? 'border-2 border-green-500' : ''}`}>
                             <div className="flex items-center gap-5">
                                 {/* show default image */}
-                                <img src={defaultMascotImg} alt="Default" className="w-20 h-20 object-contain bg-gray-100 rounded-full p-2"/>
+                                <Mascot alt="Default" className="w-20 h-20 object-contain bg-gray-100 rounded-full p-2"></Mascot>
                                 <div>
                                     <h3 className="text-xl font-bold text-gray-800">Default Look</h3>
                                     <p className="text-xs text-gray-500 mt-1">Standard Mascot</p>
@@ -127,7 +110,6 @@ function InventoryPage() {
                                 const isCostume = COSTUME_IDS.includes(item.item_id);
                                 const isEquipped = currentCostumeId === item.item_id;
                                 // 
-                                const itemImg = COSTUME_IMG_MAP[item.item_id];
 
                                 return (
                                     <div 
@@ -136,12 +118,8 @@ function InventoryPage() {
                                     >
                                         <div className="flex items-center gap-5">
                                             
-                                            {itemImg ? (
-                                                <img 
-                                                    src={itemImg} 
-                                                    alt={item.item_name}
-                                                    className="w-20 h-20 object-contain drop-shadow-md bg-gray-50 rounded-lg"
-                                                />
+                                            {item.itemId !== null ? (
+                                                <Mascot costumeId={item.item_id} alt={item.item_name} className="w-20 h-20 object-contain drop-shadow-md bg-gray-50 rounded-lg"></Mascot>
                                             ) : (
                                                 <div className="text-5xl bg-gray-100 p-3 rounded-full">
                                                     {item.emoji || '📦'}

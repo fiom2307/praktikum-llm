@@ -4,12 +4,7 @@ import { buyItem, getInventory } from "../api/shopApi";
 import { useState, useEffect } from "react";
 
 //all images
-import darthVaderImg from "../assets/outfits/darthVader.png"; 
-import gladiatorImg from "../assets/outfits/gladiator.png";
-import chefImg from "../assets/outfits/chef.png";          
-import godfatherImg from "../assets/outfits/godfather.png"; 
-import maradonaImg from "../assets/outfits/maradona.png";   
-import ferrariImg from "../assets/outfits/ferrari.png";     
+import outfits from "../assets/outfits"
 
 
 function ShopPage() {
@@ -19,12 +14,12 @@ function ShopPage() {
     const [isBuying, setIsBuying] = useState(false);
 
     const items = [
-        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 1, consumable: false, img: darthVaderImg },
-        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 1, consumable: false, img: gladiatorImg },
-        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 1, consumable: false, img: chefImg },
-        { id: 4, emoji: "🌹", name: "The Godfather", cost: 1, consumable: false, img: godfatherImg },
-        { id: 5, emoji: "⚽", name: "Maradona", cost: 2, consumable: false, img: maradonaImg },
-        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 1, consumable: false, img: ferrariImg },
+        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 1, consumable: false, img: outfits.darthVader },
+        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 1, consumable: false, img: outfits.gladiator },
+        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 1, consumable: false, img: outfits.chef },
+        { id: 4, emoji: "🌹", name: "The Godfather", cost: 1, consumable: false, img: outfits.godfather },
+        { id: 5, emoji: "⚽", name: "Maradona", cost: 2, consumable: false, img: outfits.maradona },
+        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 1, consumable: false, img: outfits.ferrari },
         // more further items
     ];
 

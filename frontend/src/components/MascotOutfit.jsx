@@ -1,24 +1,23 @@
-// Mascot outfits
-import defaultMascot from "../assets/outfits/hello.png"; 
-import darthVaderImg from "../assets/outfits/darthVader.png";
-import gladiatorImg from "../assets/outfits/gladiator.png";
-import chefImg from "../assets/outfits/chef.png";          
-import godfatherImg from "../assets/outfits/godfather.png"; 
-import maradonaImg from "../assets/outfits/maradona.png";   
-import ferrariImg from "../assets/outfits/ferrari.png";   
+import outfits from "../assets/outfits"
 
 const COSTUME_MAP = {
-    0: defaultMascot,
-    1: darthVaderImg,
-    2: gladiatorImg,
-    3: chefImg,
-    4: godfatherImg,
-    5: maradonaImg,
-    6: ferrariImg
+    0: outfits.hello,
+    1: outfits.darthVader,
+    2: outfits.gladiator,
+    3: outfits.chef,
+    4: outfits.godfather,
+    5: outfits.maradona,
+    6: outfits.ferrari,
+    7: outfits.barista,
+    8: outfits.masked,
+    9: outfits.mario,
+    10: outfits.davinci,
+    11: outfits.biker,
+    12: outfits.juliusCaesar
 };
 
 export default function Mascot({ costumeId = 0, ...props }) {
-    const currentMascotImg = COSTUME_MAP[costumeId] || defaultMascot;
+    const currentMascotImg = COSTUME_MAP[costumeId];
 
     return <img src={currentMascotImg} alt="Mascot" {...props} />;
 }
