@@ -9,5 +9,5 @@ export async function correctText(userText) {
         body: JSON.stringify({ userId: userId, text: userText }),
     });
     const data = await response.json();
-    return data.corrected_text;
+    return data;
 };

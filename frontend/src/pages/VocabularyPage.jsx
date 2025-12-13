@@ -240,13 +240,13 @@ function VocabularyPage() {
 
             <div className="absolute hidden lg:block right-60 top-48 w-[320px] h-[420px]">
                 {msg && (
-                    <div className="absolute top-10 right-44 bg-white shadow-lg rounded-3xl px-5 py-3 text-lg leading-relaxed w-64 z-10 relative">
+                    <div className="absolute top-10 right-36 bg-white shadow-lg rounded-3xl px-5 py-3 text-lg leading-relaxed w-64 z-10 relative">
                         {msg}
                         <div className="absolute -right-2 top-6 w-0 h-0 border-l-8 border-l-white border-y-8 border-y-transparent"></div>
                     </div>
                 )}
 
-                <Mascot costumeId={currentCostumeId} alt="Mascotte" className="w-[300px] absolute left-6 bottom-0 z-0" style={{ transform: "scaleX(-1)" }}></Mascot>
+                <Mascot costumeId={currentCostumeId} alt="Mascotte" className="w-[300px] absolute left-20 bottom-0 z-0" style={{ transform: "scaleX(-1)" }}></Mascot>
             </div>
 
             {/* Mascot for mobile (smaller, centered) */}

@@ -44,13 +44,10 @@ def correct_answers_ai(user_id: int, generated_text: str, user_text: str):
         "Se lo studente dice qualcosa di inappropriato o di scortese, assegnagli un punteggio di -5 e non rispondere."
     )
 
-    
     corrected = generate_from_prompt(prompt)
     
     pizzas = extract_pizzas(corrected)
     
-    print("Pizzas: ", pizzas)
-
     save_reading_history(
         user_id=user_id,
         llm_question=generated_text,

@@ -69,7 +69,6 @@ export function UserProvider({ children }) {
             updatePizzaCount, 
             loginUserContext, 
             username, 
-            loginUserContext, 
             logoutUserContext, 
             currentCostumeId,
             equipCostumeContext

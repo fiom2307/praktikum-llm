@@ -89,7 +89,7 @@ export default function Header({ onBack }) {
               {/* Backpack button */}
               <button
                 className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${location.pathname === "/inventory" ? "text-gray-400 cursor-default pointer-events-none" : ""}`}
-                onClick={() => handleNavigate("/inventory")}
+                onClick={handleInventoryClick}
               >
                 🎒 My Backpack
               </button>

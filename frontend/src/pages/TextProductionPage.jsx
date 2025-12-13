@@ -5,11 +5,15 @@ import Header from "../components/Header";
 import ReactMarkdown from "react-markdown";
 import { useNavigate, useLocation } from "react-router-dom";
 import ActionButton from "../components/ActionButton";
+import { incrementPizzaCount } from "../api/pizzaApi";
+import { useUser } from "../context/UserContext";
 
 function TextProductionPage() {
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [loading, setLoading] = useState(false);
+    const [completed, setCompleted] = useState(false);
+    const { updatePizzaCount } = useUser();
 
     const navigate = useNavigate();
     
@@ -18,17 +22,21 @@ function TextProductionPage() {
     const fromMode = location.state?.fromMode;
 
     const topics = [
-        "Ferien",
-        "Schule und Freizeit",
-        "Identität und Zukunftspläne",
-        "kulturelle Unterschiede zwischen Nord- und Süditalien",
-        "Liebe und Freundschaft",
-        "italienische Feste und Jugendkultur",
-        "Lesen und Literatur",
-        "italienische Feiertage und Traditionen"
+        "Vacanze",
+        "Scuola e tempo libero",
+        "Identità e progetti per il futuro",
+        "Differenze culturali tra il Nord e il Sud Italia",
+        "Amore e amicizia",
+        "Feste italiane e cultura giovanile",
+        "Lettura e letteratura",
+        "Feste e tradizioni italiane"
     ];
 
-    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+
+    const [topic, setTopic] = useState(() =>
+        topics[Math.floor(Math.random() * topics.length)]
+    );
+
 
     const handleBack = () => {
         if (fromMode === "free") {
@@ -44,9 +52,20 @@ function TextProductionPage() {
 
     const handleCorrect = async () => {
         setLoading(true);
+
+        if (completed) {
+            setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
+            return;
+        }
+
         try {
-            const corrected = await correctText(userText);
-            setCorrectedText(corrected);
+            const result = await correctText(userText);
+            setCorrectedText(result.corrected_text);
+
+            const res = await incrementPizzaCount(result.pizzas);
+            updatePizzaCount(res.pizzaCount);
+
+            setCompleted(true)
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);
             setCorrectedText("Qualcosa è andato storto, per favore riprova.");
@@ -54,6 +73,18 @@ function TextProductionPage() {
             setLoading(false);
         }
     };
+
+    const changeTopic = () => {
+        setTopic(prevTopic => {
+            let newTopic;
+            do {
+                newTopic = topics[Math.floor(Math.random() * topics.length)];
+            } while (newTopic === prevTopic);
+            setCompleted(false);
+            return newTopic;
+        });
+    };
+
 
     return (
         <div className="min-h-screen flex flex-col items-center text-black">
@@ -70,8 +101,9 @@ function TextProductionPage() {
             <div className="flex items-center justify-center flex-col font-semibold mb-10 text-center">
                 <h3 className="text-lg sm:text-xl font-bold">Esercizio:</h3>
                 <p className="max-w-xl">
-                    Scrivi un testo di 50–150 parole sul tema: <span className="font-bold">{randomTopic}</span>.
+                    Scrivi un testo di 50–150 parole sul tema: <span className="font-bold">{topic}</span>.
                 </p>
+                <ActionButton onClick={changeTopic} className="bg-[#f8edd5] hover:bg-[#e7d9ba] mt-2">Genera</ActionButton>
             </div>
 
             {/* Main content – responsive */}
