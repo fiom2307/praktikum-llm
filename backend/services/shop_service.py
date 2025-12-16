@@ -22,7 +22,7 @@ def purchase_item(username, item_id, item_cost):
         if not user:
             return None, "User not found."
         
-        if item.get("is_costume") or item_id in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]: 
+        if item.get("is_costume") or item_id in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]:
             existing_item = db.query(ShopHistoryModel).filter(
                 ShopHistoryModel.user_id == user.id,
                 ShopHistoryModel.item_id == item_id

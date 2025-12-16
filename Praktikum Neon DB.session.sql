@@ -1,1 +1,1 @@
-SELECT * from shop_history
+select username from users

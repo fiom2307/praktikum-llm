@@ -2,9 +2,10 @@ import Header from "../components/Header";
 import { useUser } from "../context/UserContext"; 
 import { buyItem, getInventory } from "../api/shopApi"; 
 import { useState, useEffect } from "react";
+import MascotOutfit from "../components/MascotOutfit";
 
 //all images
-import outfits from "../assets/outfits"
+// import outfits from "../assets/outfits"
 
 
 function ShopPage() {
@@ -14,13 +15,22 @@ function ShopPage() {
     const [isBuying, setIsBuying] = useState(false);
 
     const items = [
-        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 1, consumable: false, img: outfits.darthVader },
-        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 1, consumable: false, img: outfits.gladiator },
-        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 1, consumable: false, img: outfits.chef },
-        { id: 4, emoji: "🌹", name: "The Godfather", cost: 1, consumable: false, img: outfits.godfather },
-        { id: 5, emoji: "⚽", name: "Maradona", cost: 2, consumable: false, img: outfits.maradona },
-        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 1, consumable: false, img: outfits.ferrari },
+        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 1, isCostume: true },
+        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 1, isCostume: true },
+        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 1, isCostume: true },
+        { id: 4, emoji: "🌹", name: "The Godfather", cost: 1, isCostume: true },
+        { id: 5, emoji: "⚽", name: "Maradona", cost: 2, isCostume: true },
+        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 1, isCostume: true },
         // more further items
+        { id: 7, emoji: "☕", name: "Barista", cost: 1, isCostume: true },
+        { id: 8, emoji: "🎭", name: "Venetian Mask", cost: 1, isCostume: true },
+        { id: 9, emoji: "🍄", name: "Super Plumber", cost: 3, isCostume: true },
+        { id: 10, emoji: "🎨", name: "The Artist", cost: 2, isCostume: true },
+        { id: 11, emoji: "🛵", name: "Vespa Rider", cost: 2, isCostume: true },
+        { id: 12, emoji: "👑", name: "The Emperor", cost: 4, isCostume: true },
+        { id: 13, emoji: "⛵️", name: "The Captain", cost: 2, isCostume: true },
+        { id: 14, emoji: "🥊", name: "Boxer", cost: 1, isCostume: true },
+        
     ];
 
     useEffect(() => {
@@ -106,13 +116,15 @@ function ShopPage() {
                             }`}
                         >
 
-                            {item.img ? (
-                                <img 
-                                    src={item.img} 
-                                    alt={item.name} 
-                                    className="h-24 w-auto object-contain mb-4 drop-shadow-md"
-                                />
+                            {item.isCostume ? (
+                                <div className="h-24 w-auto mb-4 flex items-center justify-center">
+                                     <MascotOutfit 
+                                        costumeId={item.id} //
+                                        className="h-full object-contain drop-shadow-md" 
+                                     />
+                                </div>
                             ) : (
+                                // 
                                 <span className="text-6xl mb-4">{item.emoji}</span>
                             )}
 
