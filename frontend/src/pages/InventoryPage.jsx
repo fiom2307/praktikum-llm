@@ -106,7 +106,7 @@ function InventoryPage() {
                                 </Link>
                             </div>
                         ) : (
-                            inventory.map((item) => {
+                            inventory.filter(item => item.item_id < 100).map((item) => {
                                 const isCostume = COSTUME_IDS.includes(item.item_id);
                                 const isEquipped = currentCostumeId === item.item_id;
                                 // 

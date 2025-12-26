@@ -73,7 +73,8 @@ def get_user_inventory(username):
         inventory = []
         for r in inventory_records:
             item_info = SHOP_ITEMS_DICT.get(r.item_id)
-            emoji = item_info['emoji'] if item_info else "📦"
+            emoji = item_info.get('emoji', "📦")
+
             
             inventory.append({
                 "id": r.id, 

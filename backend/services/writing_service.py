@@ -27,7 +27,7 @@ def correct_text_with_ai(user_id: int, user_text: str):
         "Wiederhole oder korrigiere den Text NICHT.\n"
         "Füge KEINE zusätzlichen Kommentare oder Motivation hinzu.\n"
         "Am Ende gib eine Punktzahl zwischen 0 und 10 als „Pizzas X” an (nur ganze Zahlen).\n"
-        "Falls der Text nicht auf Italienisch ist oder nicht zwischen 50 und 150 Wörtern liegt, gib „Pizzas: 0” aus."
+        "Falls der Text nicht auf Italienisch ist oder nicht zwischen 50 und 150 Wörtern liegt, gib „Pizzas 0” aus."
     )
 
     corrected = generate_from_prompt(prompt)

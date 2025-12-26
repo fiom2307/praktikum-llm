@@ -13,7 +13,7 @@ function TextProductionPage() {
     const [correctedText, setCorrectedText] = useState("");
     const [loading, setLoading] = useState(false);
     const [completed, setCompleted] = useState(false);
-    const { updatePizzaCount } = useUser();
+    const { updatePizzaCount, activeMultiplier, setActiveMultiplier } = useUser();
 
     const navigate = useNavigate();
     
@@ -51,6 +51,11 @@ function TextProductionPage() {
     };
 
     const handleCorrect = async () => {
+        if (completed) {
+            setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
+            return;
+        }
+
         setLoading(true);
 
         if (completed) {
@@ -62,7 +67,12 @@ function TextProductionPage() {
             const result = await correctText(userText);
             setCorrectedText(result.corrected_text);
 
-            const res = await incrementPizzaCount(result.pizzas);
+            let reward = result.pizzas;
+            if (activeMultiplier) {
+                reward = reward * activeMultiplier.value;
+                setActiveMultiplier(null);
+            }
+            const res = await incrementPizzaCount(reward);                
             updatePizzaCount(res.pizzaCount);
 
             setCompleted(true)

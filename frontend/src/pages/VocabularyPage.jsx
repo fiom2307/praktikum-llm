@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Mascot from "../components/MascotOutfit";
 
 function VocabularyPage() {
-    const { updatePizzaCount } = useUser();
+    const { updatePizzaCount, activeMultiplier, setActiveMultiplier } = useUser();
     const username = localStorage.getItem("username");
 
     const [loading, setLoading] = useState(false);
@@ -140,10 +140,15 @@ function VocabularyPage() {
             if (res.status === "almost") {
                 setMsg("Your answer is almost correct. Here is a hint: " +  res.hint);
             } else if (res.status === "correct") {
-                setMsg("Congratulations, your answer is correct. You get 1 pizza");
                 setCompleted(true);
-                const res = await incrementPizzaCount(1);
+                let reward = 1;
+                if (activeMultiplier) {
+                    reward = reward * activeMultiplier.value;
+                    setActiveMultiplier(null);
+                }
+                const res = await incrementPizzaCount(reward);                
                 updatePizzaCount(res.pizzaCount);
+                setMsg(`Congratulations, your answer is correct. You get ${reward} pizza`);
                 setCanGenerate(true);
             } else {
                 setMsg("Your answer is incorrect. Try again");
@@ -151,6 +156,7 @@ function VocabularyPage() {
 
             if (newAttempts >= 3 && res.status !== "correct") {
                 setMsg(`This was your last attempt. The correct answer was: ${word}`);
+                setActiveMultiplier(null);
                 setCanGenerate(true);
                 await saveFlashcard(word);
             }

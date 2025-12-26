@@ -70,6 +70,14 @@ SHOP_ITEMS = [
     },
     { 
         "id": 14,  "name": "Boxer", "cost": 1, "emoji": "🥊", "image_file": "boxer.png","is_costume": True
-    } 
-
+    }, 
+    { 
+        "id": 101, "name": "Punti doppi", "cost": 5, "image": "multiplier2x", "value": 2 
+    },
+    { 
+        "id": 102, "name": "Punti tripli ", "cost": 10, "image": "multiplier3x", "value": 3  
+    },
+    { 
+        "id": 103, "name": "Dieci punti o niente", "cost": 20, "image": "multiplier10x", "value": 10  
+    }
 ]
