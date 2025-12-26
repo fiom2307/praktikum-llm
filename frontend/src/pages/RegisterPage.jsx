@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import pisaImg from "../assets/pisatower.png";
 import ActionButton from "../components/ActionButton";
+import Modal from "../components/Modal";
+import { useToast } from "../context/ToastContext";
 import { checkUsername, registerUser } from "../api/authApi";
 
 function RegisterPage() {
@@ -18,6 +20,12 @@ function RegisterPage() {
   const [passwordNoUppercase, setPasswordNoUppercase] = useState(false);
   const [passwordNoSpecial, setPasswordNoSpecial] = useState(false);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+
+  const [showValidationModal, setShowValidationModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const { showToast } = useToast();
 
   // Username check (database)
   useEffect(() => {
@@ -59,23 +67,28 @@ function RegisterPage() {
       passwordNoSpecial ||
       passwordMismatch
     ) {
-      alert("Per favore, correggi gli errori prima di creare un account.");
+      setShowValidationModal(true);
       return;
     }
 
     const result = await registerUser(username, password);
 
     if (result.success) {
-      alert("Account creato con successo!");
+      showToast({
+        title: "Account creato",
+        message: "Il tuo account è stato creato con successo!",
+      });
+
       navigate("/login");
     } else {
-      alert(result.message || "Registrazione fallita.");
+      setErrorMessage(result.message || "Registrazione fallita.");
+      setShowErrorModal(true);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col justify-start items-center text-black">
-      <div className="flex flex-col items-center gap-4 w-full max-w-sm">
+      <div className="flex flex-col items-center gap-4 w-full max-w-sm pb-4">
 
         <img
           src={pisaImg}
@@ -161,6 +174,23 @@ function RegisterPage() {
           </span>
         </p>
       </div>
+
+      {/* MODALS */}
+      {showValidationModal && (
+        <Modal
+          title="Errore di validazione"
+          message="Per favore, correggi gli errori prima di creare un account."
+          onClose={() => setShowValidationModal(false)}
+        />
+      )}
+
+      {showErrorModal && (
+        <Modal
+          title="Errore"
+          message={errorMessage}
+          onClose={() => setShowErrorModal(false)}
+        />
+      )}
     </div>
   );
 }

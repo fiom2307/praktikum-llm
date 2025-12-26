@@ -1,3 +1,4 @@
+import { ToastProvider } from "./context/ToastContext";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; // Navigate
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
@@ -39,79 +40,81 @@ function ProtectedRoute({ children }) {
 function App() {
   
   return (
-    <Router>
-      <Routes>
-        
-        {/* login and register page */}
-        <Route path="/login" element={<LoginPage />} />
+    <ToastProvider>
+      <Router>
+        <Routes>
+          
+          {/* login and register page */}
+          <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/register" element={<RegisterPage />} />
-        
+          <Route path="/register" element={<RegisterPage />} />
+          
 
-        {/* protected route */}
-        
-        <Route path="/" element={
-          <ProtectedRoute>
-            <MainPage />
-          </ProtectedRoute>
-        } />
+          {/* protected route */}
+          
+          <Route path="/" element={
+            <ProtectedRoute>
+              <MainPage />
+            </ProtectedRoute>
+          } />
 
-        <Route path="/story" element={
-          <ProtectedRoute>
-            <StoryPage />
-          </ProtectedRoute>
-        } />
+          <Route path="/story" element={
+            <ProtectedRoute>
+              <StoryPage />
+            </ProtectedRoute>
+          } />
 
-        <Route path="/free" element={
-          <ProtectedRoute>
-            <FreeModePage />
-          </ProtectedRoute>
-        } />
+          <Route path="/free" element={
+            <ProtectedRoute>
+              <FreeModePage />
+            </ProtectedRoute>
+          } />
 
-        <Route path="/city/:cityName" element={
-          <ProtectedRoute>
-            <CityMenuPage />
-          </ProtectedRoute>
-        } />
+          <Route path="/city/:cityName" element={
+            <ProtectedRoute>
+              <CityMenuPage />
+            </ProtectedRoute>
+          } />
 
-        <Route path="/shop" element={
-          <ProtectedRoute>
-            <ShopPage />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/flashcards" element={
-           <ProtectedRoute>
-            <FlashcardsPage />
-           </ProtectedRoute>
-        } />
-        
-        <Route path="/reading" element={
-           <ProtectedRoute>
-            <ReadingPage />
-           </ProtectedRoute>
-        } />
-        
-        <Route path="/vocabulary" element={
-           <ProtectedRoute>
-            <VocabularyPage />
-           </ProtectedRoute>
-        } />
-        
-        <Route path="/textproduction" element={
-           <ProtectedRoute>
-            <TextProductionPage />
-           </ProtectedRoute>
-        } />
+          <Route path="/shop" element={
+            <ProtectedRoute>
+              <ShopPage />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/flashcards" element={
+            <ProtectedRoute>
+              <FlashcardsPage />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/reading" element={
+            <ProtectedRoute>
+              <ReadingPage />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/vocabulary" element={
+            <ProtectedRoute>
+              <VocabularyPage />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/textproduction" element={
+            <ProtectedRoute>
+              <TextProductionPage />
+            </ProtectedRoute>
+          } />
 
-        <Route path="/inventory" element={
-          <ProtectedRoute>
-            <InventoryPage />
-          </ProtectedRoute>
-        } />
-        
-      </Routes>
-    </Router>
+          <Route path="/inventory" element={
+            <ProtectedRoute>
+              <InventoryPage />
+            </ProtectedRoute>
+          } />
+          
+        </Routes>
+      </Router>
+    </ToastProvider>
   );
 }
 

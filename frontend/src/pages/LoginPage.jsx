@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import pisaImg from "../assets/pisatower.png";
 import ActionButton from "../components/ActionButton";
 import { useUser } from "../context/UserContext";
+import Modal from "../components/Modal"
 
 function LoginPage() {
 
@@ -11,6 +12,7 @@ function LoginPage() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { loginUserContext } = useUser();
+    const [showError, setShowError] = useState(false);
 
     const handleLogin = async () => {
         const data = await loginUser(username, password);
@@ -25,7 +27,7 @@ function LoginPage() {
           
           navigate("/");
         } else {
-          alert("Accesso non riuscito. Nome utente o password non validi.");
+          setShowError(true);
         }
     };
     
@@ -66,6 +68,15 @@ function LoginPage() {
             </span>
         </p>
       </div>
+
+      {/* MODAL */}
+      {showError && (
+        <Modal
+          title="Errore di accesso"
+          message="Nome utente o password non validi."
+          onClose={() => setShowError(false)}
+        />
+      )}
     </div>
     );
 }
