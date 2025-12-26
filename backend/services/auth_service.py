@@ -1,6 +1,8 @@
 from database import SessionLocal
 from models import User
 from passlib.context import CryptContext
+import random
+from sqlalchemy import func
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -24,7 +26,13 @@ def register_user(username, password):
     try:        
         hashed = pwd_context.hash(password)
 
-        user = User(username=username, password_hashed=hashed)
+        group = assign_group(db)
+
+        user = User(
+            username=username, 
+            password_hashed=hashed, 
+            user_group=group)
+        
         db.add(user)
         db.commit()
         db.refresh(user)
@@ -32,5 +40,21 @@ def register_user(username, password):
         return user
     finally:
         db.close()
+
+def assign_group(db):    
+    treatment_count = db.query(func.count(User.id))\
+        .filter(User.user_group == "treatment")\
+        .scalar()
+
+    control_count = db.query(func.count(User.id))\
+        .filter(User.user_group == "control")\
+        .scalar()
+
+    if treatment_count < control_count:
+        return "treatment"
+    elif control_count < treatment_count:
+        return "control"
+    else:
+        return random.choice(["treatment", "control"])
 
 

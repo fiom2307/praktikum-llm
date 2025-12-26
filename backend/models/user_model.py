@@ -22,7 +22,6 @@ def user_to_dict(user):
     return {
         "id": user.id,
         "username": user.username,
-        "user_group": user.user_group,
         "pizza_count": user.pizza_count,
         "current_costume_id": user.current_costume_id,
         "created_at": user.created_at.isoformat() if user.created_at else None,
