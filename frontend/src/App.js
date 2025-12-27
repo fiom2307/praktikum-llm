@@ -12,6 +12,7 @@ import CityMenuPage from "./pages/CityMenuPage";
 import InventoryPage from "./pages/InventoryPage";
 import StoryPage from "./pages/StoryPage";
 import FreeModePage from "./pages/FreeModePage";
+import FormFloatingGate from "./components/FormFloatingGate";
 
 
 // check token
@@ -38,10 +39,12 @@ function ProtectedRoute({ children }) {
 
 
 function App() {
-  
+
   return (
     <ToastProvider>
       <Router>
+        <FormFloatingGate />
+
         <Routes>
           
           {/* login and register page */}
