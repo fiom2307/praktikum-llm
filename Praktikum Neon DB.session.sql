@@ -1,1 +1,1 @@
-select username from users
+select * from users
