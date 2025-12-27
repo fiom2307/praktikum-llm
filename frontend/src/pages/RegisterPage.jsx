@@ -5,11 +5,25 @@ import ActionButton from "../components/ActionButton";
 import Modal from "../components/Modal";
 import { useToast } from "../context/ToastContext";
 import { checkUsername, registerUser } from "../api/authApi";
+import { FiRefreshCw } from "react-icons/fi";
 
 function RegisterPage() {
+  const ANIMALI = [
+    "Gatto", "Cane", "Lupo", "Tigre", "Leone",
+    "Volpe", "Orso", "Aquila", "Delfino", "Cavallo",
+    "Panda", "Koala", "Serpente", "Gufo", "Cervo",
+    "Falco", "Balena", "Squalo", "Coniglio", "Riccio", "Drago"
+  ];
+
+  const AGGETTIVI = [
+    "Felice", "Coraggioso", "Gentile", "Forte", "Incredibile",
+    "Fantastico", "Brillante", "Simpatico", "Audace", "Creativo",
+    "Energico", "Leale", "Curioso", "Intelligente", "Veloce",
+    "Magico", "Positivo", "Calmo", "Divertente", "Straordinario"
+  ];
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(generateRandomUsername());
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -26,6 +40,25 @@ function RegisterPage() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { showToast } = useToast();
+
+
+
+  function generateRandomUsername() {
+    const animale =
+      ANIMALI[Math.floor(Math.random() * ANIMALI.length)];
+
+    const aggettivo =
+      AGGETTIVI[Math.floor(Math.random() * AGGETTIVI.length)];
+
+    const numero = String(Math.floor(Math.random() * 100)).padStart(2, "0");
+
+    return `${animale}${aggettivo}${numero}`;
+  }
+
+  const handleRegenerateUsername = () => {
+    setUsername(generateRandomUsername());
+  };
+
 
   // Username check (database)
   useEffect(() => {
@@ -97,13 +130,23 @@ function RegisterPage() {
         />
 
         {/* Username */}
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Crea un nome utente"
-          className="border-2 border-gray-400 rounded-xl px-4 py-3 w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+        <div className="flex items-center w-full gap-2">
+          <input
+            type="text"
+            value={username}
+            readOnly
+            className="flex-1 border-2 border-gray-400 rounded-xl px-4 py-3 text-center bg-gray-100 cursor-not-allowed"
+          />
+
+          <button
+            onClick={handleRegenerateUsername}
+            className="flex items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-400 bg-white hover:bg-gray-100 transition"
+            title="Rigenera nome"
+          >
+            <FiRefreshCw size={20} />
+          </button>
+        </div>
+
         {usernameExists && (
           <p className="text-red-600 text-sm -mt-2">
             Questo nome utente esiste già!
