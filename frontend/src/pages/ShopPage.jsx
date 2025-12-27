@@ -38,9 +38,9 @@ function ShopPage() {
     ];
 
     const multipliers = [
-        { id: 101, name: "Punti doppi", cost: 5, image: multiplier2x, value: 2 },
-        { id: 102, name: "Punti tripli ", cost: 10, image: multiplier3x, value: 3 },
-        { id: 103, name: "Dieci punti o niente", cost: 20, image: multiplier10x, value: 10  }
+        { id: 101, name: "Punti doppi", cost: 10, image: multiplier2x, value: 2 },
+        { id: 102, name: "Punti tripli ", cost: 15, image: multiplier3x, value: 3 },
+        { id: 103, name: "Dieci punti o niente", cost: 25, image: multiplier10x, value: 10  }
     ]
 
     useEffect(() => {
@@ -140,10 +140,19 @@ function ShopPage() {
             🛍️ Shop
         </h1>
 
-        <section className="w-full max-w-6xl px-6 pb-12">
-            <h2 className="text-3xl font-bold mb-8 text-center">
+        <section className="w-full  max-w-6xl px-6 pb-12">
+            <h2 className="text-3xl font-bold mb-2 text-center">
                 ✖️ Moltiplicatori
             </h2>
+            <p className="text-sm font-semibold text-gray-700 leading-relaxed mb-4 items-center text-center">
+                Un moltiplicatore di punti ti permette di guadagnare più pizze.
+                Una volta acquistato, si attiva automaticamente per la partita successiva.
+                <br />
+                Il moltiplicatore <strong> 10X </strong> funziona solo se produci almeno <strong> 7 </strong> pizze nella modalità
+                <strong> Produzione scritta </strong> o <strong> 4 </strong> pizze nella modalità
+                <strong> Lettura </strong>.
+                Se ne produci meno, non si attiva e lo perdi.
+            </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {multipliers.map(item => {
@@ -174,7 +183,7 @@ function ShopPage() {
                                             : 'bg-gray-400 cursor-not-allowed'
                                 }`}>
                                 {activeMultiplier
-                                    ? 'Attivo'
+                                    ? `Attivo ${activeMultiplier.value}X`
                                     : `🍕 ${item.cost}`
                                 }
                             </button>

@@ -67,7 +67,14 @@ function ReadingPage() {
                 
                 let reward = result.pizzas;
                 if (activeMultiplier) {
-                    reward = reward * activeMultiplier.value;
+                    if(activeMultiplier.value === 10) {
+                        if (reward >= 4){
+                            reward *= 10;
+                        }
+                    } else {
+                        reward = reward * activeMultiplier.value;
+                    }
+                    
                     setActiveMultiplier(null);
                 }
                 const res = await incrementPizzaCount(reward);                
