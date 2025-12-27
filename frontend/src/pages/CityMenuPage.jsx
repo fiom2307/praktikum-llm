@@ -20,47 +20,37 @@ function CityMenuPage() {
   // Dialogue of each cities
   // Dialogue of each city (simple Italian + small English hint)
   const cityDialogues = {
-    torino: [
-      "Ciao! Benvenuto a Torino!",
-      "This is the first stop of our journey through Italy.",
-      "Now is a good time to get to know Italian culture and language!"
+    napoli: [
+      "Ciao! Benvenuto a Napoli, l'inizio del nostro viaggio!",
+      "Napoli è la città del sole, del mare e, naturalmente, della pizza!",
+      "Cominciamo qui a costruire le tue basi della lingua italiana."
     ],
-    milano: [
-      "Ciao! Benvenuto a Milano!",
-      "Milano è famosa per la moda e il Duomo.",
-      "Let’s practice Italian while exploring this modern city!"
-    ],
-    venezia: [
-      "Ciao! Eccoci a Venezia!",
-      "Attento all’acqua e ai canali, non ci sono macchine qui.",
-      "Let’s do something fun to get familiar with this magical city on the water!"
-    ],
-    firenze: [
-      "Ciao! Benvenuto a Firenze!",
-      "Firenze è la città del Rinascimento, piena di arte e storia.",
-      "Use this stop to build your Italian skills step by step, like an artist."
-    ],
-    cagliari: [
-      "Ciao! Benvenuto a Cagliari, in Sardegna!",
-      "Qui trovi mare, sole e una cultura molto speciale.",
-      "Let’s learn Italian with a relaxed island mood!"
+    palermo: [
+      "Benvenuto a Palermo, nel cuore della Sicilia!",
+      "Questa città è un incrocio magico di culture e sapori antichi.",
+      "Esploriamo la storia dell'isola mentre impariamo nuove parole!"
     ],
     roma: [
-      "Ciao! Benvenuto a Roma!",
-      "All roads lead to Rome – tutte le strade portano a Roma.",
-      "Rome is an amazing city full of history. Enjoy your Italian practice here!"
+      "Eccoci a Roma, la Città Eterna!",
+      "Tutte le strade portano qui. C'è così tanta storia in ogni angolo.",
+      "Mettiti alla prova con sfide degne di un vero imperatore!"
     ],
-    pescara: [
-      "Ciao! Benvenuto a Pescara!",
-      "Una città sul mare Adriatico, perfetta per una pausa.",
-      "Let’s keep going – ogni esercizio ti porta più vicino alla fluency!"
+    siena: [
+      "Ciao! Benvenuto nella splendida Siena!",
+      "Questa città medievale è famosa per il Palio e la sua architettura unica.",
+      "Alleniamo la tua produzione scritta tra i vicoli della Toscana."
     ],
-    napoli: [
-      "Ciao! Benvenuto a Napoli!",
-      "Napoli è famosa per la pizza e il Vesuvio.",
-      "This is a great place to celebrate what you’ve learned so far!"
+    venezia: [
+      "Benvenuto a Venezia, la città sull'acqua!",
+      "Qui non ci sono macchine, solo barche e gondole. Che magia!",
+      "Fai attenzione ai canali mentre completi le tue missioni!"
     ],
-    // Fallback
+    torino: [
+      "Complimenti! Sei arrivato a Torino, l'ultima tappa!",
+      "Torino è una città elegante, famosa per il cioccolato e i suoi caffè storici.",
+      "È il momento di dimostrare tutto quello che hai imparato in questo viaggio!"
+    ],
+    // fallback
     default: [
       "Ciao! Welcome to Italy!",
       "Choose a task to start practicing your Italian.",
@@ -73,14 +63,12 @@ function CityMenuPage() {
 
   // Level / title config for each city
   const cityConfig = {
-    torino: { title: "Torino", level: "Livello 1" },
-    milano: { title: "Milano", level: "Livello 2" },
-    venezia: { title: "Venezia", level: "Livello 3" },
-    firenze: { title: "Firenze", level: "Livello 4" },
-    cagliari: { title: "Cagliari", level: "Livello 5" },
-    roma: { title: "Roma", level: "Livello 6" },
-    pescara: { title: "Pescara", level: "Livello 7" },
-    napoli: { title: "Napoli", level: "Livello 8" }
+    napoli: { title: "Napoli", level: "Livello 1" },
+    palermo: { title: "Palermo", level: "Livello 2" },
+    roma: { title: "Roma", level: "Livello 3" },
+    siena: { title: "Siena", level: "Livello 4" },
+    venezia: { title: "Venezia", level: "Livello 5" },
+    torino: { title: "Torino", level: "Livello 6" }
   };
 
   const currentCity =
