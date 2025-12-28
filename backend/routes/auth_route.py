@@ -64,4 +64,4 @@ def register():
     # --- Create new user ---
     new_user = register_user(username, password)
 
-    return jsonify({"success": True, "user": user_to_dict(new_user)}), 201
+    return jsonify({"success": True, "user": new_user}), 201
