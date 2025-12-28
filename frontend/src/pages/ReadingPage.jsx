@@ -77,7 +77,7 @@ function ReadingPage() {
                     
                     setActiveMultiplier(null);
                 }
-                const res = await incrementPizzaCount(reward);                
+                const res = await incrementPizzaCount(reward, fromCity);                
                 updatePizzaCount(res.pizzaCount);
 
                 setCompleted(true);

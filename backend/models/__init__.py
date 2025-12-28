@@ -4,3 +4,5 @@ from .vocabulary_history_model import VocabularyHistory, vocabulary_to_dict
 from .writing_history_model import WritingHistory
 from .reading_history_model import ReadingHistory
 from .form_settings_model import FormSettings
+from .city_model import City
+from .user_city_progress_model import UserCityProgress

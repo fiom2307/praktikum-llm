@@ -1,8 +1,9 @@
 from database import SessionLocal
-from models import User
+from models import User, user_to_dict
 from passlib.context import CryptContext
 import random
 from sqlalchemy import func
+from models import City, UserCityProgress
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -37,7 +38,22 @@ def register_user(username, password):
         db.commit()
         db.refresh(user)
 
-        return user
+        cities = db.query(City).order_by(City.order_index).all()
+
+        for city in cities:
+            db.add(UserCityProgress(
+                user_id=user.id,
+                city_id=city.id,
+                pizzas_earned=0,
+                unlocked=(city.order_index == 1)
+            ))
+
+        user.current_city_id = cities[0].id
+
+        db.commit()
+
+        user_data = user_to_dict(user)
+        return user_data
     finally:
         db.close()
 

@@ -1,13 +1,17 @@
-import { useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import MascotOverlay from "../components/MascotOverlay";
+import ProgressBar from "../components/ProgressBar";
 import { useUser } from "../context/UserContext";
 import vocImg from "../assets/vocabulary.png";
 import readingImg from "../assets/reading.png";
-import writingImg from "../assets/writing.png";  
+import writingImg from "../assets/writing.png";
+import { useEffect, useState } from "react";
+import { getCity } from "../api/cityApi";
 
 function CityMenuPage() {
+  const [city, setCity] = useState("");
+  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
   const { cityName } = useParams();
   const location = useLocation();
@@ -58,24 +62,20 @@ function CityMenuPage() {
     ]
   };
 
+
+  useEffect(() => {
+    getCity(cityName).then((data) => {
+      setCity(data);
+
+      const earned = data.pizzas_earned;
+      const required = data.min_pizzas_to_unlock;
+
+      setProgress(Math.min(100, Math.round((earned / required) * 100)));
+    });
+  }, [cityName]);
+
   const currentDialogue =
     cityDialogues[cityName.toLowerCase()] || cityDialogues.default;
-
-  // Level / title config for each city
-  const cityConfig = {
-    napoli: { title: "Napoli", level: "Livello 1" },
-    palermo: { title: "Palermo", level: "Livello 2" },
-    roma: { title: "Roma", level: "Livello 3" },
-    siena: { title: "Siena", level: "Livello 4" },
-    venezia: { title: "Venezia", level: "Livello 5" },
-    torino: { title: "Torino", level: "Livello 6" }
-  };
-
-  const currentCity =
-    cityConfig[cityName.toLowerCase()] || {
-      title: cityName,
-      level: "Livello base"
-    };
 
   return (
     <div className="min-h-screen flex flex-col items-center text-black">
@@ -94,13 +94,16 @@ function CityMenuPage() {
       {/* City title and info */}
       <div className="flex flex-col items-center mb-6">
         <h1 className="text-3xl sm:text-5xl font-extrabold drop-shadow-md text-center capitalize">
-          📍 {currentCity.title}
+          📍 {city.name}
         </h1>
         <p className="text-lg sm:text-xl mt-2 font-semibold text-gray-700">
-          {currentCity.level}
+          Livello {city.level}
         </p>
+
+        <ProgressBar value={progress} />
+
         <p className="text-base sm:text-lg mt-4 max-w-2xl text-center px-4">
-          Benvenuto a {currentCity.title}! Scegli la tua sfida.
+          Benvenuto a {city.name}! Scegli la tua sfida.
         </p>
       </div>
 

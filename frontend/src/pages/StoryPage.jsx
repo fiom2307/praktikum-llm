@@ -2,20 +2,43 @@ import { useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
 import italyMap from "../assets/italy.png";
 import Header from "../components/Header";
+import { useEffect, useState } from "react";
+import { getCityProgress } from "../api/cityApi";
+
+const CITY_LAYOUT = [  
+  { key: "napoli", label: "Napoli", top: "69%", left: "57%" },
+  { key: "palermo", label: "Palermo", top: "89%", left: "53%" },
+  { key: "roma", label: "Roma", top: "56%", left: "50%" },
+  { key: "siena", label: "Siena", top: "44%", left: "46%" },
+  { key: "venezia", label: "Venezia", top: "24%", left: "49%" },
+  { key: "torino", label: "Torino", top: "28%", left: "36%" }
+];
 
 function StoryPage() {
   const navigate = useNavigate();
+  const [cities, setCities] = useState([]);
 
-  // Story configuration: only Torino unlocked for now
-  const cities = [
-    { key: "napoli", label: "Napoli", top: "69%", left: "57%", unlocked: true },
-    { key: "palermo", label: "Palermo", top: "89%", left: "53%", unlocked: false },
-    { key: "roma", label: "Roma", top: "56%", left: "50%", unlocked: false },
-    { key: "siena", label: "Siena", top: "44%", left: "46%", unlocked: false },
-    { key: "venezia", label: "Venezia", top: "24%", left: "49%", unlocked: false },
-    { key: "torino", label: "Torino", top: "28%", left: "36%", unlocked: false }
+  useEffect(() => {
+    getCityProgress()
+      .then((backendCities) => {
+        const merged = CITY_LAYOUT.map((layoutCity) => {
+          const backendCity = backendCities.find(
+            (c) => c.key === layoutCity.key
+          );
 
-  ];
+          return {
+            ...layoutCity,
+            unlocked: backendCity?.unlocked ?? false
+          };
+        });
+
+        setCities(merged);
+      })
+      .catch((err) => {
+        console.error("Error loading city progress", err);
+      });
+  }, []);
+
 
   const MapNode = ({ top, left, label, cityKey, unlocked }) => {
     const handleClick = () => {
