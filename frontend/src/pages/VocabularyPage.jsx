@@ -146,7 +146,7 @@ function VocabularyPage() {
                     reward = reward * activeMultiplier.value;
                     setActiveMultiplier(null);
                 }
-                const res = await incrementPizzaCount(reward);                
+                const res = await incrementPizzaCount(reward, fromCity);                
                 updatePizzaCount(res.pizzaCount);
                 setMsg(`Congratulations, your answer is correct. You get ${reward} pizza`);
                 setCanGenerate(true);

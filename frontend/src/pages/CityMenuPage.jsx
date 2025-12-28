@@ -1,13 +1,17 @@
-import { useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import MascotOverlay from "../components/MascotOverlay";
+import ProgressBar from "../components/ProgressBar";
 import { useUser } from "../context/UserContext";
 import vocImg from "../assets/vocabulary.png";
 import readingImg from "../assets/reading.png";
-import writingImg from "../assets/writing.png";  
+import writingImg from "../assets/writing.png";
+import { useEffect, useState } from "react";
+import { getCity } from "../api/cityApi";
 
 function CityMenuPage() {
+  const [city, setCity] = useState("");
+  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
   const { cityName } = useParams();
   const location = useLocation();
@@ -20,46 +24,42 @@ function CityMenuPage() {
   // Dialogue of each cities
   // Dialogue of each city (simple Italian + small English hint)
   const cityDialogues = {
-    torino: [
-      "Ciao! Benvenuto a Torino!",
-      "This is the first stop of our journey through Italy.",
-      "Now is a good time to get to know Italian culture and language!"
+    palermo: [
+      "Ciao! Benvenuto a Palermo!",
+      "Palermo è in Sicilia, un luogo ricco di storia e cultura.",
+      "Iniziamo il nostro viaggio imparando l’italiano con calma e curiosità."
     ],
-    milano: [
-      "Ciao! Benvenuto a Milano!",
-      "Milano è famosa per la moda e il Duomo.",
-      "Let’s practice Italian while exploring this modern city!"
-    ],
-    venezia: [
-      "Ciao! Eccoci a Venezia!",
-      "Attento all’acqua e ai canali, non ci sono macchine qui.",
-      "Let’s do something fun to get familiar with this magical city on the water!"
-    ],
-    firenze: [
-      "Ciao! Benvenuto a Firenze!",
-      "Firenze è la città del Rinascimento, piena di arte e storia.",
-      "Use this stop to build your Italian skills step by step, like an artist."
-    ],
-    cagliari: [
-      "Ciao! Benvenuto a Cagliari, in Sardegna!",
-      "Qui trovi mare, sole e una cultura molto speciale.",
-      "Let’s learn Italian with a relaxed island mood!"
-    ],
-    roma: [
-      "Ciao! Benvenuto a Roma!",
-      "All roads lead to Rome – tutte le strade portano a Roma.",
-      "Rome is an amazing city full of history. Enjoy your Italian practice here!"
-    ],
-    pescara: [
-      "Ciao! Benvenuto a Pescara!",
-      "Una città sul mare Adriatico, perfetta per una pausa.",
-      "Let’s keep going – ogni esercizio ti porta più vicino alla fluency!"
-    ],
+
     napoli: [
       "Ciao! Benvenuto a Napoli!",
       "Napoli è famosa per la pizza e il Vesuvio.",
-      "This is a great place to celebrate what you’ve learned so far!"
+      "Qui puoi mettere in pratica quello che hai già imparato!"
     ],
+
+    roma: [
+      "Ciao! Benvenuto a Roma!",
+      "Tutte le strade portano a Roma.",
+      "Questa città è piena di storia: continuiamo il nostro viaggio linguistico!"
+    ],
+
+    siena: [
+      "Ciao! Benvenuto a Siena!",
+      "Siena è una città medievale nel cuore della Toscana.",
+      "Qui possiamo migliorare il nostro italiano passo dopo passo."
+    ],
+
+    venezia: [
+      "Ciao! Benvenuto a Venezia!",
+      "Attento ai canali: qui non ci sono macchine!",
+      "Impariamo l’italiano in una delle città più magiche del mondo."
+    ],
+
+    torino: [
+      "Ciao! Benvenuto a Torino!",
+      "Torino è una città elegante e storica del nord Italia.",
+      "Sei arrivato lontano: usiamo tutto quello che hai imparato!"
+    ],
+
     // Fallback
     default: [
       "Ciao! Welcome to Italy!",
@@ -68,26 +68,19 @@ function CityMenuPage() {
     ]
   };
 
+  useEffect(() => {
+    getCity(cityName).then((data) => {
+      setCity(data);
+
+      const earned = data.pizzas_earned;
+      const required = data.min_pizzas_to_unlock;
+
+      setProgress(Math.min(100, Math.round((earned / required) * 100)));
+    });
+  }, [cityName]);
+
   const currentDialogue =
     cityDialogues[cityName.toLowerCase()] || cityDialogues.default;
-
-  // Level / title config for each city
-  const cityConfig = {
-    torino: { title: "Torino", level: "Livello 1" },
-    milano: { title: "Milano", level: "Livello 2" },
-    venezia: { title: "Venezia", level: "Livello 3" },
-    firenze: { title: "Firenze", level: "Livello 4" },
-    cagliari: { title: "Cagliari", level: "Livello 5" },
-    roma: { title: "Roma", level: "Livello 6" },
-    pescara: { title: "Pescara", level: "Livello 7" },
-    napoli: { title: "Napoli", level: "Livello 8" }
-  };
-
-  const currentCity =
-    cityConfig[cityName.toLowerCase()] || {
-      title: cityName,
-      level: "Livello base"
-    };
 
   return (
     <div className="min-h-screen flex flex-col items-center text-black">
@@ -106,13 +99,16 @@ function CityMenuPage() {
       {/* City title and info */}
       <div className="flex flex-col items-center mb-6">
         <h1 className="text-3xl sm:text-5xl font-extrabold drop-shadow-md text-center capitalize">
-          📍 {currentCity.title}
+          📍 {city.name}
         </h1>
         <p className="text-lg sm:text-xl mt-2 font-semibold text-gray-700">
-          {currentCity.level}
+          Livello {city.level}
         </p>
+
+        <ProgressBar value={progress} />
+
         <p className="text-base sm:text-lg mt-4 max-w-2xl text-center px-4">
-          Benvenuto a {currentCity.title}! Scegli la tua sfida.
+          Benvenuto a {city.name}! Scegli la tua sfida.
         </p>
       </div>
 

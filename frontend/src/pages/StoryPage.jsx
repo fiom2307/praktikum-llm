@@ -2,21 +2,43 @@ import { useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
 import italyMap from "../assets/italy.png";
 import Header from "../components/Header";
+import { useEffect, useState } from "react";
+import { getCityProgress } from "../api/cityApi";
+
+const CITY_LAYOUT = [  
+  { key: "napoli", label: "Napoli", top: "69%", left: "57%" },
+  { key: "palermo", label: "Palermo", top: "89%", left: "53%" },
+  { key: "roma", label: "Roma", top: "56%", left: "50%" },
+  { key: "siena", label: "Siena", top: "44%", left: "46%" },
+  { key: "venezia", label: "Venezia", top: "24%", left: "49%" },
+  { key: "torino", label: "Torino", top: "28%", left: "36%" }
+];
 
 function StoryPage() {
   const navigate = useNavigate();
+  const [cities, setCities] = useState([]);
 
-  // Story configuration: only Torino unlocked for now
-  const cities = [
-    { key: "torino", label: "Torino", top: "30%", left: "36%", unlocked: true },
-    { key: "milano", label: "Milano", top: "23%", left: "42%", unlocked: false },
-    { key: "venezia", label: "Venezia", top: "24%", left: "49%", unlocked: false },
-    { key: "firenze", label: "Firenze", top: "40%", left: "47%", unlocked: false },
-    { key: "cagliari", label: "Cagliari", top: "79%", left: "39.5%", unlocked: false },
-    { key: "roma", label: "Roma", top: "56%", left: "50%", unlocked: false },
-    { key: "pescara", label: "Pescara", top: "51%", left: "55.5%", unlocked: false },
-    { key: "napoli", label: "Napoli", top: "69%", left: "57%", unlocked: false }
-  ];
+  useEffect(() => {
+    getCityProgress()
+      .then((backendCities) => {
+        const merged = CITY_LAYOUT.map((layoutCity) => {
+          const backendCity = backendCities.find(
+            (c) => c.key === layoutCity.key
+          );
+
+          return {
+            ...layoutCity,
+            unlocked: backendCity?.unlocked ?? false
+          };
+        });
+
+        setCities(merged);
+      })
+      .catch((err) => {
+        console.error("Error loading city progress", err);
+      });
+  }, []);
+
 
   const MapNode = ({ top, left, label, cityKey, unlocked }) => {
     const handleClick = () => {
@@ -70,13 +92,16 @@ function StoryPage() {
 
           {/* ROUTE LINES — now ABOVE the map */}
           <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-            <line x1="36%" y1="26.5%" x2="41%" y2="19%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
-            <line x1="42%" y1="19%" x2="48%" y2="20%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
-            <line x1="48%" y1="20%" x2="46.5%" y2="34%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
-            <line x1="46.5%" y1="35%" x2="39%" y2="75%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
-            <line x1="39%" y1="75%" x2="50%" y2="50%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
-            <line x1="50%" y1="50%" x2="55%" y2="47%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
-            <line x1="55%" y1="47%" x2="56.5%" y2="65%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
+            {/* Napoli -> Palermo */}
+            <line x1="57%" y1="65%" x2="52%" y2="86%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
+            {/* Palermo -> Roma */}
+            <line x1="52%" y1="86%" x2="50%" y2="52%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
+            {/* Roma -> Siena */}
+            <line x1="50%" y1="52%" x2="46%" y2="40%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
+            {/* Siena -> Venezia */}
+            <line x1="46%" y1="40%" x2="48%" y2="21%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
+            {/* Venezia -> Torino */}
+            <line x1="48%" y1="21%" x2="36%" y2="24%" stroke="#ffcc00" strokeWidth="4" strokeDasharray="8 8" />
           </svg>
 
           {/* MAP (now behind nodes & paths) */}
