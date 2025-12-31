@@ -1,11 +1,12 @@
 import { API_BASE_URL } from "./config";
 
-export async function incrementPizzaCount(amount, cityKey = null) {
+export async function incrementPizzaCount(amount, gameMode, cityKey = null) {
   const userId = localStorage.getItem("userId");
 
   const body = {
     user_id: userId,
-    amount
+    amount,
+    game_mode: gameMode
   };
 
   if (cityKey) {

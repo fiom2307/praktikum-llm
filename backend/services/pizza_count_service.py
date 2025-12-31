@@ -2,14 +2,29 @@ from database import SessionLocal
 from models import User, City, UserCityProgress
 from services.city_service import get_city_by_key
 
-def increment_pizza_count(user_id, amount, city_key=None):
+def increment_pizza_count(user_id, amount, game_mode, city_key=None):
     db = SessionLocal()
     try:
         user = db.query(User).filter(User.id == user_id).first()
         if not user:
             return None
+        
+        final_amount = amount
+        
+        if user.current_multiplier_value:
+            value = user.current_multiplier_value
 
-        user.pizza_count = (user.pizza_count or 0) + amount
+            if value == 10:
+                # special rule
+                if ((game_mode == "reading" and amount >= 4) or
+                    (game_mode == "writing" and amount >= 7)):
+                    final_amount *= 10
+            else:
+                final_amount *= value
+
+            user.current_multiplier_value = None
+
+        user.pizza_count = (user.pizza_count or 0) + final_amount
 
         if city_key:
             city = get_city_by_key(city_key)

@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function ReadingPage() {
     const username = localStorage.getItem("username");
-    const { updatePizzaCount, activeMultiplier, setActiveMultiplier } = useUser();
+    const { updatePizzaCount } = useUser();
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
@@ -62,26 +62,10 @@ function ReadingPage() {
         runAction(
             async () => {
                 const result = await correctAnswers(userText, generatedText);
-
                 setCorrectedText(result.corrected_answers);
-                
-                let reward = result.pizzas;
-                if (activeMultiplier) {
-                    if(activeMultiplier.value === 10) {
-                        if (reward >= 4){
-                            reward *= 10;
-                        }
-                    } else {
-                        reward = reward * activeMultiplier.value;
-                    }
-                    
-                    setActiveMultiplier(null);
-                }
-                const res = await incrementPizzaCount(reward, fromCity);                
+                const res = await incrementPizzaCount(result.pizzas, "reading", fromCity);                
                 updatePizzaCount(res.pizzaCount);
-
                 setCompleted(true);
-
                 return result;
             },
             (result) => setCorrectedText(result.corrected_answers),

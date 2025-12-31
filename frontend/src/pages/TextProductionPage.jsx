@@ -13,7 +13,7 @@ function TextProductionPage() {
     const [correctedText, setCorrectedText] = useState("");
     const [loading, setLoading] = useState(false);
     const [completed, setCompleted] = useState(false);
-    const { updatePizzaCount, activeMultiplier, setActiveMultiplier } = useUser();
+    const { updatePizzaCount } = useUser();
 
     const navigate = useNavigate();
     
@@ -66,22 +66,8 @@ function TextProductionPage() {
         try {
             const result = await correctText(userText);
             setCorrectedText(result.corrected_text);
-
-            let reward = result.pizzas;
-            if (activeMultiplier) {
-                if(activeMultiplier.value === 10) {
-                    if (reward >= 7){
-                        reward *= 10;
-                    }
-                } else {
-                    reward = reward * activeMultiplier.value;
-                }
-                
-                setActiveMultiplier(null);
-            }
-            const res = await incrementPizzaCount(reward, fromCity);                
+            const res = await incrementPizzaCount(result.pizzas, "writing",fromCity);      
             updatePizzaCount(res.pizzaCount);
-
             setCompleted(true)
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);
