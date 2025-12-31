@@ -20,21 +20,21 @@ function ShopPage() {
 
 
     const items = [
-        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 1, isCostume: true },
-        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 1, isCostume: true },
-        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 1, isCostume: true },
-        { id: 4, emoji: "🌹", name: "The Godfather", cost: 1, isCostume: true },
-        { id: 5, emoji: "⚽", name: "Maradona", cost: 2, isCostume: true },
-        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 1, isCostume: true },
+        { id: 1, emoji: "⚫️", name: "Darth Vader", cost: 30, isCostume: true },
+        { id: 2, emoji: "🛡️", name: "Gladiator", cost: 25, isCostume: true },
+        { id: 3, emoji: "👨‍🍳", name: "Pizza Chef", cost: 25, isCostume: true },
+        { id: 4, emoji: "🌹", name: "The Godfather", cost: 25, isCostume: true },
+        { id: 5, emoji: "⚽", name: "Maradona", cost: 30, isCostume: true },
+        { id: 6, emoji: "🏎️", name: "Ferrari Man", cost: 25, isCostume: true },
         // more further items
-        { id: 7, emoji: "☕", name: "Barista", cost: 1, isCostume: true },
-        { id: 8, emoji: "🎭", name: "Venetian Mask", cost: 1, isCostume: true },
-        { id: 9, emoji: "🍄", name: "Super Plumber", cost: 3, isCostume: true },
-        { id: 10, emoji: "🎨", name: "The Artist", cost: 2, isCostume: true },
-        { id: 11, emoji: "🛵", name: "Vespa Rider", cost: 2, isCostume: true },
-        { id: 12, emoji: "👑", name: "The Emperor", cost: 4, isCostume: true },
-        { id: 13, emoji: "⛵️", name: "The Captain", cost: 2, isCostume: true },
-        { id: 14, emoji: "🥊", name: "Boxer", cost: 1, isCostume: true },
+        { id: 7, emoji: "☕", name: "Barista", cost: 25, isCostume: true },
+        { id: 8, emoji: "🎭", name: "Venetian Mask", cost: 25, isCostume: true },
+        { id: 9, emoji: "🍄", name: "Super Plumber", cost: 30, isCostume: true },
+        { id: 10, emoji: "🎨", name: "The Artist", cost: 30, isCostume: true },
+        { id: 11, emoji: "🛵", name: "Vespa Rider", cost: 25, isCostume: true },
+        { id: 12, emoji: "👑", name: "The Emperor", cost: 30, isCostume: true },
+        { id: 13, emoji: "⛵️", name: "The Captain", cost: 30, isCostume: true },
+        { id: 14, emoji: "🥊", name: "Boxer", cost: 25, isCostume: true },
     ];
 
     const multipliers = [
