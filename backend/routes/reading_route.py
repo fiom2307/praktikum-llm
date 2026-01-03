@@ -18,7 +18,9 @@ def correct_answer():
 
 @reading_routes.route("/create_reading_text", methods=["POST"])
 def create_reading_text():
+    data = request.get_json()
+    user_id = data.get("userId")
 
-    response = generate_reading_text_from_ai()
+    response = generate_reading_text_from_ai(user_id)
 
     return jsonify(response)

@@ -6,8 +6,10 @@ vocabulary_routes = Blueprint("vocabulary_routes", __name__)
 
 @vocabulary_routes.route("/generate_word_and_clues", methods=["POST"])
 def generate_word_and_clues():
-    data = generate_word_and_clues_with_ai()
-    return jsonify(data)
+    data = request.get_json()
+    user_id = data.get("userId")
+    response = generate_word_and_clues_with_ai(user_id)
+    return jsonify(response)
 
 @vocabulary_routes.route("/check_word", methods=["POST"])
 def check_word():

@@ -14,10 +14,12 @@ export async function correctAnswers(userText, aiGeneratedText) {
 };
 
 export async function createReadingText() {
+    const userId = localStorage.getItem("userId");
+
     const response = await fetch(`${API_BASE_URL}/create_reading_text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({userId: userId}),
     });
     const data = await response.json();
     return data.reading_text;
