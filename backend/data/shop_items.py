@@ -1,7 +1,7 @@
 SHOP_ITEMS = [
     {
         "id": 1,
-        "name": "Darth Vader Costume",
+        "name": "Darth Vader",
         "cost": 30,
         "emoji": "⚫️",
         "image_file": "darthVader.png", 
@@ -9,7 +9,7 @@ SHOP_ITEMS = [
     },
     {
         "id": 2,
-        "name": "Gladiator Armor",
+        "name": "Gladiatore",
         "cost": 25,
         "emoji": "🛡️",
         "image_file": "gladiator.png", 
@@ -17,7 +17,7 @@ SHOP_ITEMS = [
     },
     {
         "id": 3,
-        "name": "Italian Chef",
+        "name": "Pizzaiolo",
         "cost": 25,
         "emoji": "👨‍🍳",
         "image_file": "chef.png",
@@ -25,7 +25,7 @@ SHOP_ITEMS = [
     },
     {
         "id": 4,
-        "name": "The Godfather",
+        "name": "Il Padrino",
         "cost": 25,
         "emoji": "🌹",
         "image_file": "godfather.png",
@@ -41,7 +41,7 @@ SHOP_ITEMS = [
     },
     {
         "id": 6,
-        "name": "Ferrari Racer",
+        "name": "Pilota Ferrari",
         "cost": 25,
         "emoji": "🏎️",
         "image_file": "ferrari.png",
@@ -51,25 +51,25 @@ SHOP_ITEMS = [
         "id": 7, "name": "Barista", "cost": 25, "emoji": "☕", "image_file": "barista.png", "is_costume": True
     },
     {
-        "id": 8, "name": "Venetian Mask", "cost": 25, "emoji": "🎭", "image_file": "masked.png", "is_costume": True
+        "id": 8, "name": "Maschera Veneziana", "cost": 25, "emoji": "🎭", "image_file": "masked.png", "is_costume": True
     },
     {
-        "id": 9, "name": "Super Plumber", "cost": 30, "emoji": "🍄", "image_file": "mario.png", "is_costume": True
+        "id": 9, "name": "Super Idraulico", "cost": 30, "emoji": "🍄", "image_file": "mario.png", "is_costume": True
     },
     {
-        "id": 10, "name": "The Artist", "cost": 30, "emoji": "🎨", "image_file": "davinci.png", "is_costume": True
+        "id": 10, "name": "L'artista", "cost": 30, "emoji": "🎨", "image_file": "davinci.png", "is_costume": True
     },
     {
-        "id": 11, "name": "Vespa Rider", "cost": 25, "emoji": "🛵", "image_file": "biker.png", "is_costume": True
+        "id": 11, "name": "Motociclista Vespa", "cost": 25, "emoji": "🛵", "image_file": "biker.png", "is_costume": True
     },
     {
-        "id": 12, "name": "The Emperor", "cost": 30, "emoji": "👑", "image_file": "juliusCaesar.png", "is_costume": True
+        "id": 12, "name": "L'Imperatore", "cost": 30, "emoji": "👑", "image_file": "juliusCaesar.png", "is_costume": True
     },
     { 
-        "id": 13 , "name": "The Captain", "cost": 30,"emoji": "⛵️", "image_file": "columbus.png", "is_costume": True 
+        "id": 13 , "name": "Il Capitano", "cost": 30,"emoji": "⛵️", "image_file": "columbus.png", "is_costume": True 
     },
     { 
-        "id": 14,  "name": "Boxer", "cost": 25, "emoji": "🥊", "image_file": "boxer.png","is_costume": True
+        "id": 14,  "name": "Pugile", "cost": 25, "emoji": "🥊", "image_file": "boxer.png","is_costume": True
     }, 
     { 
         "id": 101, "name": "Punti doppi", "cost": 10, "image": "multiplier2x", "value": 2 
