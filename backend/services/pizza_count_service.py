@@ -14,8 +14,7 @@ def increment_pizza_count(user_id, amount, game_mode, city_key=None):
         if user.current_multiplier_value:
             value = user.current_multiplier_value
 
-            if value == 10:
-                # special rule
+            if value == 10 and not (game_mode == "vocabulary"):
                 if ((game_mode == "reading" and amount >= 4) or
                     (game_mode == "writing" and amount >= 7)):
                     final_amount *= 10

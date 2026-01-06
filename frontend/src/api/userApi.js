@@ -17,3 +17,15 @@ export async function equipCostume(username, itemId) {
     }
     return data; 
 }
+
+export const getCurrentMultiplier = async (username) => {
+    const res = await fetch(
+        `${API_BASE_URL}/user/${username}/multiplier`
+    );
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch current multiplier");
+    }
+
+    return res.json();
+};

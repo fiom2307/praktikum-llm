@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
-from services.user_service import equip_costume 
+from services.user_service import equip_costume
+from models.user_model import User
+from services.user_service import get_current_multiplier
 
 user_routes = Blueprint('user', __name__)
 
@@ -26,3 +28,15 @@ def equip_costume_route():
         "success": True, 
         "current_costume_id": new_costume_id
     }), 200
+    
+
+@user_routes.route("/user/<username>/multiplier", methods=["GET"])
+def get_current_multiplier_route(username):
+    value, error = get_current_multiplier(username)
+
+    if error:
+        return jsonify({"error": error}), 404
+
+    return jsonify({
+        "current_multiplier_value": value
+    })

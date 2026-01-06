@@ -41,3 +41,14 @@ def equip_costume(username, item_id):
         return None, "Database error during equip."
     finally:
         db.close()
+        
+
+def get_current_multiplier(username):
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.username == username).first()
+        if not user:
+            return None, "User not found"
+        return user.current_multiplier_value, None
+    finally:
+        db.close()

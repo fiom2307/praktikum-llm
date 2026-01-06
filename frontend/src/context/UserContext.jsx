@@ -7,7 +7,6 @@ export function UserProvider({ children }) {
     const [pizzaCount, setPizzaCount] = useState(0);
     const [username, setUsername] = useState(null);
     const [currentCostumeId, setCurrentCostumeId] = useState(0);
-    const [activeMultiplier, setActiveMultiplier] = useState(null);
 
     useEffect(() => {
         const storedPizza = Number(localStorage.getItem("pizzaCount")) || 0;
@@ -73,8 +72,6 @@ export function UserProvider({ children }) {
             logoutUserContext, 
             currentCostumeId,
             equipCostumeContext,
-            activeMultiplier,
-            setActiveMultiplier
             }}>
             {children}
         </UserContext.Provider>
