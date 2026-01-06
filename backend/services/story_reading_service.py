@@ -79,8 +79,6 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 
 ---
 
-### Domande
-
 {questions_md}
 """
 
