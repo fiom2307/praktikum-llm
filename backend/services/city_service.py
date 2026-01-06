@@ -2,7 +2,7 @@ from database import SessionLocal
 from models import City, UserCityProgress
 from sqlalchemy import func
 
-def get_city_progress_for_user(user_id: int):
+def get_all_city_progress_for_user(user_id: int):
     db = SessionLocal()
     try:
         rows = (
@@ -21,9 +21,7 @@ def get_city_progress_for_user(user_id: int):
         for city, progress in rows:
             result.append({
                 "key": city.name.lower(),
-                "unlocked": progress.unlocked,
-                "pizzas_earned": progress.pizzas_earned,
-                "min_pizzas_to_unlock": city.min_pizzas_to_unlock
+                "unlocked": progress.unlocked
             })
 
         return result
@@ -39,7 +37,7 @@ def get_city_by_key(city_key):
     finally:
         db.close()
 
-def get_user_city_progress(user_id, city_id):
+def get_user_progress_for_city(user_id, city_id):
     db = SessionLocal()
     try:
         return (
