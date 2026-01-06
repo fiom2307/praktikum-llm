@@ -1,13 +1,13 @@
 from services.gemini_service import generate_from_prompt
 from database import SessionLocal
-from models import ReadingHistory
+from models import FreeReadingHistory
 import re
 from models import User
 
 def save_reading_history(user_id, llm_question, user_answer, llm_feedback):
     db = SessionLocal()
     try:
-        entry = ReadingHistory(
+        entry = FreeReadingHistory(
             user_id=user_id,
             llm_question=llm_question,
             user_answer=user_answer,
@@ -102,9 +102,9 @@ def generate_reading_text_from_ai(user_id: int):
     db = SessionLocal()
     try:
         histories = (
-            db.query(ReadingHistory)
-            .filter(ReadingHistory.user_id == user_id)
-            .order_by(ReadingHistory.created_at.desc())
+            db.query(FreeReadingHistory)
+            .filter(FreeReadingHistory.user_id == user_id)
+            .order_by(FreeReadingHistory.created_at.desc())
             .limit(5)
             .all()
         )

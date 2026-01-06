@@ -2,7 +2,7 @@ from .user_model import User, user_to_dict
 from .city_model import City
 from .flashcard_model import Flashcard, flashcard_to_dict
 from .form_settings_model import FormSettings
-from .free_vocabulary_history_model import FreeVocabularyHistory
+from .free_vocabulary_history_model import FreeVocabularyHistory, free_vocabulary_history_to_dict
 from .free_writing_history_model import FreeWritingHistory
 from .free_reading_history_model import FreeReadingHistory
 from .shop_history_model import ShopHistoryModel

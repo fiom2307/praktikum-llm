@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services.vocabulary_service import generate_word_and_clues_with_ai, check_word_with_ai, get_last_vocabulary_entry
-from models import vocabulary_to_dict
+from models import free_vocabulary_history_to_dict
 
 vocabulary_routes = Blueprint("vocabulary_routes", __name__)
 
@@ -33,5 +33,5 @@ def get_last_vocabulary(user_id):
 
     return jsonify({
         "exists": True,
-        "history": vocabulary_to_dict(entry)
+        "history": free_vocabulary_history_to_dict(entry)
     })

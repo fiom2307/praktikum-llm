@@ -1,6 +1,6 @@
 from services.gemini_service import generate_from_prompt
 from database import SessionLocal
-from models import WritingHistory
+from models import FreeWritingHistory
 import re
 from models import User
 
@@ -27,9 +27,9 @@ def correct_text_with_ai(user_id: int, user_text: str):
             return {"corrected_text": "", "pizzas": 0}
         
         histories = (
-            db.query(WritingHistory)
-            .filter(WritingHistory.user_id == user_id)
-            .order_by(WritingHistory.created_at.desc())
+            db.query(FreeWritingHistory)
+            .filter(FreeWritingHistory.user_id == user_id)
+            .order_by(FreeWritingHistory.created_at.desc())
             .limit(5)
             .all()
         )

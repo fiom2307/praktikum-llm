@@ -2,15 +2,15 @@ import re
 import json
 from services.gemini_service import generate_from_prompt
 from database import SessionLocal
-from models import VocabularyHistory
+from models import FreeVocabularyHistory
 
 def generate_word_and_clues_with_ai(user_id: int):
     db = SessionLocal()
     try:
         histories = (
-            db.query(VocabularyHistory)
-            .filter(VocabularyHistory.user_id == user_id, VocabularyHistory.completed == True)
-            .order_by(VocabularyHistory.created_at.desc())
+            db.query(FreeVocabularyHistory)
+            .filter(FreeVocabularyHistory.user_id == user_id, FreeVocabularyHistory.completed == True)
+            .order_by(FreeVocabularyHistory.created_at.desc())
             .limit(20)
             .all()
         )
@@ -45,7 +45,7 @@ def generate_word_and_clues_with_ai(user_id: int):
 def save_vocabulary_history(user_id: int, word: str, clues: list, answer: str, attempt: int):
     db = SessionLocal()
     try:
-        entry = VocabularyHistory(
+        entry = FreeVocabularyHistory(
             user_id=user_id,
             word=word,
             clues=clues,
@@ -95,9 +95,9 @@ def get_last_vocabulary_entry(user_id: int):
     db = SessionLocal()
     try:
         entry = (
-            db.query(VocabularyHistory)
-        .filter(VocabularyHistory.user_id == user_id)
-        .order_by(VocabularyHistory.created_at.desc())
+            db.query(FreeVocabularyHistory)
+        .filter(FreeVocabularyHistory.user_id == user_id)
+        .order_by(FreeVocabularyHistory.created_at.desc())
         .first()
         )
 

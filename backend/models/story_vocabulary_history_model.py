@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Text, TIMESTAMP, ForeignKey, func, Boole
 from database import Base
 
 class StoryVocabularyHistory(Base):
-    __tablename__ = "free_vocabulary_history"
+    __tablename__ = "story_vocabulary_history"
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
