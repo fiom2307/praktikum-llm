@@ -6,8 +6,11 @@ import { useUser } from "../context/UserContext";
 import vocImg from "../assets/vocabulary.png";
 import readingImg from "../assets/reading.png";
 import writingImg from "../assets/writing.png";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getCity } from "../api/cityApi";
+
+import PassportOverlay from "../components/PassportOverlay";
+import { FaRegAddressBook } from "react-icons/fa";
 
 // City background images
 import napoliBg from "../assets/cities/napoli.png";
@@ -17,19 +20,31 @@ import sienaBg from "../assets/cities/siena.png";
 import veneziaBg from "../assets/cities/venezia.png";
 import torinoBg from "../assets/cities/torino.png";
 
+// Badges
+import napoliBadge from "../assets/badges/Napoli.png";
+import palermoBadge from "../assets/badges/Palermo.png";
+import romaBadge from "../assets/badges/Roma.png";
+import sienaBadge from "../assets/badges/Siena.png";
+import veneziaBadge from "../assets/badges/Venezia.png";
+import torinoBadge from "../assets/badges/Torino.png";
+
 function CityMenuPage() {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState(null);
   const [progress, setProgress] = useState(0);
+
   const navigate = useNavigate();
   const { cityName } = useParams();
   const location = useLocation();
 
   const { currentCostumeId } = useUser();
 
+  const cityKey = (cityName || "").toLowerCase();
+
   const isInitialEntry = location.state?.initialEntry === true;
   const [showMascot, setShowMascot] = useState(isInitialEntry);
 
-  // Dialogue of each city (simple Italian + small English hint)
+  const [passportOpen, setPassportOpen] = useState(false);
+
   const cityDialogues = {
     napoli: [
       "Ciao! Benvenuto a Napoli, l'inizio del nostro viaggio!",
@@ -68,10 +83,8 @@ function CityMenuPage() {
     ]
   };
 
-  const currentDialogue =
-    cityDialogues[cityName?.toLowerCase()] || cityDialogues.default;
+  const currentDialogue = cityDialogues[cityKey] || cityDialogues.default;
 
-  // City background mapping
   const cityBackgrounds = {
     napoli: napoliBg,
     palermo: palermoBg,
@@ -81,8 +94,59 @@ function CityMenuPage() {
     torino: torinoBg
   };
 
-  const selectedBg =
-    cityBackgrounds[cityName?.toLowerCase()] || napoliBg;
+  const selectedBg = cityBackgrounds[cityKey] || napoliBg;
+
+  const CITY_BADGES = useMemo(
+    () => ({
+      napoli: napoliBadge,
+      palermo: palermoBadge,
+      roma: romaBadge,
+      siena: sienaBadge,
+      venezia: veneziaBadge,
+      torino: torinoBadge
+    }),
+    []
+  );
+
+  const CITY_INFO = useMemo(
+    () => ({
+      napoli: [
+        "Napoli è famosa per la pizza e la sua energia unica.",
+        "Vista sul Vesuvio e un mare spettacolare.",
+        "Centro storico pieno di vicoli e tradizioni."
+      ],
+      palermo: [
+        "Palermo è nel cuore della Sicilia, ricca di storia e cultura.",
+        "Mercati vivaci e street food incredibile.",
+        "Un mix di influenze: araba, normanna e italiana."
+      ],
+      roma: [
+        "Roma è la Città Eterna: storia in ogni angolo.",
+        "Monumenti iconici e piazze meravigliose.",
+        "Qui metti alla prova il tuo italiano come un vero imperatore!"
+      ],
+      siena: [
+        "Siena è una gemma medievale in Toscana.",
+        "Famosa per il Palio e le sue contrade.",
+        "Perfetta per allenare la tua scrittura con calma e precisione."
+      ],
+      venezia: [
+        "Venezia è una città sull’acqua: gondole e canali.",
+        "Calli, ponti e un’atmosfera magica.",
+        "Attento ai canali… e completa le tue missioni!"
+      ],
+      torino: [
+        "Torino è elegante e piena di caffè storici.",
+        "Città famosa per il cioccolato e l’architettura.",
+        "È il momento di dimostrare tutto quello che hai imparato!"
+      ],
+      default: ["Scopri la città e completa le attività per guadagnare il badge."]
+    }),
+    []
+  );
+
+  const badgeSrc = CITY_BADGES[cityKey];
+  const infoLines = CITY_INFO[cityKey] || CITY_INFO.default;
 
   useEffect(() => {
     getCity(cityName).then((data) => {
@@ -91,50 +155,79 @@ function CityMenuPage() {
       const earned = data.pizzas_earned;
       const required = data.min_pizzas_to_unlock;
 
-      setProgress(Math.min(100, Math.round((earned / required) * 100)));
+      if (!required || required <= 0) {
+        setProgress(0);
+      } else {
+        setProgress(Math.min(100, Math.round((earned / required) * 100)));
+      }
     });
   }, [cityName]);
+
+  const openPassport = () => setPassportOpen(true);
+  const closePassport = () => setPassportOpen(false);
+
+  const handleMascotComplete = () => {
+    setShowMascot(false);
+    setTimeout(() => {
+      openPassport();
+    }, 300);
+  };
+
+  const cityTitle =
+    city?.name || (cityKey ? cityKey.charAt(0).toUpperCase() + cityKey.slice(1) : "");
 
   return (
     <div
       className="min-h-screen flex flex-col items-center text-black relative bg-cover bg-center"
       style={{ backgroundImage: `url(${selectedBg})` }}
     >
-      {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/35 backdrop-blur-[1px] z-0" />
 
-      {/* Content wrapper above background */}
+      <PassportOverlay
+        open={passportOpen}
+        onClose={closePassport}
+        cityTitle={cityTitle}
+        badgeSrc={badgeSrc}
+        infoLines={infoLines}
+      />
+
       <div className="relative z-10 w-full flex flex-col items-center">
-        {/* Mascot overlay (first entry only) */}
         {showMascot && (
           <MascotOverlay
             dialogues={currentDialogue}
-            onComplete={() => setShowMascot(false)}
+            onComplete={handleMascotComplete}
             currentImage={currentCostumeId}
           />
         )}
 
-        {/* Header */}
+        <button
+          type="button"
+          onClick={openPassport}
+          className="fixed left-5 top-[92px] z-40 bg-white/90 hover:bg-white text-black rounded-2xl shadow-lg border border-black/10 px-3 py-2 flex items-center gap-2"
+          title="Apri il passaporto"
+        >
+          <FaRegAddressBook className="text-xl" />
+          <span className="text-sm font-semibold">Passaporto</span>
+        </button>
+
         <Header onBack={() => navigate("/story")} />
 
-        {/* City title and info */}
         <div className="flex flex-col items-center mb-6">
           <h1 className="text-3xl sm:text-5xl font-extrabold drop-shadow-md text-center capitalize text-white">
-            📍 {city.name}
+            📍 {cityTitle}
           </h1>
 
           <p className="text-lg sm:text-xl mt-2 font-semibold text-white/90">
-            Livello {city.level}
+            Livello {city?.level ?? ""}
           </p>
 
           <ProgressBar value={progress} />
 
           <p className="text-base sm:text-lg mt-4 max-w-2xl text-center px-4 text-white/95">
-            Benvenuto a {city.name}! Scegli la tua sfida.
+            Benvenuto a {cityTitle}! Scegli la tua sfida.
           </p>
         </div>
 
-        {/* Reading / Vocabulary / Writing buttons */}
         <div className="w-full flex justify-center pb-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center px-4 sm:px-10 lg:px-32">
             <button
