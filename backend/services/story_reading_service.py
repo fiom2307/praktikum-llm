@@ -6,8 +6,7 @@
 import random
 from database import SessionLocal
 from models.city_model import City
-from models.story_reading_exercise_model import StoryReadingExercise
-from models.story_reading_history_model import StoryReadingHistory
+from models import StoryReadingExercise, StoryReadingHistory
 
 
 def get_city_reading_text_for_user(user_id: int, city_key: str):
@@ -74,13 +73,13 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
             [f"{i+1}. {ex.questions[i]}" for i in remaining_indexes]
         )
 
-        reading_text_md = f"""### 📖 Lettura
+        reading_text_md = f"""
 
 {ex.text}
 
 ---
 
-### ❓ Domande
+### Domande
 
 {questions_md}
 """

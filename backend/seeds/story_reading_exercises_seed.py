@@ -6,18 +6,20 @@ def seed_story_reading_exercises():
 
     exercises_by_city = {
         1: [  # Napoli
-            {"text": "In classe gli studenti parlano di due città italiane: Napoli e Torino. Alcuni studenti collegano Napoli al mare, al sole e alla vita vivace nelle strade. Altri invece pensano al traffico e al rumore della città. Una studentessa racconta di esserci stata una volta: dice che il centro storico è affollato, ma le persone sono molto accoglienti. Di Torino gli studenti immaginano una città più ordinata e moderna, collegata all’industria e al lavoro. L’insegnante ricorda alla classe che ogni città può avere più di una faccia e che le prime impressioni non sempre raccontano tutta la realtà."""
-            , "questions": [
-                "Quali immagini positive sono associate a Napoli?",
-                "Quali aspetti negativi di Napoli vengono menzionati da alcuni studenti?",
-                "Che esperienza racconta una studentessa dopo aver visitato Napoli?",
-                "Come immaginano gli studenti la città di Torino?",
-                "Quale messaggio dà l’insegnante alla fine del testo?"
-            ]
+            {
+                "text": "In classe gli studenti parlano di due città italiane: Napoli e Torino. Alcuni studenti collegano Napoli al mare, al sole e alla vita vivace nelle strade. Altri invece pensano al traffico e al rumore della città. Una studentessa racconta di esserci stata una volta: dice che il centro storico è affollato, ma le persone sono molto accoglienti. Di Torino gli studenti immaginano una città più ordinata e moderna, collegata all’industria e al lavoro. L’insegnante ricorda alla classe che ogni città può avere più di una faccia e che le prime impressioni non sempre raccontano tutta la realtà.",
+                "questions": [
+                    "Quali immagini positive sono associate a Napoli?",
+                    "Quali aspetti negativi di Napoli vengono menzionati da alcuni studenti?",
+                    "Che esperienza racconta una studentessa dopo aver visitato Napoli?",
+                    "Come immaginano gli studenti la città di Torino?",
+                    "Quale messaggio dà l’insegnante alla fine del testo?"
+                ],
             }
         ],
         2: [  # Palermo
-            {"text": "Per molti abitanti, Napoli non è solo una città. Nel centro storico le strade sono strette e piene di persone, i balconi sono colorati e la gente parla ad alta voce. Per qualcuno questo sembra caotico, ma per altri è un segno di energia e di vita. Alcuni giovani dicono che la città sia difficile, ma allo stesso tempo la sentono come una parte della propria identità. Per questo Napoli può apparire diversa a seconda di chi la guarda: un turista, uno studente o chi ci vive ogni giorno.",
+            {
+                "text": "Per molti abitanti, Napoli non è solo una città. Nel centro storico le strade sono strette e piene di persone, i balconi sono colorati e la gente parla ad alta voce. Per qualcuno questo sembra caotico, ma per altri è un segno di energia e di vita. Alcuni giovani dicono che la città sia difficile, ma allo stesso tempo la sentono come una parte della propria identità. Per questo Napoli può apparire diversa a seconda di chi la guarda: un turista, uno studente o chi ci vive ogni giorno.",
                 "questions": [
                     "Quali elementi della vita quotidiana a Napoli vengono descritti nel testo?",
                     "Perché alcune persone vedono la città come caotica?",
