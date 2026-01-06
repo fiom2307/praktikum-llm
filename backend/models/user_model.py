@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, func, ForeignKey
-from sqlalchemy.orm import relationship
 from database import Base
 
 
@@ -14,7 +13,6 @@ class User(Base):
     current_multiplier_value = Column(Integer, nullable=True)
     created_at = Column(TIMESTAMP, server_default=func.now())
     current_costume_id = Column(Integer, default=0, nullable=False)
-    inventory = relationship("ShopHistoryModel", back_populates="user")
     current_city_id = Column(Integer, ForeignKey("cities.id"))
 
 
