@@ -6,22 +6,22 @@ def seed_story_writing_exercises():
 
     exercises_by_city = {
         1: [  # Napoli
-            {"text": ""},
+            {"text": "Scrivi 5–6 frasi in italiano. Confronta le tue prime impressioni di Napoli e Torino. Non valutare: descrivi sensazioni, immagini e associazioni."},
         ],
         2: [  # Palermo
-            {"text": ""},
+            {"text": "Scrivi 5–6 frasi in italiano. Descrivi Napoli dal punto di vista di una persona che ci vive. Concentrati su emozioni, atmosfera e identità, non sul turismo."},
         ],
-        3: [  # Roma
-            {"text": ""},
+        3: [  # Roma    
+            {"text": "Scrivi 5–6 frasi in italiano. Descrivi un piccolo conflitto quotidiano a casa o in classe. Concentrati su emozioni, reazioni e su come la situazione si risolve."},
         ],
         4: [  # Siena
-            {"text": ""},
+            {"text": "Scrivi 4–5 frasi in italiano. Esprimi i tuoi sentimenti o le tue opinioni su una città o un luogo. Usa almeno due delle seguenti strutture: “penso che…”, “credo che…”, “ho paura che…”, “è importante che…”."},
         ],
         5: [  # Venezia
-            {"text": ""},
+            {"text": "Scrivi 5–6 frasi in italiano su un conflitto con un amico e su come cerchi di risolverlo. Usa almeno due espressioni di opinione o di emozione."},
         ],
         6: [  # Torino
-            {"text": ""},
+            {"text": "Scrivi una breve email (70–90 parole) in cui confronti due città. Usa almeno due espressioni di contrasto."},
         ],
     }
 
