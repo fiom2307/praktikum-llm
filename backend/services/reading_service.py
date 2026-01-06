@@ -1,4 +1,4 @@
-from services.gemini_service import generate_from_prompt
+from services.openai_service import generate_from_prompt
 from database import SessionLocal
 from models import ReadingHistory
 import re
