@@ -77,7 +77,7 @@ function ReadingPage() {
         if (!username) return alert("Per favore, accedi per inviare le risposte.");
         setCompleted(false);
         runAction(
-            () => createReadingText(),
+            () => createReadingText(fromCity),
             (result) => setGeneratedText(result),
             (msg) => setGeneratedText(msg)
         );

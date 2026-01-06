@@ -11,7 +11,6 @@ import { getCity } from "../api/cityApi";
 
 function CityMenuPage() {
   const [city, setCity] = useState("");
-  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
   const { cityName } = useParams();
   const location = useLocation();

@@ -1,5 +1,5 @@
 from database import SessionLocal
-from models.form_settings_model import FormSettings
+from models import FormSettings
 
 def seed_form_settings():
     db = SessionLocal()
