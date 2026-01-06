@@ -44,7 +44,6 @@ def register_user(username, password):
             db.add(UserCityProgress(
                 user_id=user.id,
                 city_id=city.id,
-                pizzas_earned=0,
                 unlocked=(city.order_index == 1)
             ))
 
