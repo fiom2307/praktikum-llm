@@ -54,19 +54,19 @@ function InventoryPage() {
             <Header />
 
             <h1 className="text-4xl font-extrabold mt-8 mb-8 drop-shadow-md text-center">
-                🎒 My Backpack
+                🎒 Il mio zaino
             </h1>
 
             {error && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
                     <p>{error}</p>
-                    <Link to="/login" className="underline font-bold">Go to Login</Link>
+                    <Link to="/login" className="underline font-bold">Vai al login</Link>
                 </div>
             )}
 
             {/* loading */}
             {loading ? (
-                <p className="text-xl animate-pulse">Loading items...</p>
+                <p className="text-xl animate-pulse">Caricamento elementi in corso...</p>
             ) : (
                 <div className="w-full max-w-5xl px-6 pb-12">
                     
@@ -77,8 +77,8 @@ function InventoryPage() {
                                 {/* show default image */}
                                 <Mascot alt="Default" className="w-20 h-20 object-contain bg-gray-100 rounded-full p-2"></Mascot>
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-800">Default Look</h3>
-                                    <p className="text-xs text-gray-500 mt-1">Standard Mascot</p>
+                                    <h3 className="text-xl font-bold text-gray-800">Aspetto predefinito</h3>
+                                    <p className="text-xs text-gray-500 mt-1">Mascotte standard</p>
                                 </div>
                             </div>
                             
@@ -91,7 +91,7 @@ function InventoryPage() {
                                     : 'bg-gray-500 text-white hover:bg-gray-600'
                                 }`}
                             >
-                                {currentCostumeId === 0 ? "Attuale (Current)" : "Rimuovi Costume (Unequip)"}
+                                {currentCostumeId === 0 ? "Attuale" : "Rimuovi Costume"}
                             </button>
                         </div>
                     </div>
@@ -100,9 +100,9 @@ function InventoryPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {inventory.length === 0 && !error ? (
                             <div className="col-span-full text-center flex flex-col items-center">
-                                <p className="text-xl text-gray-600 mb-4">Your backpack is empty.</p>
+                                <p className="text-xl text-gray-600 mb-4">Il tuo zaino è vuoto.</p>
                                 <Link to="/shop" className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition">
-                                    Go to Shop 🛍️
+                                    Vai al negozio 🛍️
                                 </Link>
                             </div>
                         ) : (
@@ -129,7 +129,7 @@ function InventoryPage() {
                                             <div>
                                                 <h3 className="text-xl font-bold text-gray-800">{item.item_name}</h3>
                                                 <p className="text-xs text-gray-500 mt-1">
-                                                    Bought: {new Date(item.purchased_at).toLocaleDateString()}
+                                                    Acquistato: {new Date(item.purchased_at).toLocaleDateString()}
                                                 </p>
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@ function InventoryPage() {
                                                     : 'bg-blue-500 text-white hover:bg-blue-600'
                                                 }`}
                                             >
-                                                {isEquipped ? "Indossato (Equipped)" : "Indossa (Equip)"}
+                                                {isEquipped ? "Indossato" : "Indossa"}
                                             </button>
                                         )}
                                     </div>

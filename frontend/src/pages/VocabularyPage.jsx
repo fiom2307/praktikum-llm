@@ -121,11 +121,11 @@ function VocabularyPage() {
         }
         
         if (attempts >= 3) {
-            setMsg(`No more attempts. Generate a new word.`);
+            setMsg(`Nessun altro tentativo. Genera una nuova parola.`);
             return;
         }
         if (completed) {
-            setMsg("You already completed this word! Generate a new one.");
+            setMsg("Hai già completato questa parola! Generane una nuova.");
             return;
         }
         setLoading(true);
@@ -138,20 +138,20 @@ function VocabularyPage() {
             const res = await checkWord(word, clues, answer, newAttempts);
 
             if (res.status === "almost") {
-                setMsg("Your answer is almost correct. Here is a hint: " +  res.hint);
+                setMsg("La tua risposta è quasi corretta. Ecco un suggerimento: " +  res.hint);
             } else if (res.status === "correct") {
                 setCompleted(true);
                 let before = pizzaCount;
                 const res = await incrementPizzaCount(1, "vocabulary", fromCity);                
                 updatePizzaCount(res.pizzaCount);
-                setMsg(`Congratulations, your answer is correct. You get ${res.pizzaCount - before} pizza`);
+                setMsg(`Congratulazioni, la tua risposta è corretta. Hai vinto ${res.pizzaCount - before} pizza`);
                 setCanGenerate(true);
             } else {
-                setMsg("Your answer is incorrect. Try again");
+                setMsg("La tua risposta è errata. Riprova.");
             }
 
             if (newAttempts >= 3 && res.status !== "correct") {
-                setMsg(`This was your last attempt. The correct answer was: ${word}`);
+                setMsg(`Questo era il tuo ultimo tentativo. La risposta corretta era: ${word}`);
                 setCanGenerate(true);
                 await saveFlashcard(word);
             }
@@ -167,7 +167,7 @@ function VocabularyPage() {
         if (flashcardSaved) return;
         await saveFlashcard(word);
         setFlashcardSaved(true);
-        setMsg("Word added to flashcards!");
+        setMsg("Parola aggiunta alle flashcard!");
     };
 
     return (

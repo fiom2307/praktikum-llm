@@ -91,7 +91,7 @@ export default function Header({ onBack }) {
                 className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${location.pathname === "/inventory" ? "text-gray-400 cursor-default pointer-events-none" : ""}`}
                 onClick={handleInventoryClick}
               >
-                🎒 My Backpack
+                🎒 Il mio zaino
               </button>
 
               {/* Flashcard button */}
@@ -107,7 +107,7 @@ export default function Header({ onBack }) {
                 className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${location.pathname === "/shop" ? "text-gray-400 cursor-default pointer-events-none" : ""}`}
                 onClick={() => handleNavigate("/shop")}
               >
-                Shop
+                Negozio
               </button>
               
               <div className="my-2 h-px bg-gray-200"></div>
@@ -117,7 +117,7 @@ export default function Header({ onBack }) {
                 className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
                 onClick={handleLogout}
               >
-                Log out
+                Esci
               </button>
             </div>
           )}

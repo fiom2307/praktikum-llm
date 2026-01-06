@@ -125,7 +125,7 @@ function StoryPage() {
         </div>
 
         <p className="mt-2 text-gray-600 italic text-sm">
-          Select a city to start your story. Complete the current city to unlock the next one.
+          Seleziona una città per iniziare la tua storia. Completa la città attuale per sbloccare quella successiva.
         </p>
       </main>
     </div>
