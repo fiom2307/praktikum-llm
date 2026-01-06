@@ -1,22 +1,59 @@
 from database import SessionLocal
-from models.city_model import City
+from models.story_reading_exercise_model import StoryReadingExercise
 
-def seed_cities():
+def seed_story_reading_exercises():
     db = SessionLocal()
 
-    cities = [
-        {"id": 1, "name": "Napoli", "order_index": 1},
-        {"id": 2, "name": "Palermo", "order_index": 2},
-        {"id": 3, "name": "Roma", "order_index": 3},
-        {"id": 4, "name": "Siena", "order_index": 4},
-        {"id": 5, "name": "Venezia", "order_index": 5},
-        {"id": 6, "name": "Torino", "order_index": 6},
-    ]
+    exercises_by_city = {
+        1: [  # Napoli
+            {"text": "", "questions": [], "answers": []},
+            {"text": "", "questions": [], "answers": []},
+        ],
+        2: [  # Palermo
+            {"text": "", "questions": [], "answers": []},
+            {"text": "", "questions": [], "answers": []},
+        ],
+        3: [  # Roma
+            {"text": "", "questions": [], "answers": []},
+            {"text": "", "questions": [], "answers": []},
+        ],
+        4: [  # Siena
+            {"text": "", "questions": [], "answers": []},
+            {"text": "", "questions": [], "answers": []},
+        ],
+        5: [  # Venezia
+            {"text": "", "questions": [], "answers": []},
+            {"text": "", "questions": [], "answers": []},
+        ],
+        6: [  # Torino
+            {"text": "", "questions": [], "answers": []},
+            {"text": "", "questions": [], "answers": []},
+        ],
+    }
 
-    for city in cities:
-        exists = db.query(City).filter(City.id == city["id"]).first()
-        if not exists:
-            db.add(City(**city))
+    exercise_id = 1
+
+    for city_id, exercises in exercises_by_city.items():
+        for exercise_data in exercises:
+            existing = db.query(StoryReadingExercise).filter(
+                StoryReadingExercise.id == exercise_id
+            ).first()
+
+            data = {
+                "id": exercise_id,
+                "city_id": city_id,
+                "text": exercise_data["text"],
+                "questions": exercise_data["questions"],
+                "answers": exercise_data["answers"],
+            }
+
+            if existing:
+                for key, value in data.items():
+                    setattr(existing, key, value)
+            else:
+                db.add(StoryReadingExercise(**data))
+
+            exercise_id += 1
 
     db.commit()
     db.close()
