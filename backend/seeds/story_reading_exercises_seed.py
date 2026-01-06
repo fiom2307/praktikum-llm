@@ -6,20 +6,7 @@ def seed_story_reading_exercises():
 
     exercises_by_city = {
         1: [  # Napoli
-            {"text": """In classe gli studenti parlano di due città italiane: Napoli e Torino.
-
-            Alcuni studenti collegano Napoli al mare, al sole e alla vita vivace nelle strade.
-            Altri invece pensano al traffico e al rumore della città.
-
-            Una studentessa racconta di esserci stata una volta:
-            dice che il centro storico è affollato, ma le persone sono molto accoglienti.
-
-            Di Torino gli studenti immaginano una città più ordinata e moderna,
-            collegata all’industria e al lavoro.
-
-            L’insegnante ricorda alla classe che ogni città può avere più di una faccia
-            e che le prime impressioni non sempre raccontano tutta la realtà."""
-            
+            {"text": "In classe gli studenti parlano di due città italiane: Napoli e Torino. Alcuni studenti collegano Napoli al mare, al sole e alla vita vivace nelle strade. Altri invece pensano al traffico e al rumore della città. Una studentessa racconta di esserci stata una volta: dice che il centro storico è affollato, ma le persone sono molto accoglienti. Di Torino gli studenti immaginano una città più ordinata e moderna, collegata all’industria e al lavoro. L’insegnante ricorda alla classe che ogni città può avere più di una faccia e che le prime impressioni non sempre raccontano tutta la realtà."""
             , "questions": [
                 "Quali immagini positive sono associate a Napoli?",
                 "Quali aspetti negativi di Napoli vengono menzionati da alcuni studenti?",
