@@ -18,7 +18,8 @@ def create_app():
             "http://localhost:3001", 
             "http://127.0.0.1:3001",
             "http://localhost:3002",
-            "http://127.0.0.1:3002"], # React frontend address
+            "http://127.0.0.1:3002", # React frontend address
+            "https://praktikum-llm-1.onrender.com"],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }})
