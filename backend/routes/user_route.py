@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.user_service import equip_costume
 from models.user_model import User
 from services.user_service import get_current_multiplier
+from services.user_service import mark_tutorial_seen
 
 user_routes = Blueprint('user', __name__)
 
@@ -40,3 +41,21 @@ def get_current_multiplier_route(username):
     return jsonify({
         "current_multiplier_value": value
     })
+
+
+@user_routes.route("/user/tutorial/seen", methods=["POST"])
+def set_tutorial_seen():
+   
+    data = request.get_json()
+    username = data.get("username")
+    task_type = data.get("task_type") 
+    
+    if not username or not task_type:
+        return jsonify({"success": False, "message": "Missing username or task_type"}), 400
+    
+    success, error = mark_tutorial_seen(username, task_type)
+    
+    if error:
+        return jsonify({"success": False, "message": error}), 400
+        
+    return jsonify({"success": True}), 200

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, func, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, func, ForeignKey, Boolean, JSON
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -16,6 +16,11 @@ class User(Base):
     current_costume_id = Column(Integer, default=0, nullable=False)
     inventory = relationship("ShopHistoryModel", back_populates="user")
     current_city_id = Column(Integer, ForeignKey("cities.id"))
+    tutorial_progress = Column(JSON, default=lambda: {
+        "reading": False, 
+        "vocabulary": False, 
+        "writing": False
+    })
 
 
 def user_to_dict(user):
@@ -27,5 +32,7 @@ def user_to_dict(user):
         "pizza_count": user.pizza_count,
         "current_costume_id": user.current_costume_id,
         "current_multiplier_value": user.current_multiplier_value,
+        "created_at": user.created_at.isoformat() if user.created_at else None,
+        "tutorial_progress": user.tutorial_progress or {"reading": False, "vocabulary": False, "writing": False},
         "created_at": user.created_at.isoformat() if user.created_at else None,
     }

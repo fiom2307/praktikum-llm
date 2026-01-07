@@ -1,28 +1,53 @@
 import Header from "../components/Header";
 import { correctAnswers, createReadingText } from "../api/readingApi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ActionButton from "../components/ActionButton";
 import ReactMarkdown from "react-markdown";
 import { useUser } from "../context/UserContext";
 import { incrementPizzaCount } from "../api/pizzaApi";
 import { useNavigate, useLocation } from "react-router-dom";
+import HelpModal from "../components/HelpModal";
+import MascotOverlay from "../components/MascotOverlay";
 
 
 function ReadingPage() {
     const username = localStorage.getItem("username");
     const { updatePizzaCount } = useUser();
+
+    const { 
+        currentCostumeId, 
+        tutorialProgress, 
+        completeTutorialContext 
+    } = useUser();
+
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
     const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showTutorial, setShowTutorial] = useState(false);
 
     const navigate = useNavigate();
     //
     const location = useLocation();
-    const fromCity = location.state?.fromCity;
+    const fromCity = location.state?.fromCity?.toLowerCase();
     const fromMode = location.state?.fromMode;
+
+    // only shown in napoli and when napoli is first opened
+    useEffect(() => {
+        console.log("Checking Tutorial Logic:", fromCity, tutorialProgress);
+        if (fromCity === "napoli" && tutorialProgress?.reading === false) {
+            setShowTutorial(true);
+        }
+    }, [fromCity, tutorialProgress]);
+
+    // 
+    const readingTutorialDialogue = [
+       "Benvenuto alla tua prima prova di Lettura!",
+        "Clicca sul pulsante 'Genera' per visualizzare il testo. Troverai 5 domande a cui rispondere nel riquadro 'Il tuo testo'.",
+        "Leggi con attenzione! Se rispondi correttamente a tutte le 5 domande, vincerai 5 Pizze!"
+    ];
 
     //
     const handleBack = () => {
@@ -87,6 +112,24 @@ function ReadingPage() {
     return (
         <div className="min-h-screen flex flex-col items-center text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
+
+            {/* 1. first time in napoli */}
+            {showTutorial && (
+                <MascotOverlay 
+                    dialogues={readingTutorialDialogue}
+                    onComplete={() => {
+                        console.log("Tutorial completed for reading");
+                        setShowTutorial(false);
+                        completeTutorialContext("reading"); // mark as read
+                    }}
+                    currentImage={currentCostumeId}
+                />
+            )}
+
+            {/* 2. Q&A helping button */}
+            <div className="fixed right-5 top-[92px] z-40">
+                <HelpModal costumeId={currentCostumeId} />
+            </div>
 
             {/* Header */}
             <Header onBack={handleBack} />

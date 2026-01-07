@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { correctText } from "../api/writingApi";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Header from "../components/Header";
@@ -7,19 +7,41 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ActionButton from "../components/ActionButton";
 import { incrementPizzaCount } from "../api/pizzaApi";
 import { useUser } from "../context/UserContext";
+import HelpModal from "../components/HelpModal";
+import MascotOverlay from "../components/MascotOverlay";
 
 function TextProductionPage() {
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [loading, setLoading] = useState(false);
     const [completed, setCompleted] = useState(false);
-    const { updatePizzaCount } = useUser();
+    const { 
+        updatePizzaCount, 
+        currentCostumeId, 
+        tutorialProgress, 
+        completeTutorialContext 
+    } = useUser();
+    const [showTutorial, setShowTutorial] = useState(false);
 
     const navigate = useNavigate();
     
     const location = useLocation();
-    const fromCity = location.state?.fromCity; 
+    const fromCity = location.state?.fromCity?.toLowerCase();
     const fromMode = location.state?.fromMode;
+
+    useEffect(() => {
+        console.log("Checking Tutorial Logic:", fromCity, tutorialProgress);
+        if (fromCity === "napoli" && tutorialProgress?.writing === false) {
+            setShowTutorial(true);
+        }
+    }, [fromCity, tutorialProgress]);
+
+    const writingTutorialDialogue = [
+        "Benvenuto alla Produzione Scritta!",
+        "Scrivi un testo tra 50 e 150 parole sul tema proposto. Puoi cliccare su 'Genera' per cambiare argomento quando vuoi!",
+        "Usa la tua creatività! Io correggerò il tuo lavoro per aiutarti a migliorare.",
+        "Se il tuo testo è eccellente, riceverai un premio speciale di 10 Pizze!"
+    ];
 
     const topics = [
         "Vacanze",
@@ -92,6 +114,21 @@ function TextProductionPage() {
     return (
         <div className="min-h-screen flex flex-col items-center text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
+
+            {showTutorial && (
+                <MascotOverlay 
+                    dialogues={writingTutorialDialogue}
+                    onComplete={() => {
+                        setShowTutorial(false);
+                        completeTutorialContext("writing"); 
+                    }}
+                    currentImage={currentCostumeId}
+                />
+            )}
+
+            <div className="fixed right-5 top-[92px] z-40">
+                <HelpModal costumeId={currentCostumeId} />
+            </div>
 
             {/* Header */}
             <Header onBack={handleBack} />

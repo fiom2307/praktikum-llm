@@ -29,3 +29,20 @@ export const getCurrentMultiplier = async (username) => {
 
     return res.json();
 };
+
+export async function markTutorialSeenApi(username, taskType) {
+    const response = await fetch(`${API_BASE_URL}/user/tutorial/seen`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+            username: username,
+            task_type: taskType 
+        }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || "Failed to update tutorial progress.");
+    }
+    return data;
+}

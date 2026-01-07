@@ -8,9 +8,18 @@ import { generateWordAndClues, checkWord, getLastVocabularyEntry } from "../api/
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Mascot from "../components/MascotOutfit";
+import HelpModal from "../components/HelpModal";
+import MascotOverlay from "../components/MascotOverlay";
 
 function VocabularyPage() {
-    const { updatePizzaCount, pizzaCount } = useUser();
+    const { 
+        updatePizzaCount, 
+        pizzaCount, 
+        currentCostumeId, 
+        tutorialProgress, 
+        completeTutorialContext 
+    } = useUser();
+
     const username = localStorage.getItem("username");
 
     const [loading, setLoading] = useState(false);
@@ -22,13 +31,13 @@ function VocabularyPage() {
     const [completed, setCompleted] = useState(false);
     const [flashcardSaved, setFlashcardSaved] = useState(false);
     const [canGenerate, setCanGenerate] = useState(true);
+    const [showTutorial, setShowTutorial] = useState(false);
 
 
     const navigate = useNavigate();
     const location = useLocation();
-    const fromCity = location.state?.fromCity;
+    const fromCity = location.state?.fromCity?.toLowerCase();
     const fromMode = location.state?.fromMode;
-    const { currentCostumeId } = useUser();
     
     const handleBack = () => {
         if (fromMode === "free") {
@@ -43,6 +52,20 @@ function VocabularyPage() {
 
         navigate("/");
     };
+
+    useEffect(() => {
+        console.log("Checking Tutorial Logic:", fromCity, tutorialProgress);
+        if (fromCity === "napoli" && tutorialProgress?.vocabulary === false) {
+            setShowTutorial(true);
+        }
+    }, [fromCity, tutorialProgress]);
+
+    const vocTutorialDialogue = [
+        "Benvenuto alla sfida del Vocabolario!",
+        "Leggi con attenzione i tre indizi e prova a indovinare la parola nascosta. Hai 3 tentativi per ogni sfida.",
+        "Clicca su 'Genera' per iniziare. Per ogni parola indovinata correttamente, riceverai 1 Pizza!",
+        "Buona fortuna e arricchisci il tuo lessico!"
+    ];
 
 
     useEffect(() => {
@@ -173,6 +196,22 @@ function VocabularyPage() {
     return (
         <div className="min-h-screen flex flex-col items-center text-black">
             {loading && <LoadingOverlay message="L’IA sta pensando…" />}
+
+            {showTutorial && (
+                <MascotOverlay 
+                    dialogues={vocTutorialDialogue}
+                    onComplete={() => {
+                        setShowTutorial(false);
+                        completeTutorialContext("vocabulary"); 
+                    }}
+                    currentImage={currentCostumeId}
+                />
+            )}
+
+            <div className="fixed right-5 top-[92px] z-40">
+                <HelpModal costumeId={currentCostumeId} />
+            </div>
+
             {/* Header */}
             <Header onBack={handleBack} />
 

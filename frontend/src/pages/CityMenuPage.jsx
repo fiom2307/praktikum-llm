@@ -10,6 +10,7 @@ import { useEffect, useState, useMemo } from "react";
 import { getCity } from "../api/cityApi";
 
 import PassportOverlay from "../components/PassportOverlay";
+import HelpModal from "../components/HelpModal";
 import { FaRegAddressBook } from "react-icons/fa";
 
 // City background images
@@ -209,6 +210,8 @@ function CityMenuPage() {
           <FaRegAddressBook className="text-xl" />
           <span className="text-sm font-semibold">Passaporto</span>
         </button>
+
+        <HelpModal costumeId={currentCostumeId} />
 
         <Header onBack={() => navigate("/story")} />
 
