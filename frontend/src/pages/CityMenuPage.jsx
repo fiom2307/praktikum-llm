@@ -260,8 +260,14 @@ function CityMenuPage() {
                 onClick={() =>
                   navigate("/reading", { state: { fromCity: cityName } })
                 }
-                className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
-              >
+                className={`bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md
+                  flex flex-col items-center justify-between p-3 transition-transform
+                  ${
+                    readingCompleted
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:scale-105"
+                  }`
+                }>
                 <img src={readingImg} alt="Reading" className="object-contain h-80" />
                 Lettura
               </button>
@@ -301,7 +307,14 @@ function CityMenuPage() {
                 onClick={() =>
                   navigate("/textproduction", { state: { fromCity: cityName } })
                 }
-                className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
+                className={`bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md
+                  flex flex-col items-center justify-between p-3 transition-transform
+                  ${
+                    writingCompleted
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:scale-105"
+                  }`
+                }
               >
                 <img src={writingImg} alt="Writing" className="object-contain h-80" />
                 Produzione scritta
