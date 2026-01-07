@@ -14,7 +14,6 @@ import MascotOverlay from "../components/MascotOverlay";
 function VocabularyPage() {
     const { 
         updatePizzaCount, 
-        pizzaCount, 
         currentCostumeId, 
         tutorialProgress, 
         completeTutorialContext 
