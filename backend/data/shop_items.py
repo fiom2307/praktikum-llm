@@ -4,7 +4,7 @@ SHOP_ITEMS = [
         "name": "Darth Vader",
         "cost": 30,
         "emoji": "⚫️",
-        "image_file": "darthVader.png", 
+        "image_file": "darthVader.png",
         "is_costume": True
     },
     {
@@ -12,7 +12,7 @@ SHOP_ITEMS = [
         "name": "Gladiatore",
         "cost": 25,
         "emoji": "🛡️",
-        "image_file": "gladiator.png", 
+        "image_file": "gladiator.png",
         "is_costume": True
     },
     {
@@ -48,36 +48,138 @@ SHOP_ITEMS = [
         "is_costume": True
     },
     {
-        "id": 7, "name": "Barista", "cost": 25, "emoji": "☕", "image_file": "barista.png", "is_costume": True
+        "id": 7,
+        "name": "Barista",
+        "cost": 25,
+        "emoji": "☕",
+        "image_file": "barista.png",
+        "is_costume": True
     },
     {
-        "id": 8, "name": "Maschera Veneziana", "cost": 25, "emoji": "🎭", "image_file": "masked.png", "is_costume": True
+        "id": 8,
+        "name": "Maschera Veneziana",
+        "cost": 25,
+        "emoji": "🎭",
+        "image_file": "masked.png",
+        "is_costume": True
     },
     {
-        "id": 9, "name": "Super Idraulico", "cost": 30, "emoji": "🍄", "image_file": "mario.png", "is_costume": True
+        "id": 9,
+        "name": "Super Idraulico",
+        "cost": 30,
+        "emoji": "🍄",
+        "image_file": "mario.png",
+        "is_costume": True
     },
     {
-        "id": 10, "name": "L'artista", "cost": 30, "emoji": "🎨", "image_file": "davinci.png", "is_costume": True
+        "id": 10,
+        "name": "L'artista",
+        "cost": 30,
+        "emoji": "🎨",
+        "image_file": "davinci.png",
+        "is_costume": True
     },
     {
-        "id": 11, "name": "Motociclista Vespa", "cost": 25, "emoji": "🛵", "image_file": "biker.png", "is_costume": True
+        "id": 11,
+        "name": "Motociclista Vespa",
+        "cost": 25,
+        "emoji": "🛵",
+        "image_file": "biker.png",
+        "is_costume": True
     },
     {
-        "id": 12, "name": "L'Imperatore", "cost": 30, "emoji": "👑", "image_file": "juliusCaesar.png", "is_costume": True
+        "id": 12,
+        "name": "L'Imperatore",
+        "cost": 30,
+        "emoji": "👑",
+        "image_file": "juliusCaesar.png",
+        "is_costume": True
     },
-    { 
-        "id": 13 , "name": "Il Capitano", "cost": 30,"emoji": "⛵️", "image_file": "columbus.png", "is_costume": True 
+    {
+        "id": 13,
+        "name": "Il Capitano",
+        "cost": 30,
+        "emoji": "⛵️",
+        "image_file": "columbus.png",
+        "is_costume": True
     },
-    { 
-        "id": 14,  "name": "Pugile", "cost": 25, "emoji": "🥊", "image_file": "boxer.png","is_costume": True
-    }, 
-    { 
-        "id": 101, "name": "Punti doppi", "cost": 10, "image": "multiplier2x", "value": 2 
+    {
+        "id": 14,
+        "name": "Pugile",
+        "cost": 25,
+        "emoji": "🥊",
+        "image_file": "boxer.png",
+        "is_costume": True
     },
-    { 
-        "id": 102, "name": "Punti tripli ", "cost": 15, "image": "multiplier3x", "value": 3  
+    {
+        "id": 15,
+        "name": "Fanciulla Alpina",
+        "cost": 25,
+        "emoji": "🏔️",
+        "image_file": "alpineMaid.png",
+        "is_costume": True
     },
-    { 
-        "id": 103, "name": "Dieci punti o niente", "cost": 25, "image": "multiplier10x", "value": 10  
+    {
+        "id": 16,
+        "name": "Eleganza di Mezzanotte",
+        "cost": 30,
+        "emoji": "🖤",
+        "image_file": "midnightElegance.png",
+        "is_costume": True
+    },
+    {
+        "id": 17,
+        "name": "Signora del Rinascimento",
+        "cost": 30,
+        "emoji": "👑",
+        "image_file": "renessainceLady.png",
+        "is_costume": True
+    },
+    {
+        "id": 18,
+        "name": "Diva Retrò",
+        "cost": 25,
+        "emoji": "🕶️",
+        "image_file": "retroDiva.png",
+        "is_costume": True
+    },
+    {
+        "id": 19,
+        "name": "Belle Siciliana",
+        "cost": 25,
+        "emoji": "🌺",
+        "image_file": "sicillianBelle.png",
+        "is_costume": True
+    },
+    {
+        "id": 20,
+        "name": "Mascherata Veneziana",
+        "cost": 30,
+        "emoji": "🎭",
+        "image_file": "venetianMasquerade.png",
+        "is_costume": True
+    },
+
+    # MULTIPLIERS
+    {
+        "id": 101,
+        "name": "Punti doppi",
+        "cost": 10,
+        "image": "multiplier2x",
+        "value": 2
+    },
+    {
+        "id": 102,
+        "name": "Punti tripli ",
+        "cost": 15,
+        "image": "multiplier3x",
+        "value": 3
+    },
+    {
+        "id": 103,
+        "name": "Dieci punti o niente",
+        "cost": 25,
+        "image": "multiplier10x",
+        "value": 10
     }
 ]

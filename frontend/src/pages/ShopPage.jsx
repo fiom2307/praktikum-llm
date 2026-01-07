@@ -25,7 +25,6 @@ function ShopPage() {
         { id: 4, emoji: "🌹", name: "Il Padrino", cost: 25, isCostume: true },
         { id: 5, emoji: "⚽", name: "Maradona", cost: 30, isCostume: true },
         { id: 6, emoji: "🏎️", name: "Pilota Ferrari", cost: 25, isCostume: true },
-        // more further items
         { id: 7, emoji: "☕", name: "Barista", cost: 25, isCostume: true },
         { id: 8, emoji: "🎭", name: "Maschera Veneziana", cost: 25, isCostume: true },
         { id: 9, emoji: "🍄", name: "Super Idraulico", cost: 30, isCostume: true },
@@ -34,6 +33,12 @@ function ShopPage() {
         { id: 12, emoji: "👑", name: "L'Imperatore", cost: 30, isCostume: true },
         { id: 13, emoji: "⛵️", name: "Il Capitano", cost: 30, isCostume: true },
         { id: 14, emoji: "🥊", name: "Pugile", cost: 25, isCostume: true },
+        { id: 15, emoji: "🏔️", name: "Fanciulla Alpina", cost: 25, isCostume: true },
+        { id: 16, emoji: "🖤", name: "Eleganza di Mezzanotte", cost: 30, isCostume: true },
+        { id: 17, emoji: "👑", name: "Signora del Rinascimento", cost: 30, isCostume: true },
+        { id: 18, emoji: "🕶️", name: "Diva Retrò", cost: 25, isCostume: true },
+        { id: 19, emoji: "🌺", name: "Belle Siciliana", cost: 25, isCostume: true },
+        { id: 20, emoji: "🎭", name: "Mascherata Veneziana", cost: 30, isCostume: true },
     ];
 
     const multipliers = [

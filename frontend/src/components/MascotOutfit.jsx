@@ -15,7 +15,13 @@ const COSTUME_MAP = {
     11: outfits.biker,
     12: outfits.juliusCaesar,
     13: outfits.columbus, 
-    14: outfits.boxer
+    14: outfits.boxer,
+    15: outfits.alpineMaid,
+    16: outfits.midnightElegance,
+    17: outfits.renessainceLady,
+    18: outfits.retroDiva,
+    19: outfits.sicilianBelle,
+    20: outfits.venetianMasquerade
 };
 
 export default function Mascot({ costumeId = 0, ...props }) {
