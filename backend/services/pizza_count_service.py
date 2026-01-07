@@ -47,15 +47,18 @@ def increment_pizza_count(user_id, amount, game_mode, city_key=None):
                     db.add(progress)
 
                 if(game_mode == "reading"):
-                    progress.reading_pizzas_earned += amount
+                    if (progress.reading_pizzas_earned < 5):
+                        progress.reading_pizzas_earned += amount
                     if(progress.reading_tasks_done == 0):
                         progress.reading_tasks_done += 1
                 elif(game_mode == "vocabulary"):
-                    progress.vocabulary_pizzas_earned += amount
+                    if (progress.vocabulary_pizzas_earned < 10):
+                        progress.vocabulary_pizzas_earned += amount
                     if(progress.vocabulary_tasks_done < 10):
                         progress.vocabulary_tasks_done += 1
                 elif(game_mode == "writing"):
-                    progress.writing_pizzas_earned += amount
+                    if (progress.writing_pizzas_earned < 7):
+                        progress.writing_pizzas_earned += amount
                     if(progress.writing_tasks_done == 0):
                         progress.writing_tasks_done += 1
 

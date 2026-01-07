@@ -3,6 +3,7 @@ from database import SessionLocal
 from models import FreeReadingHistory
 import re
 from models import User
+from typing import List
 
 def save_reading_history(user_id, llm_question, user_answer, llm_feedback):
     db = SessionLocal()
@@ -80,6 +81,7 @@ def correct_answers_ai(user_id: int, generated_text: str, user_text: str):
 
     corrected = generate_from_prompt(prompt)
     pizzas = extract_pizzas(corrected)
+    corrected = clean_llm_output(corrected)
 
     save_reading_history(
         user_id=user_id,
@@ -90,13 +92,28 @@ def correct_answers_ai(user_id: int, generated_text: str, user_text: str):
 
     return {"corrected_answers": corrected,"pizzas": pizzas}
 
-
-
 def extract_pizzas(text: str) -> int:
     match = re.search(r"Pizzas\s+(-?\d+)", text)
     if match:
         return int(match.group(1))
     return 0
+
+def extract_indexes(text: str) -> List[int]:
+    match = re.search(r"Indexes\s*:\s*\[?([0-9,\s-]+)\]?", text)
+    if not match:
+        return []
+
+    raw_indexes = match.group(1)
+    return [int(i.strip()) for i in raw_indexes.split(",") if i.strip()]
+
+def clean_llm_output(text: str) -> str:
+    return re.sub(
+        r"(Pizzas\s+-?\d+|Indexes\s*:?\s*\[?[0-9,\s-]+\]?)",
+        "",
+        text,
+        flags=re.IGNORECASE
+    ).strip()
+
 
 def generate_reading_text_from_ai(user_id: int):
     db = SessionLocal()

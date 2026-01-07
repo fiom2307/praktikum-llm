@@ -7,7 +7,26 @@ import random
 from database import SessionLocal
 from models.city_model import City
 from models import StoryReadingExercise, StoryReadingHistory
+from models import User
+from services.gemini_service import generate_from_prompt
+from services.reading_service import extract_pizzas, extract_indexes, clean_llm_output
 
+def save_reading_story_history(user_id, exercise_id, user_answer, llm_feedback, correct_question_indexes):
+    db = SessionLocal()
+    try:
+        entry = StoryReadingHistory(
+            user_id=user_id,
+            exercise_id=exercise_id,
+            user_answer=user_answer,
+            llm_feedback=llm_feedback,
+            correct_question_indexes=correct_question_indexes
+        )
+        db.add(entry)
+        db.commit()
+        db.refresh(entry)
+        return entry
+    finally:
+        db.close()
 
 def get_city_reading_text_for_user(user_id: int, city_key: str):
     db = SessionLocal()
@@ -89,3 +108,79 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 
     finally:
         db.close()
+        
+def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, exercise_id: int):
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            return {"corrected_answers": "", "pizzas": 0}
+
+        prompt_control = (
+            "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. "
+            "Gib NUR folgendes Format aus und halte dich strikt daran:\n\n"
+            "**Frage 1:** richtige Antwort\n"
+            "--------------------\n"
+            "**Erklärung:** Korrektur der Schülerantwort\n\n"
+            "**Richtige Antwort:** Antwort der Frage\n"
+            "**Frage 2:** richtige Antwort\n"
+            "--------------------\n"
+            "**Erklärung:** Korrektur der Schülerantwort\n\n"
+            "**Richtige Antwort:** Antwort der Frage\n"
+            "(… und so weiter für alle Fragen …)\n\n"
+            "Am Ende gib:\n"
+            "- Einen kurzen, motivierenden Kommentar für den Schüler, egal ob er gut oder schlecht abgeschnitten hat.\n"
+            "- Eine Punktzahl von 0 bis 5 im Format: Pizzas X\n\n"
+            "Beantworte nur im oben beschriebenen Format, ohne zusätzliche Erklärungen, ohne Einleitung und ohne zusätzlichen Text.\n\n"
+            "Nutze dafür den folgenden Ausgangstext:\n"
+            f"{generated_text}\n\n"
+            "Dies sind die Antworten des Schülers:\n"
+            f"{user_text}\n\n"
+            "Wenn der Text des Nutzers leer ist, werden automatisch 0 Punkte vergeben."
+            "Am Ende musst du mir die Nummern der Fragen zurückgeben, die korrekt waren, in dieser Form: \"Indexes: 1, 3, 5\" fängt mit 0 an"
+        )
+
+        prompt_treatment = (
+            "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. "
+            "Gib NUR folgendes Format aus und halte dich strikt daran:\n\n"
+            "**Frage 1:** richtige Antwort\n"
+            "--------------------\n"
+            "**Erklärung:** Korrektur der Schülerantwort\n\n"
+            "**Richtige Antwort:** Antwort der Frage\n"
+            "**Frage 2:** richtige Antwort\n"
+            "--------------------\n"
+            "**Erklärung:** Korrektur der Schülerantwort\n\n"
+            "**Richtige Antwort:** Antwort der Frage\n"
+            "(… und so weiter für alle Fragen …)\n\n"
+            "Am Ende gib:\n"
+            "- Einen kurzen, motivierenden Kommentar für den Schüler, egal ob er gut oder schlecht abgeschnitten hat.\n"
+            "- Eine Punktzahl von 0 bis 5 im Format: Pizzas X\n\n"
+            ""
+            "Beantworte nur im oben beschriebenen Format, ohne zusätzliche Erklärungen, ohne Einleitung und ohne zusätzlichen Text.\n\n"
+            "Nutze dafür den folgenden Ausgangstext:\n"
+            f"{generated_text}\n\n"
+            "Dies sind die Antworten des Schülers:\n"
+            f"{user_text}\n\n"
+            "Wenn der Text des Nutzers leer ist, werden automatisch 0 Punkte vergeben."
+            "Am Ende musst du mir die Nummern der Fragen zurückgeben, die korrekt waren, in dieser Form: \"Indexes: 1, 3, 5\" fängt mit 0 an"
+        )
+
+        prompt = prompt_control if user.user_group == "control" else prompt_treatment
+
+    finally:
+        db.close()
+
+    corrected = generate_from_prompt(prompt)
+    pizzas = extract_pizzas(corrected)
+    indexes = extract_indexes(corrected)
+    corrected = clean_llm_output(corrected)
+
+    save_reading_story_history(
+        user_id=user_id,
+        exercise_id=exercise_id,
+        user_answer=user_text,
+        llm_feedback=corrected,
+        correct_question_indexes=indexes
+    )
+
+    return {"corrected_answers": corrected,"pizzas": pizzas}

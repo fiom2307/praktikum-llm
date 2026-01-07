@@ -18,6 +18,7 @@ function ReadingPage() {
     const [exerciseId, setExerciseId] = useState(0)
     const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [blank, setBlank] = useState(false);
 
     const navigate = useNavigate();
     //
@@ -42,6 +43,10 @@ function ReadingPage() {
 
 
     async function runAction(action, onSuccess, onError) {
+        if (completed || !blank) {
+            setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
+            return;
+        }
         setLoading(true);
         try {
             const result = await action();
@@ -55,6 +60,7 @@ function ReadingPage() {
     }
 
     const handleCorrect = async () => {
+        if (!userText.trim()) return;
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
@@ -78,6 +84,7 @@ function ReadingPage() {
     const handleReadingText = async () => {
         if (!username) return alert("Per favore, accedi per inviare le risposte.");
         setCompleted(false);
+        setBlank(true);
         runAction(
             () => createReadingText(fromCity),
             (result) => {
@@ -139,7 +146,7 @@ function ReadingPage() {
                             focus:outline-none focus:ring-2 focus:ring-blue-400
                         "
                     />
-                    <ActionButton onClick={handleCorrect}className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Correggi</ActionButton>
+                    <ActionButton onClick={handleCorrect} disabled={!userText.trim()} className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Correggi</ActionButton>
                 </div>
 
                 {/* AI correction */}
