@@ -62,7 +62,8 @@ function ReadingPage() {
 
         runAction(
             async () => {
-                const result = await correctAnswers(userText, generatedText);
+                const result = await correctAnswers(userText, generatedText, exerciseId);
+                
                 setCorrectedText(result.corrected_answers);
                 const res = await incrementPizzaCount(result.pizzas, "reading", fromCity);                
                 updatePizzaCount(res.pizzaCount);
