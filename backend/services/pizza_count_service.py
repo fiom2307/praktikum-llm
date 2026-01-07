@@ -40,9 +40,7 @@ def increment_pizza_count(user_id, amount, game_mode, city_key=None):
                 if not progress:
                     progress = UserCityProgress(
                         user_id=user_id,
-                        city_id=city.id,
-                        pizzas_earned=0,
-                        unlocked=True
+                        city_id=city.id
                     )
                     db.add(progress)
 
@@ -96,7 +94,6 @@ def unlock_next_city(db, user_id, city):
         progress = UserCityProgress(
             user_id=user_id,
             city_id=next_city.id,
-            pizzas_earned=0,
             unlocked=True
         )
         db.add(progress)

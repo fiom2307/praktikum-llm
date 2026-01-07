@@ -4,13 +4,13 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { useUser } from "../context/UserContext";
 import { incrementPizzaCount } from "../api/pizzaApi";
 import { saveFlashcard, getFlashcards } from "../api/flashcardApi";
-import { generateWordAndClues, checkWord, getLastVocabularyEntry } from "../api/vocabularyApi";
+import { generateWordAndClues, checkWord, getLastVocabularyEntry, getLastVocabularyEntryFromCity } from "../api/vocabularyApi";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Mascot from "../components/MascotOutfit";
 
 function VocabularyPage() {
-    const { updatePizzaCount, pizzaCount } = useUser();
+    const { updatePizzaCount } = useUser();
     const username = localStorage.getItem("username");
 
     const [loading, setLoading] = useState(false);
@@ -49,7 +49,9 @@ function VocabularyPage() {
     useEffect(() => {
         async function loadProgress() {
             
-            const result = await getLastVocabularyEntry();
+            const result = fromCity
+                ? await getLastVocabularyEntryFromCity(fromCity)
+                : await getLastVocabularyEntry();
 
             if(!result || !result.exists) {
                 setWord("");
@@ -75,7 +77,8 @@ function VocabularyPage() {
             
             setWord(progress.word);
             setClues(progress.clues);
-            setAttempts(progress.attempt);
+            fromCity ? setExerciseId(progress.exercise_id) : setExerciseId(0)
+            setAttempts(progress.attempt_number);
             setCompleted(progress.completed);
             setCanGenerate(false);
 
@@ -85,7 +88,7 @@ function VocabularyPage() {
             
         }
         loadProgress();
-    }, [username]);
+    }, [username, fromCity]);
 
     const handleGenerateWordAndClues = async () => {
         if (!canGenerate) {
@@ -136,16 +139,15 @@ function VocabularyPage() {
             const newAttempts = attempts + 1;
             setAttempts(newAttempts);
 
-            const res = await checkWord(word, clues, answer, newAttempts);
+            const res = await checkWord(word, clues, exerciseId, answer, newAttempts);
 
             if (res.status === "almost") {
                 setMsg("La tua risposta è quasi corretta. Ecco un suggerimento: " +  res.hint);
             } else if (res.status === "correct") {
                 setCompleted(true);
-                let before = pizzaCount;
                 const res = await incrementPizzaCount(1, "vocabulary", fromCity);                
                 updatePizzaCount(res.pizzaCount);
-                setMsg(`Congratulazioni, la tua risposta è corretta. Hai vinto ${res.pizzaCount - before} pizza`);
+                setMsg(`Congratulazioni, la tua risposta è corretta. Hai vinto 1 pizza`);
                 setCanGenerate(true);
             } else {
                 setMsg("La tua risposta è errata. Riprova.");

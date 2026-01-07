@@ -42,7 +42,15 @@ def generate_word_and_clues_with_ai(user_id: int):
     except json.JSONDecodeError:
         return {"raw_response": raw_response}
     
-def save_vocabulary_history(user_id: int, word: str, clues: list, answer: str, attempt: int):
+def save_vocabulary_history(
+    user_id: int,
+    word: str,
+    clues: list,
+    answer: str,
+    attempt: int,
+    completed: bool,
+    correct: bool
+):
     db = SessionLocal()
     try:
         entry = FreeVocabularyHistory(
@@ -50,7 +58,9 @@ def save_vocabulary_history(user_id: int, word: str, clues: list, answer: str, a
             word=word,
             clues=clues,
             user_answer=answer,
-            user_attempt=attempt
+            attempt_number=attempt,
+            completed=completed,
+            correct=correct,
         )
         db.add(entry)
         db.commit()
@@ -78,18 +88,25 @@ def check_word_with_ai(userId: int, word: str, clues: list, answer: str, attempt
     raw_response = generate_from_prompt(prompt)
     clean_text = re.sub(r"```json|```", "", raw_response).strip()
 
+    try:
+        result = json.loads(clean_text)
+    except json.JSONDecodeError:
+        result = raw_response
+
+    is_correct = result.get("status") == "correct"
+    is_completed = is_correct or attempt >= 3
+
     save_vocabulary_history(
         user_id=userId,
         word=word,
         clues=clues,
         answer=answer,
         attempt=attempt,
+        completed=is_completed,
+        correct=is_correct,
     )
 
-    try:
-        return json.loads(clean_text)
-    except json.JSONDecodeError:
-        return {"raw_response": raw_response}
+    return result
 
 def get_last_vocabulary_entry(user_id: int):
     db = SessionLocal()
