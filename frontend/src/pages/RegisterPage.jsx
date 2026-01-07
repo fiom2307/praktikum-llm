@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import pisaImg from "../assets/pisatower.png";
 import ActionButton from "../components/ActionButton";
 import Modal from "../components/Modal";
 import { useToast } from "../context/ToastContext";
 import { checkUsername, registerUser } from "../api/authApi";
 import { FiRefreshCw } from "react-icons/fi";
+import logo from "../assets/logo.png";
 
 function RegisterPage() {
   const ANIMALI = [
@@ -120,13 +120,13 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center text-black">
+    <div className="min-h-screen flex flex-col justify-center items-center text-black">
       <div className="flex flex-col items-center gap-4 w-full max-w-sm pb-4">
 
         <img
-          src={pisaImg}
-          alt="Tower of Pisa"
-          className="w-45 h-45 object-contain -mb-6"
+          src={logo}
+          alt="Maestri dell’Apprendimento Linguini"
+          className="w-64 sm:w-72 md:w-80 mb-0"
         />
 
         {/* Username */}
