@@ -22,6 +22,7 @@ function VocabularyPage() {
     const [completed, setCompleted] = useState(false);
     const [flashcardSaved, setFlashcardSaved] = useState(false);
     const [canGenerate, setCanGenerate] = useState(true);
+    const [exerciseId, setExerciseId] = useState(0);
 
 
     const navigate = useNavigate();
@@ -94,11 +95,11 @@ function VocabularyPage() {
 
         setLoading(true);
         try {
-            const data = await generateWordAndClues();
+            const data = await generateWordAndClues(fromCity);
 
             setClues(data.clues);
             setWord(data.word);
-
+            setExerciseId(data.exercise_id);
             // Reset attempts on new word
             setAttempts(0);
             setAnswer("");

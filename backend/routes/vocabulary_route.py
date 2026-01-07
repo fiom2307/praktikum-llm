@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services.vocabulary_service import generate_word_and_clues_with_ai, check_word_with_ai, get_last_vocabulary_entry
+from services.story_vocabulary_service import generate_word_and_clues_for_story
 from models import free_vocabulary_history_to_dict
 
 vocabulary_routes = Blueprint("vocabulary_routes", __name__)
@@ -8,7 +9,12 @@ vocabulary_routes = Blueprint("vocabulary_routes", __name__)
 def generate_word_and_clues():
     data = request.get_json()
     user_id = data.get("userId")
-    response = generate_word_and_clues_with_ai(user_id)
+    city_key = data.get("cityKey")
+
+    if city_key:
+        response = generate_word_and_clues_for_story(user_id, city_key)
+    else:
+        response = generate_word_and_clues_with_ai(user_id)
     return jsonify(response)
 
 @vocabulary_routes.route("/check_word", methods=["POST"])

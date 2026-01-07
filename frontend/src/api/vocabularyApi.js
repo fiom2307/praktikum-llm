@@ -1,12 +1,12 @@
 import { API_BASE_URL } from "./config";
 
-export async function generateWordAndClues() {
+export async function generateWordAndClues(cityKey = null) {
     const userId = localStorage.getItem("userId");
 
     const response = await fetch(`${API_BASE_URL}/generate_word_and_clues`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({userId: userId}),
+        body: JSON.stringify({userId: userId, cityKey: cityKey}),
     });
     const data = await response.json();
     return data;
