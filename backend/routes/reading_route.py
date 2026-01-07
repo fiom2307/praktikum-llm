@@ -11,6 +11,7 @@ def correct_answer():
     user_id = data.get("userId")
     user_text = data.get("text", "")
     generated_text = data.get("generatedText", "")
+    exercise_id = data.get("exerciseId", 0)
 
     response = correct_answers_ai(user_id, generated_text, user_text)
 
