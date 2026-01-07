@@ -91,7 +91,7 @@ export default function Header({ onBack }) {
                 className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${location.pathname === "/inventory" ? "text-gray-400 cursor-default pointer-events-none" : ""}`}
                 onClick={handleInventoryClick}
               >
-                🎒 Il mio zaino
+                Il mio zaino
               </button>
 
               {/* Flashcard button */}

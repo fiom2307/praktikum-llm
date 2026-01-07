@@ -128,7 +128,7 @@ function ShopPage() {
         <Header />
 
         <h1 className="text-4xl font-extrabold mt-0 mb-10 drop-shadow-md text-center">
-            🛍️ Shop
+            🛍️ Negozio
         </h1>
 
     <section className="w-full  max-w-6xl px-6 pb-12">
