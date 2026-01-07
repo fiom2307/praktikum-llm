@@ -1,8 +1,15 @@
 from .user_model import User, user_to_dict
-from .flashcard_model import Flashcard, flashcard_to_dict
-from .vocabulary_history_model import VocabularyHistory, vocabulary_to_dict
-from .writing_history_model import WritingHistory
-from .reading_history_model import ReadingHistory
-from .form_settings_model import FormSettings
 from .city_model import City
+from .flashcard_model import Flashcard, flashcard_to_dict
+from .form_settings_model import FormSettings
+from .free_vocabulary_history_model import FreeVocabularyHistory, free_vocabulary_history_to_dict
+from .free_writing_history_model import FreeWritingHistory
+from .free_reading_history_model import FreeReadingHistory
+from .shop_history_model import ShopHistoryModel
 from .user_city_progress_model import UserCityProgress
+from .story_reading_exercise_model import StoryReadingExercise
+from .story_reading_history_model import StoryReadingHistory
+from .story_vocabulary_exercise_model import StoryVocabularyExercise
+from .story_vocabulary_history_model import StoryVocabularyHistory
+from .story_writing_exercise_model import StoryWritingExercise
+from .story_writing_history_model import StoryWritingHistory

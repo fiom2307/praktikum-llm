@@ -30,9 +30,7 @@ import veneziaBadge from "../assets/badges/Venezia.png";
 import torinoBadge from "../assets/badges/Torino.png";
 
 function CityMenuPage() {
-  const [city, setCity] = useState(null);
-  const [progress, setProgress] = useState(0);
-
+  const [city, setCity] = useState("");
   const navigate = useNavigate();
   const { cityName } = useParams();
   const location = useLocation();
@@ -153,14 +151,6 @@ function CityMenuPage() {
     getCity(cityName).then((data) => {
       setCity(data);
 
-      const earned = data.pizzas_earned;
-      const required = data.min_pizzas_to_unlock;
-
-      if (!required || required <= 0) {
-        setProgress(0);
-      } else {
-        setProgress(Math.min(100, Math.round((earned / required) * 100)));
-      }
     });
   }, [cityName]);
 
@@ -174,8 +164,38 @@ function CityMenuPage() {
     }, 300);
   };
 
-  const cityTitle =
-    city?.name || (cityKey ? cityKey.charAt(0).toUpperCase() + cityKey.slice(1) : "");
+  const cityTitle = city?.name || (cityKey ? cityKey.charAt(0).toUpperCase() + cityKey.slice(1) : "");
+
+
+  const isSectionCompleted = (tasksDone, tasksTotal, pizzasDone, pizzasTotal) => {
+    return (
+      tasksTotal > 0 &&
+      pizzasTotal > 0 &&
+      tasksDone >= tasksTotal &&
+      pizzasDone >= pizzasTotal
+    );
+  };
+
+  const readingCompleted = isSectionCompleted(
+    city.reading_tasks_done,
+    city.reading_task_count,
+    city.reading_pizzas_earned,
+    city.reading_pizza_goal
+  );
+
+  const vocabularyCompleted = isSectionCompleted(
+    city.vocabulary_tasks_done,
+    city.vocabulary_task_count,
+    city.vocabulary_pizzas_earned,
+    city.vocabulary_pizza_goal
+  );
+
+  const writingCompleted = isSectionCompleted(
+    city.writing_tasks_done,
+    city.writing_task_count,
+    city.writing_pizzas_earned,
+    city.writing_pizza_goal
+  );
 
   return (
     <div
@@ -215,50 +235,86 @@ function CityMenuPage() {
 
         <Header onBack={() => navigate("/story")} />
 
+      <div className="pb-14">
+        {/* City title and info */}
         <div className="flex flex-col items-center mb-6">
-          <h1 className="text-3xl sm:text-5xl font-extrabold drop-shadow-md text-center capitalize text-white">
-            📍 {cityTitle}
+          <h1 className="text-3xl sm:text-5xl font-extrabold drop-shadow-md text-center capitalize">
+            📍 {city.name}
           </h1>
-
-          <p className="text-lg sm:text-xl mt-2 font-semibold text-white/90">
-            Livello {city?.level ?? ""}
+          <p className="text-lg sm:text-xl mt-2 font-semibold text-gray-700">
+            Livello {city.level}
           </p>
-
-          <ProgressBar value={progress} />
-
-          <p className="text-base sm:text-lg mt-4 max-w-2xl text-center px-4 text-white/95">
-            Benvenuto a {cityTitle}! Scegli la tua sfida.
+          <p className="text-base sm:text-lg mt-4 max-w-2xl text-center px-4">
+            Benvenuto a {city.name}! Scegli la tua sfida.
           </p>
         </div>
 
-        <div className="w-full flex justify-center pb-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center px-4 sm:px-10 lg:px-32">
-            <button
-              onClick={() => navigate("/reading", { state: { fromCity: cityName } })}
-              className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
-            >
-              <img src={readingImg} alt="Reading" className="object-contain" />
-              Lettura
-            </button>
+        {/* Reading / Vocabulary / Writing buttons */}
+        <div className="w-full flex justify-center">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center px-4 sm:px-10 lg:px-32">
+            
+            <div>
+              <button
+                disabled={readingCompleted}
+                onClick={() =>
+                  navigate("/reading", { state: { fromCity: cityName } })
+                }
+                className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
+              >
+                <img src={readingImg} alt="Reading" className="object-contain h-80" />
+                Lettura
+              </button>
 
-            <button
-              onClick={() => navigate("/vocabulary", { state: { fromCity: cityName } })}
-              className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
-            >
-              <img src={vocImg} alt="Vocabulary" className="object-contain" />
-              Vocabolario
-            </button>
+              <ProgressBar label={"Tasks: "} earned={city.reading_tasks_done} required={city.reading_task_count} />
 
-            <button
-              onClick={() => navigate("/textproduction", { state: { fromCity: cityName } })}
-              className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
-            >
-              <img src={writingImg} alt="Writing" className="object-contain" />
-              Produzione scritta
-            </button>
+              <ProgressBar label={"Pizzas: "} earned={city.reading_pizzas_earned} required={city.reading_pizza_goal} />
+            </div>
+            
+            <div>
+              <button
+                disabled={vocabularyCompleted}
+                onClick={() =>
+                  navigate("/vocabulary", { state: { fromCity: cityName } })
+                }
+                className={`bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md
+                  flex flex-col items-center justify-between p-3 transition-transform
+                  ${
+                    vocabularyCompleted
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:scale-105"
+                  }`
+                }
+              >
+                <img src={vocImg} alt="Vocabulary" className="object-contain h-80" />
+                Vocabolario
+              </button>
+
+              <ProgressBar label={"Tasks: "} earned={city.vocabulary_tasks_done} required={city.vocabulary_task_count} />
+
+              <ProgressBar label={"Pizzas: "} earned={city.vocabulary_pizzas_earned} required={city.vocabulary_pizza_goal} />
+            </div>
+            
+            <div>
+              <button
+                disabled={writingCompleted}
+                onClick={() =>
+                  navigate("/textproduction", { state: { fromCity: cityName } })
+                }
+                className="bg-[#faf3e0] text-2xl font-semibold rounded-3xl shadow-md flex flex-col items-center justify-between p-3 transition-transform hover:scale-105"
+              >
+                <img src={writingImg} alt="Writing" className="object-contain h-80" />
+                Produzione scritta
+              </button>
+
+              <ProgressBar label={"Tasks: "} earned={city.writing_tasks_done} required={city.writing_task_count} />
+
+              <ProgressBar label={"Pizzas: "} earned={city.writing_pizzas_earned} required={city.writing_pizza_goal} />
+            </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

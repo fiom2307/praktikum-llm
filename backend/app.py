@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
 from routes import register_routes
 from database import Base, engine
 import models
+from seeds.seed_all import seed_all
 
 def create_app():
     app = Flask(__name__)
@@ -32,6 +34,10 @@ def create_app():
     )
 
     Base.metadata.create_all(bind=engine)
+
+    if os.getenv("SYNC_SEEDS", "false").lower() == "true":
+        seed_all()
+
     register_routes(app)
     return app
 

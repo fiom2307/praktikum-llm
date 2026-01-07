@@ -24,6 +24,7 @@ function ReadingPage() {
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
+    const [exerciseId, setExerciseId] = useState(0)
     const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showTutorial, setShowTutorial] = useState(false);
@@ -66,6 +67,10 @@ function ReadingPage() {
 
 
     async function runAction(action, onSuccess, onError) {
+        if (completed) {
+            setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
+            return;
+        }
         setLoading(true);
         try {
             const result = await action();
@@ -79,6 +84,7 @@ function ReadingPage() {
     }
 
     const handleCorrect = async () => {
+        if (!userText.trim()) return;
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
@@ -86,7 +92,8 @@ function ReadingPage() {
 
         runAction(
             async () => {
-                const result = await correctAnswers(userText, generatedText);
+                const result = await correctAnswers(userText, generatedText, exerciseId);
+                
                 setCorrectedText(result.corrected_answers);
                 const res = await incrementPizzaCount(result.pizzas, "reading", fromCity);                
                 updatePizzaCount(res.pizzaCount);
@@ -102,8 +109,11 @@ function ReadingPage() {
         if (!username) return alert("Per favore, accedi per inviare le risposte.");
         setCompleted(false);
         runAction(
-            () => createReadingText(),
-            (result) => setGeneratedText(result),
+            () => createReadingText(fromCity),
+            (result) => {
+                setExerciseId(result.exercise_id)
+                setGeneratedText(result.reading_text)
+            },
             (msg) => setGeneratedText(msg)
         );
     };
@@ -177,7 +187,7 @@ function ReadingPage() {
                             focus:outline-none focus:ring-2 focus:ring-blue-400
                         "
                     />
-                    <ActionButton onClick={handleCorrect}className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Correggi</ActionButton>
+                    <ActionButton onClick={handleCorrect} disabled={!userText.trim()} className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Correggi</ActionButton>
                 </div>
 
                 {/* AI correction */}

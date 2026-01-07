@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Boolean
+from sqlalchemy import Column, Integer, Boolean, String
 from database import Base
 
 class FormSettings(Base):
@@ -6,4 +6,7 @@ class FormSettings(Base):
 
     id = Column(Integer, primary_key=True)
     pretest_enabled = Column(Boolean, nullable=False, default=False)
+    pretest_url = Column(String, nullable=True)
+
     posttest_enabled = Column(Boolean, nullable=False, default=False)
+    posttest_url = Column(String, nullable=True)

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from services.reading_service import correct_answers_ai
-from services.reading_service import generate_reading_text_from_ai
+from services.reading_service import correct_answers_ai, generate_reading_text_from_ai
+from services.story_reading_service import get_city_reading_text_for_user, correct_story_answers_ai
 
 
 reading_routes = Blueprint("reading_routes", __name__)
@@ -11,8 +11,12 @@ def correct_answer():
     user_id = data.get("userId")
     user_text = data.get("text", "")
     generated_text = data.get("generatedText", "")
+    exercise_id = data.get("exerciseId", 0)
 
-    response = correct_answers_ai(user_id, generated_text, user_text)
+    if(exercise_id == 0):
+        response = correct_answers_ai(user_id, generated_text, user_text)
+    else:
+        response = correct_story_answers_ai(user_id, generated_text, user_text, exercise_id)
 
     return jsonify(response)
 
@@ -20,7 +24,11 @@ def correct_answer():
 def create_reading_text():
     data = request.get_json()
     user_id = data.get("userId")
+    city_key = data.get("cityKey")
 
-    response = generate_reading_text_from_ai(user_id)
+    if city_key:
+        response = get_city_reading_text_for_user(user_id, city_key)
+    else:
+        response = generate_reading_text_from_ai(user_id)
 
     return jsonify(response)
