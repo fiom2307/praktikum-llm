@@ -18,7 +18,6 @@ function ReadingPage() {
     const [exerciseId, setExerciseId] = useState(0)
     const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [blank, setBlank] = useState(false);
 
     const navigate = useNavigate();
     //
@@ -43,7 +42,7 @@ function ReadingPage() {
 
 
     async function runAction(action, onSuccess, onError) {
-        if (completed || !blank) {
+        if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
         }
@@ -84,7 +83,6 @@ function ReadingPage() {
     const handleReadingText = async () => {
         if (!username) return alert("Per favore, accedi per inviare le risposte.");
         setCompleted(false);
-        setBlank(true);
         runAction(
             () => createReadingText(fromCity),
             (result) => {
