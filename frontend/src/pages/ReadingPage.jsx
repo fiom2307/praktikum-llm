@@ -80,7 +80,7 @@ function ReadingPage() {
         runAction(
             () => createReadingText(fromCity),
             (result) => {
-                console.log("exercise id:", result.exercise_id);
+                setExerciseId(result.exercise_id)
                 setGeneratedText(result.reading_text)
             },
             (msg) => setGeneratedText(msg)
