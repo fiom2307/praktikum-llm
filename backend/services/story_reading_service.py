@@ -82,7 +82,10 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 {questions_md}
 """
 
-        return {"reading_text": reading_text_md}
+        return {
+            "exercise_id": ex.id, 
+            "reading_text": reading_text_md
+        }
 
     finally:
         db.close()

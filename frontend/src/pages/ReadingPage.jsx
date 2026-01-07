@@ -15,6 +15,7 @@ function ReadingPage() {
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
+    const [exerciseId, setExerciseId] = useState(0)
     const [completed, setCompleted] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -78,7 +79,10 @@ function ReadingPage() {
         setCompleted(false);
         runAction(
             () => createReadingText(fromCity),
-            (result) => setGeneratedText(result),
+            (result) => {
+                console.log("exercise id:", result.exercise_id);
+                setGeneratedText(result.reading_text)
+            },
             (msg) => setGeneratedText(msg)
         );
     };

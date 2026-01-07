@@ -131,4 +131,7 @@ def generate_reading_text_from_ai(user_id: int):
     )
     
     text = generate_from_prompt(prompt)
-    return {"reading_text": text}
+    return {
+        "exercise_id": 0,
+        "reading_text": text
+    }

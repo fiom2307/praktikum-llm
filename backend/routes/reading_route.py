@@ -23,8 +23,7 @@ def create_reading_text():
     city_key = data.get("cityKey")
 
     if city_key:
-        response = get_city_reading_text_for_user(user_id, city_key) 
-        # {"reading_text": "hi"}
+        response = get_city_reading_text_for_user(user_id, city_key)
     else:
         response = generate_reading_text_from_ai(user_id)
 

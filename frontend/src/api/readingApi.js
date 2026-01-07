@@ -25,5 +25,5 @@ export async function createReadingText(cityKey = null) {
         }),
     });
     const data = await response.json();
-    return data.reading_text;
+    return data;
 };
