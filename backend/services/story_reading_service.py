@@ -8,7 +8,7 @@ from database import SessionLocal
 from models.city_model import City
 from models import StoryReadingExercise, StoryReadingHistory
 from models import User
-from services.gemini_service import generate_from_prompt
+from services.openai_service import generate_from_prompt
 from services.reading_service import extract_pizzas, extract_indexes, clean_llm_output
 
 def save_reading_story_history(user_id, exercise_id, user_answer, llm_feedback, correct_question_indexes):

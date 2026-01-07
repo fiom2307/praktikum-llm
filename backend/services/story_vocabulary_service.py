@@ -3,7 +3,7 @@ from sqlalchemy import desc
 from sqlalchemy.orm import Session
 import re
 import json
-from services.gemini_service import generate_from_prompt
+from services.openai_service import generate_from_prompt
 from services.city_service import get_city_by_key
 from models import StoryVocabularyExercise, StoryVocabularyHistory
 from database import SessionLocal
