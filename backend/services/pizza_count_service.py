@@ -46,9 +46,21 @@ def increment_pizza_count(user_id, amount, game_mode, city_key=None):
                     )
                     db.add(progress)
 
-                progress.pizzas_earned += amount
+                if(game_mode == "reading"):
+                    progress.reading_pizzas_earned += amount
+                    if(progress.reading_tasks_done == 0):
+                        progress.reading_tasks_done += 1
+                elif(game_mode == "vocabulary"):
+                    progress.vocabulary_pizzas_earned += amount
+                    if(progress.vocabulary_tasks_done < 10):
+                        progress.vocabulary_tasks_done += 1
+                elif(game_mode == "writing"):
+                    progress.writing_pizzas_earned += amount
+                    if(progress.writing_tasks_done == 0):
+                        progress.writing_tasks_done += 1
 
-                if progress.pizzas_earned >= city.min_pizzas_to_unlock:
+
+                if progress.reading_pizzas_earned == 5 and progress.reading_tasks_done == 1 and progress.vocabulary_pizzas_earned == 10 and progress.reading_tasks_done == 10 and progress.writing_pizzas_earned >= 7 and progress.writing_tasks_done == 1:
                     if city.id == user.current_city_id:
                         unlock_next_city(db, user_id, city)
 
