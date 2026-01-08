@@ -4,7 +4,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { useUser } from "../context/UserContext";
 import { incrementPizzaCount } from "../api/pizzaApi";
 import { saveFlashcard, getFlashcards } from "../api/flashcardApi";
-import { generateWordAndClues, checkWord, getLastVocabularyEntry, getLastVocabularyEntryFromCity } from "../api/vocabularyApi";
+import { generateWordAndClues, checkWord, getLastVocabularyEntry, getLastVocabularyEntryFromCity, addTaskCount } from "../api/vocabularyApi";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Mascot from "../components/MascotOutfit";
@@ -178,7 +178,10 @@ function VocabularyPage() {
             if (newAttempts >= 3 && res.status !== "correct") {
                 setMsg(`Questo era il tuo ultimo tentativo. La risposta corretta era: ${word}`);
                 setCanGenerate(true);
+                
                 await saveFlashcard(word);
+
+                await addTaskCount(fromCity, "vocabulary");
             }
 
         } catch (error) {

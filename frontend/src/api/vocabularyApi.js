@@ -49,3 +49,20 @@ export async function getLastVocabularyEntryFromCity(cityKey) {
     const data = await response.json();
     return data;
 }
+
+export async function addTaskCount(cityKey, pageType) {
+    const userId = localStorage.getItem("userId");
+
+    const res = await fetch(`${API_BASE_URL}/add_task_to_user_city_progress/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            cityKey: cityKey,
+            pageType: pageType
+        })
+    });
+
+    const data = await res.json();
+
+    return data;
+}
