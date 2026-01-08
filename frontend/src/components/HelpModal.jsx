@@ -27,7 +27,7 @@ export default function HelpModal({ costumeId }) {
 
             <button 
                 onClick={() => setIsOpen(true)}
-                className="fixed right-5 top-[92px] z-20 bg-white/90 hover:bg-white text-black rounded-2xl shadow-lg border border-black/10 px-3 py-2 flex items-center gap-2 transition-all"
+                className="absolute right-5 top-[92px] z-20 bg-white/90 hover:bg-white text-black rounded-2xl shadow-lg border border-black/10 px-3 py-2 flex items-center gap-2 transition-all"
             >
                 <FaQuestionCircle className="text-xl text-blue-500" />
                 <span className="text-sm font-semibold">Aiuto</span>

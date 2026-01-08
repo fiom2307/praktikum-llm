@@ -40,7 +40,11 @@ function CityMenuPage() {
   const cityKey = (cityName || "").toLowerCase();
 
   const isInitialEntry = location.state?.initialEntry === true;
-  const [showMascot, setShowMascot] = useState(isInitialEntry);
+
+  const [showMascot, setShowMascot] = useState(() => {
+    const hasSeenIntro = localStorage.getItem(`seen_intro_${cityKey}`);
+    return isInitialEntry && !hasSeenIntro;
+  });
 
   const [passportOpen, setPassportOpen] = useState(false);
 
@@ -146,24 +150,26 @@ function CityMenuPage() {
 
   const badgeSrc = CITY_BADGES[cityKey];
   const infoLines = CITY_INFO[cityKey] || CITY_INFO.default;
-  useEffect(() => {
-  async function loadCity() {
-    try {
-      const data = await getCity(cityName);
-      setCity(data);
-    } catch (err) {
-      navigate("/story");
-    }
-  }
 
-  loadCity();
-}, [cityName, navigate]);
+  useEffect(() => {
+    async function loadCity() {
+      try {
+        const data = await getCity(cityName);
+        setCity(data);
+      } catch (err) {
+        navigate("/story");
+      }
+    }
+
+    loadCity();
+  }, [cityName, navigate]);
 
   const openPassport = () => setPassportOpen(true);
   const closePassport = () => setPassportOpen(false);
 
   const handleMascotComplete = () => {
     setShowMascot(false);
+    localStorage.setItem(`seen_intro_${cityKey}`, "true"); // record to local
     setTimeout(() => {
       openPassport();
     }, 300);
@@ -229,7 +235,7 @@ function CityMenuPage() {
         <button
           type="button"
           onClick={openPassport}
-          className="fixed left-5 top-[92px] z-40 bg-white/90 hover:bg-white text-black rounded-2xl shadow-lg border border-black/10 px-3 py-2 flex items-center gap-2"
+          className="absolute left-5 top-[92px] z-20 bg-white/90 hover:bg-white text-black rounded-2xl shadow-lg border border-black/10 px-3 py-2 flex items-center gap-2"
           title="Apri il passaporto"
         >
           <FaRegAddressBook className="text-xl" />
