@@ -13,7 +13,7 @@ function ProgressBar({ label, earned, required }) {
       className="w-full mt-4"
     >
 
-      <p className="text-sm font-medium text-gray-900 text-center">
+      <p className="text-sm font-bold text-white text-center">
         {label} {earned} / {required} ({value}%)
       </p>
 
