@@ -4,12 +4,21 @@ import vocImg from "../assets/vocabulary.png";
 import readingImg from "../assets/reading.png";
 import writingImg from "../assets/writing.png";
 
+import HelpModal from "../components/HelpModal";
+import { useUser } from "../context/UserContext";
+
 function FreeModePage() {
   const navigate = useNavigate();
+
+  const { currentCostumeId } = useUser();
 
   return (
     <div className="min-h-screen flex flex-col items-center text-black">
       <Header />
+
+      <div className="fixed right-5 top-[92px] z-20">
+        <HelpModal costumeId={currentCostumeId} />
+      </div>
 
       <div className="flex flex-col items-center mb-6">
         <h1 className="text-5xl font-extrabold drop-shadow-md text-center">
