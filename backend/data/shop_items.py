@@ -164,14 +164,14 @@ SHOP_ITEMS = [
     {
         "id": 101,
         "name": "Punti doppi",
-        "cost": 10,
+        "cost": 5,
         "image": "multiplier2x",
         "value": 2
     },
     {
         "id": 102,
         "name": "Punti tripli ",
-        "cost": 15,
+        "cost": 10,
         "image": "multiplier3x",
         "value": 3
     },
