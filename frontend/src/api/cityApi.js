@@ -23,6 +23,10 @@ export async function getCity(cityKey) {
     `${API_BASE_URL}/cities/${cityKey}/${userId}`
   );
 
+  if (!response.ok) {
+    throw new Error("City locked or not found");
+  }
+
   const data = await response.json();
   return data.city;
 }

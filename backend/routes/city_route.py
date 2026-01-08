@@ -20,6 +20,12 @@ def get_city(city_key, user_id):
 
     progress = get_user_progress_for_city(user_id, city.id)
 
+    if not progress or not progress.unlocked:
+        return jsonify({
+            "success": False,
+            "error": "City locked"
+        }), 403
+
     return jsonify({
         "success": True,
         "city": {

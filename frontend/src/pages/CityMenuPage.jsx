@@ -146,13 +146,18 @@ function CityMenuPage() {
 
   const badgeSrc = CITY_BADGES[cityKey];
   const infoLines = CITY_INFO[cityKey] || CITY_INFO.default;
-
   useEffect(() => {
-    getCity(cityName).then((data) => {
+  async function loadCity() {
+    try {
+      const data = await getCity(cityName);
       setCity(data);
+    } catch (err) {
+      navigate("/story");
+    }
+  }
 
-    });
-  }, [cityName]);
+  loadCity();
+}, [cityName, navigate]);
 
   const openPassport = () => setPassportOpen(true);
   const closePassport = () => setPassportOpen(false);
