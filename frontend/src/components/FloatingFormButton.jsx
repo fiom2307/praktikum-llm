@@ -1,13 +1,9 @@
 import { SiGoogleforms } from "react-icons/si";
 
-export default function FloatingFormButton({ type }) {
-    const isPre = type === "pre";
-
+export default function FloatingFormButton({ baseUrl }) {
     const userId = localStorage.getItem("userId");
 
-    const formUrl = isPre
-        ? `https://docs.google.com/forms/d/e/1FAIpQLSet9c40nwjKGZ6XGJ2tPWj0hW_960yl0xfAYSaIRm8-pTfaIw/viewform?usp=pp_url&entry.1458977373=${userId}`
-        : "https://google.com";
+    const formUrl = `${baseUrl}${userId}`;
 
     return (
         <a

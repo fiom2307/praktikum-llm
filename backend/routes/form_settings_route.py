@@ -10,10 +10,14 @@ def read_form_settings():
     if not settings:
         return jsonify({
             "pretest_enabled": False,
-            "posttest_enabled": False
+            "pretest_url": None,
+            "posttest_enabled": False,
+            "posttest_url": None
         })
 
     return jsonify({
         "pretest_enabled": settings.pretest_enabled,
-        "posttest_enabled": settings.posttest_enabled
+        "pretest_url": settings.pretest_url,
+        "posttest_enabled": settings.posttest_enabled,
+        "posttest_url": settings.posttest_url
     })

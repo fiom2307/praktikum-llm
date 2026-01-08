@@ -3,7 +3,12 @@ import { useFormSettings } from "../hooks/useFormSettings";
 import FloatingFormButton from "./FloatingFormButton";
 
 export default function FormFloatingGate() {
-  const { pretest_enabled, posttest_enabled } = useFormSettings();
+  const {
+    pretest_enabled,
+    pretest_url,
+    posttest_enabled,
+    posttest_url,
+  } = useFormSettings();
   const location = useLocation();
 
   const isAuthenticated = !!localStorage.getItem("authToken");
@@ -16,13 +21,12 @@ export default function FormFloatingGate() {
     return null;
   }
 
-  if (pretest_enabled) {
-    return <FloatingFormButton type="pre" />;
+  if (pretest_enabled && pretest_url) {
+    return <FloatingFormButton baseUrl={pretest_url} />;
   }
 
-  if (posttest_enabled) {
-    return <FloatingFormButton type="post" />;
+  if (posttest_enabled && posttest_url) {
+    return <FloatingFormButton baseUrl={posttest_url} />;
   }
-
   return null;
 }
