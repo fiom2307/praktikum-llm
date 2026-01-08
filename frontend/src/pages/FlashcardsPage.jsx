@@ -25,16 +25,39 @@ function FlashcardsPage() {
 
             
             {/* Main */}
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-2 gap-4 mt-4 max-w-4xl">
                 {flashcards.map((card, index) => (
-                    <div 
-                        key={index}
-                        className="bg-white shadow-md rounded-xl px-6 py-4 text-xl font-semibold text-center"
+                    <div
+                    key={index}
+                    className="
+                        group
+                        bg-white shadow-md rounded-xl px-6 py-4
+                        text-xl font-semibold text-center
+                        transition-all duration-300
+                        hover:scale-105
+                    "
                     >
+                    {/* WORD */}
+                    <div className="text-2xl">
                         {card.word}
                     </div>
+
+                    {/* DEFINITION (hidden until hover) */}
+                    <div
+                        className="
+                        mt-4
+                        text-base font-normal text-gray-700
+                        opacity-0 max-h-0 overflow-hidden
+                        transition-all duration-300
+                        group-hover:opacity-100 group-hover:max-h-40
+                        "
+                    >
+                        {card.definition}
+                    </div>
+                    </div>
                 ))}
-            </div>
+                </div>
+
             
         </div>
     );

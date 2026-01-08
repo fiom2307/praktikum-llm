@@ -20,7 +20,7 @@ function StoryPage() {
 
   useEffect(() => {
     const username = (localStorage.getItem("username") || "").toLowerCase();
-    const isAdmin = username === "yavuzalp";
+    const isAdmin = username === "admin";
 
     getCityProgress()
       .then((backendCities) => {
