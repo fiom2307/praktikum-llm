@@ -283,9 +283,9 @@ function CityMenuPage() {
                 Lettura
               </button>
 
-              <ProgressBar label={"Tasks: "} earned={city.reading_tasks_done} required={city.reading_task_count} />
+              <ProgressBar label={"Attività: "} earned={city.reading_tasks_done} required={city.reading_task_count} />
 
-              <ProgressBar label={"Pizzas: "} earned={city.reading_pizzas_earned} required={city.reading_pizza_goal} />
+              <ProgressBar label={"Pizze: "} earned={city.reading_pizzas_earned} required={city.reading_pizza_goal} />
             </div>
             
             <div>
@@ -307,9 +307,9 @@ function CityMenuPage() {
                 Vocabolario
               </button>
 
-              <ProgressBar label={"Tasks: "} earned={city.vocabulary_tasks_done} required={city.vocabulary_task_count} />
+              <ProgressBar label={"Attività: "} earned={city.vocabulary_tasks_done} required={city.vocabulary_task_count} />
 
-              <ProgressBar label={"Pizzas: "} earned={city.vocabulary_pizzas_earned} required={city.vocabulary_pizza_goal} />
+              <ProgressBar label={"Pizze: "} earned={city.vocabulary_pizzas_earned} required={city.vocabulary_pizza_goal} />
             </div>
             
             <div>
@@ -331,9 +331,9 @@ function CityMenuPage() {
                 Produzione scritta
               </button>
 
-              <ProgressBar label={"Tasks: "} earned={city.writing_tasks_done} required={city.writing_task_count} />
+              <ProgressBar label={"Attività: "} earned={city.writing_tasks_done} required={city.writing_task_count} />
 
-              <ProgressBar label={"Pizzas: "} earned={city.writing_pizzas_earned} required={city.writing_pizza_goal} />
+              <ProgressBar label={"Pizze: "} earned={city.writing_pizzas_earned} required={city.writing_pizza_goal} />
             </div>
           </div>
         </div>
