@@ -86,7 +86,18 @@ function CityMenuPage() {
     ]
   };
 
+  const congratsDialogues = {
+    napoli: ["Incredibile! Hai dominato le sfide di Napoli!", "Ecco il tuo badge della città. Sei pronto per la prossima tappa?"],
+    palermo: ["Ottimo lavoro a Palermo! La Sicilia non ha più segreti per te.", "Ricevi questo badge come segno della tua bravura!"],
+    roma: ["Ave, cittadino! Hai completato tutte le missioni nella Città Eterna.", "Il badge di Roma è ora nel tuo passaporto!"],
+    siena: ["Complimenti! La tua scrittura e il tuo vocabolario a Siena sono eccellenti.", "Guadagni il badge della gemma medievale!"],
+    venezia: ["Fantastico! Hai navigato tra i canali e le sfide di Venezia con successo.", "Prendi il badge della Serenissima!"],
+    torino: ["Splendido! Torino è fiera di te. Hai concluso l'ultima tappa del viaggio!", "Ecco l'ultimo, prestigioso badge!"],
+    default: ["Complimenti! Hai completato tutte le attività di questa città!", "Ecco il tuo badge!"]
+  };
+
   const currentDialogue = cityDialogues[cityKey] || cityDialogues.default;
+  const currentCongrats = congratsDialogues[cityKey] || congratsDialogues.default;
 
   const cityBackgrounds = {
     napoli: napoliBg,
@@ -151,32 +162,7 @@ function CityMenuPage() {
   const badgeSrc = CITY_BADGES[cityKey];
   const infoLines = CITY_INFO[cityKey] || CITY_INFO.default;
 
-  useEffect(() => {
-    async function loadCity() {
-      try {
-        const data = await getCity(cityName);
-        setCity(data);
-      } catch (err) {
-        navigate("/story");
-      }
-    }
-
-    loadCity();
-  }, [cityName, navigate]);
-
-  const openPassport = () => setPassportOpen(true);
-  const closePassport = () => setPassportOpen(false);
-
-  const handleMascotComplete = () => {
-    setShowMascot(false);
-    localStorage.setItem(`seen_intro_${cityKey}`, "true"); // record to local
-    setTimeout(() => {
-      openPassport();
-    }, 300);
-  };
-
-  const cityTitle = city?.name || (cityKey ? cityKey.charAt(0).toUpperCase() + cityKey.slice(1) : "");
-
+  const [showBadgeAwarded, setShowBadgeAwarded] = useState(false);
 
   const isSectionCompleted = (tasksDone, tasksTotal, pizzasDone, pizzasTotal) => {
     return (
@@ -207,6 +193,46 @@ function CityMenuPage() {
     city.writing_pizzas_earned,
     city.writing_pizza_goal
   );
+
+  const isAllDone = readingCompleted && vocabularyCompleted && writingCompleted;
+
+  useEffect(() => {
+    async function loadCity() {
+      try {
+        const data = await getCity(cityName);
+        setCity(data);
+      } catch (err) {
+        navigate("/story");
+      }
+    }
+
+    loadCity();
+  }, [cityName, navigate]);
+
+  useEffect(() => {
+    const hasSeenCongrats = localStorage.getItem(`badge_seen_${cityKey}`);
+    if (isAllDone && !hasSeenCongrats) {
+      setShowBadgeAwarded(true);
+    }
+  }, [isAllDone, cityKey]);
+
+  const openPassport = () => setPassportOpen(true);
+  const closePassport = () => setPassportOpen(false);
+
+  const handleMascotComplete = () => {
+    setShowMascot(false);
+    localStorage.setItem(`seen_intro_${cityKey}`, "true"); // record to local
+    setTimeout(() => {
+      openPassport();
+    }, 300);
+  };
+
+  const handleBadgeComplete = () => {
+    setShowBadgeAwarded(false);
+    localStorage.setItem(`badge_seen_${cityKey}`, "true");
+  };
+
+  const cityTitle = city?.name || (cityKey ? cityKey.charAt(0).toUpperCase() + cityKey.slice(1) : "");
 
   return (
     <div
@@ -245,6 +271,30 @@ function CityMenuPage() {
         <HelpModal costumeId={currentCostumeId} />
 
         <Header onBack={() => navigate("/story")} />
+
+        {showBadgeAwarded && (
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-md">
+            <div className="relative flex flex-col items-center">
+              <img 
+                src={badgeSrc} 
+                alt="Badge" 
+                className="w-48 h-48 mb-10 drop-shadow-[0_0_35px_rgba(255,204,0,0.9)] animate-bounce"
+                style={{ animationDuration: '2s' }} 
+              />
+              <MascotOverlay
+                dialogues={currentCongrats}
+                onComplete={() => {}}
+                currentImage={currentCostumeId}
+              />
+              <button
+                onClick={handleBadgeComplete}
+                className="mt-10 px-10 py-4 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-white text-xl font-bold rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.3)] transform transition-all hover:scale-110 active:scale-95"
+              >
+                Chiudi e continua
+              </button>
+            </div>
+          </div>
+        )}
 
       <div className="pb-14">
         {/* City title and info */}

@@ -5,6 +5,22 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getCityProgress } from "../api/cityApi";
 
+import napoliBadge from "../assets/badges/Napoli.png";
+import palermoBadge from "../assets/badges/Palermo.png";
+import romaBadge from "../assets/badges/Roma.png";
+import sienaBadge from "../assets/badges/Siena.png";
+import veneziaBadge from "../assets/badges/Venezia.png";
+import torinoBadge from "../assets/badges/Torino.png";
+
+const BADGE_CONFIG = {
+  napoli: { img: napoliBadge, side: "left" },
+  palermo: { img: palermoBadge, side: "left" },
+  roma: { img: romaBadge, side: "left" },
+  siena: { img: sienaBadge, side: "right" },
+  venezia: { img: veneziaBadge, side: "right" },
+  torino: { img: torinoBadge, side: "right" },
+};
+
 const CITY_LAYOUT = [
   { key: "napoli", label: "Napoli", top: "69%", left: "57%" },
   { key: "palermo", label: "Palermo", top: "89%", left: "53%" },
@@ -17,6 +33,7 @@ const CITY_LAYOUT = [
 function StoryPage() {
   const navigate = useNavigate();
   const [cities, setCities] = useState([]);
+  const [completedCityKeys, setCompletedCityKeys] = useState([]);
 
   useEffect(() => {
     const username = (localStorage.getItem("username") || "").toLowerCase();
@@ -24,6 +41,19 @@ function StoryPage() {
 
     getCityProgress()
       .then((backendCities) => {
+        console.log("Backend Data Received:", backendCities);
+
+        const completed = backendCities
+          .filter(c => 
+            (c.reading_pizzas_earned || 0) >= 5 && 
+            (c.vocabulary_pizzas_earned || 0) >= 10 && 
+            (c.writing_pizzas_earned || 0) >= 7 
+          )
+          .map(c => c.key);
+        
+        console.log("Completed Cities:", completed); //
+        setCompletedCityKeys(completed);
+
         const merged = CITY_LAYOUT.map((layoutCity) => {
           const backendCity = backendCities.find((c) => c.key === layoutCity.key);
 
@@ -93,6 +123,34 @@ function StoryPage() {
   return (
     <div className="h-screen flex flex-col items-center text-black overflow-hidden">
       <Header />
+
+      <div className="absolute left-10 top-0 h-full flex flex-col justify-center gap-10 z-20 pointer-events-none">
+        {Object.entries(BADGE_CONFIG).filter(([_, cfg]) => cfg.side === "left").map(([key, cfg]) => (
+          <div 
+            key={key} 
+            className={`flex flex-col items-center transition-all duration-700 ${
+              completedCityKeys.includes(key) ? "opacity-100 scale-100" : "opacity-0 scale-50"
+            }`}
+          >
+            <img src={cfg.img} alt={key} className="w-32 h-32 drop-shadow-2xl" />
+            <p className="text-center text-[10px] font-bold text-gray-500 mt-1 uppercase">{key}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute right-10 top-0 h-full flex flex-col justify-center gap-10 z-20 pointer-events-none">
+        {Object.entries(BADGE_CONFIG).filter(([_, cfg]) => cfg.side === "right").map(([key, cfg]) => (
+          <div 
+            key={key} 
+            className={`flex flex-col items-center transition-all duration-700 ${
+              completedCityKeys.includes(key) ? "opacity-100 scale-100" : "opacity-0 scale-50"
+            }`}
+          >
+            <img src={cfg.img} alt={key} className="w-32 h-32 drop-shadow-2xl" />
+            <p className="text-center text-[10px] font-bold text-gray-500 mt-1 uppercase">{key}</p>
+          </div>
+        ))}
+      </div>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 relative">
         <div className="relative w-full max-w-[1400px] h-[72vh] flex justify-center items-center">

@@ -21,7 +21,10 @@ def get_all_city_progress_for_user(user_id: int):
         for city, progress in rows:
             result.append({
                 "key": city.name.lower(),
-                "unlocked": progress.unlocked
+                "unlocked": progress.unlocked,
+                "reading_pizzas_earned": progress.reading_pizzas_earned or 0,
+                "vocabulary_pizzas_earned": progress.vocabulary_pizzas_earned or 0,
+                "writing_pizzas_earned": progress.writing_pizzas_earned or 0
             })
 
         return result

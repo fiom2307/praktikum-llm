@@ -146,7 +146,7 @@ function TextProductionPage() {
                 />
             )}
 
-            <div className="fixed right-5 top-[92px] z-40">
+            <div className="absolute right-5 top-[92px] z-20">
                 <HelpModal costumeId={currentCostumeId} />
             </div>
 
