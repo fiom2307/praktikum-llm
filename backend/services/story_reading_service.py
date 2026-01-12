@@ -116,56 +116,126 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
         if not user:
             return {"corrected_answers": "", "pizzas": 0}
 
-        prompt_control = (
-            "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. "
-            "Gib NUR folgendes Format aus und halte dich strikt daran:\n\n"
-            "**Frage 1:** richtige Antwort\n"
-            "--------------------\n"
-            "**Erklärung:** Korrektur der Schülerantwort\n\n"
-            "**Richtige Antwort:** Antwort der Frage\n"
-            "**Frage 2:** richtige Antwort\n"
-            "--------------------\n"
-            "**Erklärung:** Korrektur der Schülerantwort\n\n"
-            "**Richtige Antwort:** Antwort der Frage\n"
-            "(… und so weiter für alle Fragen …)\n\n"
-            "Am Ende gib:\n"
-            "- Einen kurzen, motivierenden Kommentar für den Schüler, egal ob er gut oder schlecht abgeschnitten hat.\n"
-            "- Eine Punktzahl von 0 bis 5 im Format: Pizzas X\n\n"
-            "Beantworte nur im oben beschriebenen Format, ohne zusätzliche Erklärungen, ohne Einleitung und ohne zusätzlichen Text.\n\n"
-            "Nutze dafür den folgenden Ausgangstext:\n"
-            f"{generated_text}\n\n"
-            "Dies sind die Antworten des Schülers:\n"
-            f"{user_text}\n\n"
-            "Wenn der Text des Nutzers leer ist, werden automatisch 0 Punkte vergeben."
-            "Am Ende musst du mir die Nummern der Fragen zurückgeben, die korrekt waren, in dieser Form: \"Indexes: 1, 3, 5\" fängt mit 0 an"
-        )
+        prompt = F"""You are an automatic feedback generator for Italian reading comprehension items.
 
-        prompt_treatment = (
-            "Vergleiche diese Antworten mit den zuvor erstellten Fragen zum Text und markiere, welche richtig sind. "
-            "Gib NUR folgendes Format aus und halte dich strikt daran:\n\n"
-            "**Frage 1:** richtige Antwort\n"
-            "--------------------\n"
-            "**Erklärung:** Korrektur der Schülerantwort\n\n"
-            "**Richtige Antwort:** Antwort der Frage\n"
-            "**Frage 2:** richtige Antwort\n"
-            "--------------------\n"
-            "**Erklärung:** Korrektur der Schülerantwort\n\n"
-            "**Richtige Antwort:** Antwort der Frage\n"
-            "(… und so weiter für alle Fragen …)\n\n"
-            "Am Ende gib:\n"
-            "- Einen kurzen, motivierenden Kommentar für den Schüler, egal ob er gut oder schlecht abgeschnitten hat.\n"
-            "- Eine Punktzahl von 0 bis 5 im Format: Pizzas X\n\n"
-            ""
-            "Beantworte nur im oben beschriebenen Format, ohne zusätzliche Erklärungen, ohne Einleitung und ohne zusätzlichen Text.\n\n"
-            "Nutze dafür den folgenden Ausgangstext:\n"
-            f"{generated_text}\n\n"
-            "Dies sind die Antworten des Schülers:\n"
-            f"{user_text}\n\n"
-            "Wenn der Text des Nutzers leer ist, werden automatisch 0 Punkte vergeben."
-            "Am Ende musst du mir die Nummern der Fragen zurückgeben, die korrekt waren, in dieser Form: \"Indexes: 1, 3, 5\" fängt mit 0 an"
-        )
+            CONTEXT
 
-        prompt = prompt_control if user.user_group == "control" else prompt_treatment
+            The student answered numbered questions about an Italian passage. Provide compact per-item feedback that shows correctness, one short text evidence snippet, and (only when needed) one next-step reading strategy.  At the end, always add a brief final comment (motivation + short general reading feedback), the earned score, and the 0-based indexes of correct items. 
+            If the user does not answer a question it is marked as incorrect. 
+
+            INPUT
+
+            - Passage with questions (numbered): {generated_text}
+            - Student answers (not necessarily numbered, text to evaluate): {user_text}
+            
+
+            HARD RULES (OVERRIDES FIRST)
+
+            - If any student answer contains inappropriate/rude language (insults, slurs, obscene name-calling, threats), output ONLY: Pizze guadagnate: 0 and no further output.
+            - If PASSAGE is not predominantly Italian (exceptions: proper names, places, brands, numbers) OR there is no question OR no student answer, output ONLY: Pizze guadagnate: 0 and no further output.
+            - Otherwise, follow all rules below and produce the full output in OUTPUT FORMAT.
+            
+            ANSWER_INDEX RULES
+
+            - Provide ANSWER_INDEX aligned with questions 1–5 (same order, length 5).
+
+            HARD RULES (FORMAT + CONTENT)
+
+            - Output ONLY the lines specified in OUTPUT FORMAT. No headings, no intro, no extra text.
+            - Do NOT reproduce the full passage or the full questions.
+            - Feedback language: German. Allowed fixed labels in Italian: La tua risposta, La risposta corretta, Valutazione, Prova, Prossimo, Z., Frase, Pizzas.
+            - Do NOT rewrite or correct full sentences.
+            - If you give the correct answer for open answers, keep it to max 6 words.
+            - Always output "La tua risposta" and "La risposta corretta" for every item line.
+            - Every item line MUST include exactly one evidence snippet from the PASSAGE ("Prova").
+            - Evidence snippet: 1–8 words, in double quotes. Total max 12 snippets across all items.
+            - Add a location for the evidence:
+            * If the passage has line breaks or explicit line numbers, use "Z. <line_number>".
+            * Otherwise use "Frase <sentence_number>".
+            - Next-step strategy (Prossimo):
+            * Include "Prossimo: ..." ONLY when Valutazione is parzialmente or falso.
+            * Prossimo must be a reading strategy (not a correction), max 60 characters.
+            * It must be specific to the likely error type and tied to the cited evidence location (Z./Frase).
+            * Do NOT reveal or paraphrase the correct answer.
+            * Avoid generic advice; make it one concrete action.
+            - Do NOT mention any rules in the output.
+
+            CORRECTNESS + VALUTAZIONE
+
+            - Determine the correct answer from the PASSAGE.
+            * Map it to the option order in the question (0→A, 1→B, 2→C, ...).
+            * For vero/falso, map 0→vero, 1→falso.
+            - Always output La risposta corretta:
+            * MC/TF: a single option (A/B/C or vero/falso).
+            * Open answers: max 6 words.
+            - Valutazione must be exactly one of: corretto | parzialmente | falso
+            * MC/TF: corretto if matches; otherwise falso (no parzialmente).
+            * Open answers: choose among all three.
+
+            LENGTH LIMITS (STRICT)
+
+            - Each item line must be < 21 words (whitespace tokens).
+            * If needed, shorten in this order: 1) shorten Prossimo, 2) shorten snippet, 3) shorten German phrasing, 4) keep only essential parts.
+            - The final comment must be < 13 words.
+            - Score line and indexes line must keep the exact required format.
+
+            SCORING
+
+            - Per item (if there is no answer no point is given for the question.):
+            * corretto = 1
+            * parzialmente = 0
+            * falso = 0
+            - Total score X = number of items with Valutazione = corretto.
+            - Output as: "Pizzas X"
+            
+            FINAL COMMENT (MOTIVATION + SHORT FEEDBACK)
+
+            - Add one brief German sentence before the score line.
+            - It must include a motivating phrase AND one concrete reading habit.
+            - Keep it neutral and encouraging (no personalization).
+            - Must be < 13 words.
+
+            OUTPUT FORMAT
+
+            <N>) Deine Antwort: <student_answer> → Die richtige Antwort: <correct_answer>. Bewertung: <richtig/teilweise richtig/falsch>. Test: „<snippet>” (Z./Satz <nr>). <optional Weiter: ...>
+            ... (one line per question)
+
+            <final comment in German>
+
+            Pizzas X Index: 1, 2, 3
+            
+            EXAMPLE 
+
+            > 1) Deine Antwort: B → Die richtige Antwort: C. Bewertung: falsch. Beweis: „...“ (Satz 2). Weiter: Lies Satz 2, prüfe Negation. 
+
+            > 2) Deine Antwort: wahr → Die richtige Antwort: wahr. Bewertung: richtig. Beweis: „...“ (Satz 3). 
+
+            >Guter Fortschritt; lies den Belegsatz noch einmal genau. 
+
+            >Pizzas 1 Index: 1
+            """
+        
+        history_prompt = """HISTORY (TREATMENT; prior feedback patterns)
+
+            - Prior feedbacks (for pattern detection only; do NOT quote in output): {{PREVIOUS_FEEDBACKS_STR}}
+
+            USE OF PRIOR FEEDBACKS
+
+            - Scan {{PREVIOUS_FEEDBACKS_STR}} for recurring error patterns (e.g., verb forms, articles, prepositions, word order, agreement).
+            - If a pattern clearly repeats, prioritize that pattern in the limited output:
+            * Prefer selecting it as one of the “Errori principali” bullets OR as the first “Prossimi passi”.
+            - Do NOT add an extra section beyond the fixed OUTPUT FORMAT.
+            - Do NOT mention, quote, or reference prior feedbacks in the output.
+            - Do NOT change validation or scoring based on prior feedbacks.
+            - Do NOT personalize to hobbies/preferences/personality traits; use only learning-relevant signals.
+            """
+
+
+        prompt = (
+            prompt
+            if user.user_group == "control"
+            else prompt + "\n\n" + history_prompt
+        )
 
     finally:
         db.close()
