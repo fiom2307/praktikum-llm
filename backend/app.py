@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -11,7 +11,10 @@ import models
 from seeds.seed_all import seed_all
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_folder="dist",
+        static_url_path="")
 
     CORS(
         app,
@@ -39,6 +42,14 @@ def create_app():
         seed_all()
 
     register_routes(app)
+
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def serve_react(path):
+        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+            return send_from_directory(app.static_folder, path)
+        return send_from_directory(app.static_folder, "index.html")
+
     return app
 
 app = create_app()
