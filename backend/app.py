@@ -11,10 +11,7 @@ import models
 from seeds.seed_all import seed_all
 
 def create_app():
-    app = Flask(
-        __name__,
-        static_folder="dist",
-        static_url_path="")
+    app = Flask(__name__)
 
     CORS(
         app,
@@ -42,13 +39,6 @@ def create_app():
         seed_all()
 
     register_routes(app)
-
-    @app.route("/", defaults={"path": ""})
-    @app.route("/<path:path>")
-    def serve_react(path):
-        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-            return send_from_directory(app.static_folder, path)
-        return send_from_directory(app.static_folder, "index.html")
 
     return app
 
