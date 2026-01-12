@@ -57,7 +57,7 @@ export default function Header({ onBack }) {
     <header className="w-full flex justify-between items-center px-6 py-4 mb-8 bg-[#3399bd] text-white relative z-30">
 
       {location.pathname === "/" ? (
-        <p className="font-bold text-lg">Maestri dell’Apprendimento Linguini</p>
+        <p className="font-bold text-lg">Italingo</p>
       ) : (
         <button onClick={handleBackClick} className="text-2xl">
           <FaArrowLeft />
