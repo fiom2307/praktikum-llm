@@ -76,22 +76,6 @@ function LoginPage() {
             </span>
           </p>
         </div>
-
-        {/* WOLF (RIGHT SIDE) */}
-        <img
-          src={wolf}
-          alt="Mascotte"
-          className="
-            hidden lg:block
-            absolute
-            right-[-120px]
-            bottom-[50px]
-            max-h-[420px]
-            object-contain
-            drop-shadow-xl
-            pointer-events-none
-          "
-        />
       </div>
 
       {showError && (

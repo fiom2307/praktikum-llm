@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import { getFlashcards } from "../api/flashcardApi";
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 function FlashcardsPage() {    
     const username = localStorage.getItem("username") || "";
@@ -39,7 +40,7 @@ function FlashcardsPage() {
                     >
                     {/* WORD */}
                     <div className="text-2xl">
-                        {card.word}
+                        <ReactMarkdown>{card.word}</ReactMarkdown>
                     </div>
 
                     {/* DEFINITION (hidden until hover) */}
@@ -52,7 +53,7 @@ function FlashcardsPage() {
                         group-hover:opacity-100 group-hover:max-h-40
                         "
                     >
-                        {card.definition}
+                        <ReactMarkdown>{card.definition}</ReactMarkdown>
                     </div>
                     </div>
                 ))}

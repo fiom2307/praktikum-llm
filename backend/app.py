@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -24,7 +24,7 @@ def create_app():
                     "http://127.0.0.1:3001",
                     "http://localhost:3002",
                     "http://127.0.0.1:3002",
-                    "https://praktikum-llm-1.onrender.com",
+                    "https://italingo.onrender.com",
                 ]
             }
         },
@@ -39,6 +39,7 @@ def create_app():
         seed_all()
 
     register_routes(app)
+
     return app
 
 app = create_app()

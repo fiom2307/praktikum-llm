@@ -84,6 +84,7 @@ function ReadingPage() {
     }
 
     const handleCorrect = async () => {
+        if(!generatedText.trim()) return;
         if (!userText.trim()) return;
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
@@ -109,7 +110,12 @@ function ReadingPage() {
         if (!username) return alert("Per favore, accedi per inviare le risposte.");
         setCompleted(false);
         runAction(
-            () => createReadingText(fromCity),
+            () => {
+                    if (fromMode !== "free") {
+                        return createReadingText(fromCity);
+                    }
+                    return createReadingText();
+                },
             (result) => {
                 setExerciseId(result.exercise_id)
                 setGeneratedText(result.reading_text)

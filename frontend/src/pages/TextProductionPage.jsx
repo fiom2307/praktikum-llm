@@ -112,7 +112,13 @@ function TextProductionPage() {
         setLoading(true);
 
         try {
-            const result = await correctText(userText, exerciseId);
+            let result = null;
+            if (fromMode === "free") {
+                result = await correctText(userText, 0);
+            }else {
+                result = await correctText(userText, exerciseId);
+            }
+            
             setCorrectedText(result.corrected_text);
             const res = await incrementPizzaCount(result.pizzas, "writing",fromCity);      
             updatePizzaCount(res.pizzaCount);
