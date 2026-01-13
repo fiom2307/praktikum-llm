@@ -9,6 +9,8 @@ import { incrementPizzaCount } from "../api/pizzaApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import HelpModal from "../components/HelpModal";
 import MascotOverlay from "../components/MascotOverlay";
+import { getCity } from "../api/cityApi";
+import ProgressBar from "../components/ProgressBar";
 
 
 function ReadingPage() {
@@ -34,6 +36,26 @@ function ReadingPage() {
     const location = useLocation();
     const fromCity = location.state?.fromCity?.toLowerCase();
     const fromMode = location.state?.fromMode;
+
+    const [city, setCity] = useState("");
+    const [readTasksDone, setReadTasksDone] = useState(0);
+    const [readPizzas, setReadPizzas] = useState(0);
+
+    useEffect(() => {
+        async function loadCity() {
+            try {
+                const data = await getCity(fromCity);
+                setCity(data);
+
+                setReadTasksDone(data.reading_tasks_done);
+                setReadPizzas(data.reading_pizzas_earned);
+            } catch (err) {
+                
+            }
+        }
+
+        loadCity();
+    }, [fromCity]);
 
     // only shown in napoli and when napoli is first opened
     useEffect(() => {
@@ -99,6 +121,15 @@ function ReadingPage() {
                 const res = await incrementPizzaCount(result.pizzas, "reading", fromCity);                
                 updatePizzaCount(res.pizzaCount);
                 setCompleted(true);
+
+                if (fromCity) {
+                    setReadPizzas(prev =>
+                        Math.min(prev + result.pizzas, city.reading_pizza_goal)
+                    );
+                    setReadTasksDone(prev =>
+                        Math.min(prev + 1, city.reading_task_count)
+                    );
+                }
                 return result;
             },
             (result) => setCorrectedText(result.corrected_answers),
@@ -117,6 +148,12 @@ function ReadingPage() {
                     return createReadingText();
                 },
             (result) => {
+                if (result?.status === "done") {
+                    setGeneratedText(
+                        "Hai completato tutti gli esercizi di lettura di questa città! Torna alla pagina precedente per sbloccare il prossimo passo."
+                    );
+                    return;
+                }
                 setExerciseId(result.exercise_id)
                 setGeneratedText(result.reading_text)
             },
@@ -143,16 +180,26 @@ function ReadingPage() {
             )}
 
             {/* 2. Q&A helping button */}
-            <div className="absolute right-5 top-[92px] z-20">
+            <div className="absolute right-5 top-2 z-20">
                 <HelpModal costumeId={currentCostumeId} />
             </div>
 
             {/* Header */}
             <Header onBack={handleBack} />
 
-            <h1 className="text-3xl sm:text-4xl font-extrabold drop-shadow-md text-center mb-6">
+            <div className="w-full pt-2 pb-14">
+                <h1 className="text-3xl sm:text-4xl font-extrabold drop-shadow-md text-center">
                 📚 Lettura
-            </h1>
+                </h1>
+                {fromCity && city && (
+                    <div className="sm:px-32 lg:px-40 xl:px-96">
+                        <ProgressBar label={"Attività: "} earned={readTasksDone} required={city.reading_task_count} />
+
+                        <ProgressBar label={"Pizze: "} earned={readPizzas} required={city.reading_pizza_goal}/>
+                    </div>
+                )}
+            </div>
+            
 
             {/* Main */}
             <div className="flex items-center justify-center flex-col mb-8 w-full">

@@ -10,6 +10,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Mascot from "../components/MascotOutfit";
 import HelpModal from "../components/HelpModal";
 import MascotOverlay from "../components/MascotOverlay";
+import { getCity } from "../api/cityApi";
+import ProgressBar from "../components/ProgressBar";
 
 function VocabularyPage() {
     const { 
@@ -67,6 +69,26 @@ function VocabularyPage() {
         "Buona fortuna e arricchisci il tuo lessico!"
     ];
 
+    const [city, setCity] = useState("");
+    const [vocabTasksDone, setVocabTasksDone] = useState(0);
+    const [vocabPizzas, setVocabPizzas] = useState(0);
+
+    useEffect(() => {
+        async function loadCity() {
+            try {
+                const data = await getCity(fromCity);
+                setCity(data);
+
+                setVocabTasksDone(data.vocabulary_tasks_done);
+                setVocabPizzas(data.vocabulary_pizzas_earned);
+            } catch (err) {
+                
+            }
+        }
+
+        loadCity();
+    }, [fromCity]);
+
 
     useEffect(() => {
         async function loadProgress() {
@@ -122,16 +144,23 @@ function VocabularyPage() {
         try {
             const data = await generateWordAndClues(fromCity);
 
-            setClues(data.clues);
-            setWord(data.word);
-            setExerciseId(data.exercise_id);
             // Reset attempts on new word
             setAttempts(0);
             setAnswer("");
+            setFlashcardSaved(false);
+
+            if (data?.status === "done") {
+                setMsg("Hai completato tutti gli esercizi di questa città! Torna alla pagina precedente per sbloccare il prossimo passo.");
+                setCanGenerate(false);
+                return;
+            }
+
+            setClues(data.clues);
+            setWord(data.word);
+            setExerciseId(data.exercise_id);
+            // Reset for new word
             setMsg("");
             setCompleted(false);
-            setFlashcardSaved(false)
-
             setCanGenerate(true);
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);
@@ -171,6 +200,16 @@ function VocabularyPage() {
                 updatePizzaCount(res.pizzaCount);
                 setMsg(`Congratulazioni, la tua risposta è corretta. Hai vinto 1 pizza`);
                 setCanGenerate(true);
+
+                if (fromCity) {
+                    setVocabPizzas(prev =>
+                        Math.min(prev + 1, city.vocabulary_pizza_goal)
+                    );
+                    setVocabTasksDone(prev =>
+                        Math.min(prev + 1, city.vocabulary_task_count)
+                    );
+                }
+                    
             } else {
                 setMsg("La tua risposta è errata. Riprova.");
             }
@@ -182,6 +221,13 @@ function VocabularyPage() {
                 await saveFlashcard(word);
 
                 await addTaskCount(fromCity, "vocabulary");
+
+                if(fromCity) {
+                    setVocabTasksDone(prev =>
+                        Math.min(prev + 1, city.vocabulary_task_count)
+                    );
+                }
+
             }
 
         } catch (error) {
@@ -213,7 +259,7 @@ function VocabularyPage() {
                 />
             )}
 
-            <div className="absolute right-5 top-[92px] z-20">
+            <div className="absolute right-5 top-2 z-20">
                 <HelpModal costumeId={currentCostumeId} />
             </div>
 
@@ -221,13 +267,22 @@ function VocabularyPage() {
             <Header onBack={handleBack} />
 
             {/* Main container */}
-            <main className="items-center justify-center flex flex-col w-full max-w-6xl px-4 sm:px-10 lg:px-32 xl:px-60 relative lg:pr-[280px] overflow-visible">
-                <h1 className="text-3xl sm:text-4xl font-extrabold my-10 drop-shadow-md text-left">
-                    Vocabolario
-                </h1>
+            <main className="items-center justify-center flex flex-col w-full max-w-6xl px-4 sm:px-10 lg:px-32 xl:px-60">
+                <div className="w-full pt-2 pb-14">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold drop-shadow-md text-center">
+                        Vocabolario
+                    </h1>
+                    {fromCity && city && (
+                        <div className="sm:px-32 lg:px-40 xl:px-32">
+                            <ProgressBar label={"Attività: "} earned={vocabTasksDone} required={city.vocabulary_task_count} />
 
+                            <ProgressBar label={"Pizze: "} earned={vocabPizzas} required={city.vocabulary_pizza_goal}/>
+                        </div>
+                    )}
+                </div>
+                    
                 {/* Main content */}
-                <div className="flex flex-col items-start gap-2">
+                <div className=" w-full flex flex-col items-start gap-2">
                     <ActionButton
                         className="bg-[#3399bd] hover:bg-[#2992b7] text-lg mb-6"
                         onClick={handleGenerateWordAndClues}
@@ -280,19 +335,20 @@ function VocabularyPage() {
                             Aggiungi alle flashcard
                         </ActionButton>
                     )}
+
+                    <div className={`absolute hidden lg:block right-60 ${fromCity ? "top-52" : "top-28"} w-[320px] h-[420px]`}>
+                        {msg && (
+                            <div className="absolute top-32 right-44 bg-white shadow-lg rounded-3xl px-5 py-3 text-lg leading-relaxed w-64 z-10 relative">
+                                {msg}
+                                <div className="absolute -right-2 top-6 w-0 h-0 border-l-8 border-l-white border-y-8 border-y-transparent"></div>
+                            </div>
+                        )}
+
+                        <Mascot costumeId={currentCostumeId} alt="Mascotte" className="w-[300px] absolute left-2 top-10 z-0" style={{ transform: "scaleX(-1)" }}></Mascot>
+                    </div>
+
                 </div>
             </main>
-
-            <div className="absolute hidden lg:block right-60 top-48 w-[320px] h-[420px]">
-                {msg && (
-                    <div className="absolute top-10 right-36 bg-white shadow-lg rounded-3xl px-5 py-3 text-lg leading-relaxed w-64 z-10 relative">
-                        {msg}
-                        <div className="absolute -right-2 top-6 w-0 h-0 border-l-8 border-l-white border-y-8 border-y-transparent"></div>
-                    </div>
-                )}
-
-                <Mascot costumeId={currentCostumeId} alt="Mascotte" className="w-[300px] absolute left-20 bottom-0 z-0" style={{ transform: "scaleX(-1)" }}></Mascot>
-            </div>
 
             {/* Mascot for mobile (smaller, centered) */}
             <div className="lg:hidden mt-10 flex flex-col items-center">

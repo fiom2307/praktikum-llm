@@ -16,7 +16,7 @@ function FreeModePage() {
     <div className="min-h-screen flex flex-col items-center text-black">
       <Header />
 
-      <div className="absolute right-5 top-[92px] z-20">
+      <div className="absolute right-5 top-2 z-20">
         <HelpModal costumeId={currentCostumeId} />
       </div>
 

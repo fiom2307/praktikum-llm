@@ -1,8 +1,3 @@
-# from services.city_service import get_city_by_key
-
-# def get_city_reading_exercise_for_user(user_id: int, city_key: str):
-#     city = get_city_by_key(city_key)
-
 import random
 from database import SessionLocal
 from models.city_model import City
@@ -31,7 +26,7 @@ def save_reading_story_history(user_id, exercise_id, user_answer, llm_feedback, 
 def get_city_reading_text_for_user(user_id: int, city_key: str):
     db = SessionLocal()
     try:
-        # 1️⃣ Resolver ciudad (city_key = name en minúsculas)
+        # 1️⃣ Resolve city (city_key = lowercase city name)
         city = (
             db.query(City)
             .filter(City.name.ilike(city_key))
@@ -40,7 +35,7 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
         if not city:
             return {"reading_text": "❌ Città non valida."}
 
-        # 2️⃣ Traer ejercicios de lectura de ESA ciudad
+        # 2️⃣ Fetch reading exercises for this city
         exercises = (
             db.query(StoryReadingExercise)
             .filter(StoryReadingExercise.city_id == city.id)
@@ -51,7 +46,7 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 
         exercise_ids = [e.id for e in exercises]
 
-        # 3️⃣ Traer historial del usuario para esos ejercicios
+        # 3️⃣ Fetch user history for these exercises
         histories = (
             db.query(StoryReadingHistory)
             .filter(
@@ -61,14 +56,14 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
             .all()
         )
 
-        # 4️⃣ Unir preguntas correctas por ejercicio
+        # 4️⃣ Merge correctly answered questions per exercise
         correct_by_exercise = {}
         for h in histories:
             correct_by_exercise.setdefault(h.exercise_id, set())
             if h.correct_question_indexes:
                 correct_by_exercise[h.exercise_id].update(h.correct_question_indexes)
 
-        # 5️⃣ Determinar ejercicios válidos y preguntas restantes
+        # 5️⃣ Determine valid exercises and remaining questions
         ALL_QUESTIONS = {0, 1, 2, 3, 4}
         candidates = []
 
@@ -76,18 +71,19 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
             correct = correct_by_exercise.get(ex.id, set())
             remaining = sorted(list(ALL_QUESTIONS - correct))
 
-            if remaining:  # aún quedan preguntas
+            if remaining:  # there are still unanswered questions
                 candidates.append((ex, remaining))
 
+        # All reading exercises completed
         if not candidates:
             return {
-                "reading_text": "🎉 **Hai completato tutti gli esercizi di lettura di questa città!**"
+                "status": "done"
             }
 
-        # 6️⃣ Elegir ejercicio random
+        # 6️⃣ Choose a random exercise
         ex, remaining_indexes = random.choice(candidates)
 
-        # 7️⃣ Construir MARKDOWN FINAL
+        # 7️⃣ Build FINAL MARKDOWN
         questions_md = "\n".join(
             [f"{i+1}. {ex.questions[i]}" for i in remaining_indexes]
         )
@@ -102,7 +98,7 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 """
 
         return {
-            "exercise_id": ex.id, 
+            "exercise_id": ex.id,
             "reading_text": reading_text_md
         }
 

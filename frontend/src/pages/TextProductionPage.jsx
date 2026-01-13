@@ -10,6 +10,8 @@ import { useUser } from "../context/UserContext";
 import { createWritingText } from "../api/writingApi";
 import HelpModal from "../components/HelpModal";
 import MascotOverlay from "../components/MascotOverlay";
+import { getCity } from "../api/cityApi";
+import ProgressBar from "../components/ProgressBar";
 
 function TextProductionPage() {
     const username = localStorage.getItem("username");
@@ -34,6 +36,26 @@ function TextProductionPage() {
     const location = useLocation();
     const fromCity = location.state?.fromCity?.toLowerCase();
     const fromMode = location.state?.fromMode;
+
+    const [city, setCity] = useState("");
+    const [writTasksDone, setWritTasksDone] = useState(0);
+    const [writPizzas, setWritPizzas] = useState(0);
+
+    useEffect(() => {
+        async function loadCity() {
+            try {
+                const data = await getCity(fromCity);
+                setCity(data);
+
+                setWritTasksDone(data.writing_tasks_done);
+                setWritPizzas(data.writing_pizzas_earned);
+            } catch (err) {
+                
+            }
+        }
+
+        loadCity();
+    }, [fromCity]);
 
     useEffect(() => {
         console.log("Checking Tutorial Logic:", fromCity, tutorialProgress);
@@ -116,8 +138,29 @@ function TextProductionPage() {
             }else {
                 result = await correctText(userText, exerciseId);
             }
+
+            let finalText = result.corrected_text;
             
-            setCorrectedText(result.corrected_text);
+            if(fromCity) {
+                const reachedMaxTasks =
+                    writTasksDone + 1 >= city.writing_task_count;
+
+                const reachedMaxPizzas =
+                    writPizzas + result.pizzas >= city.writing_pizza_goal;
+
+                if (reachedMaxTasks && reachedMaxPizzas) {
+                    finalText +=
+                        "\nHai completato tutti gli esercizi di scrittura di questa città! Torna alla pagina precedente per sbloccare il prossimo passo.";
+                }
+                setWritPizzas(prev =>
+                    Math.min(prev + result.pizzas, city.writing_pizza_goal)
+                );
+                setWritTasksDone(prev =>
+                    Math.min(prev + 1, city.writing_task_count)
+                );
+            }
+            
+            setCorrectedText(finalText);
             const res = await incrementPizzaCount(result.pizzas, "writing",fromCity);      
             updatePizzaCount(res.pizzaCount);
             setCompleted(true);
@@ -148,16 +191,24 @@ function TextProductionPage() {
                 />
             )}
 
-            <div className="absolute right-5 top-[92px] z-20">
+            <div className="absolute right-5 top-2 z-20">
                 <HelpModal costumeId={currentCostumeId} />
             </div>
 
             {/* Header */}
             <Header onBack={handleBack} />
+            <div className="w-full pt-2 pb-14">
+                <h1 className="text-3xl sm:text-4xl font-extrabold drop-shadow-md text-center">
+                    📖 Produzione scritta
+                </h1>
+                {fromCity && city && (
+                    <div className="sm:px-32 lg:px-40 xl:px-96">
+                        <ProgressBar label={"Attività: "} earned={writTasksDone} required={city.writing_task_count} />
 
-            <h1 className="text-3xl sm:text-4xl font-extrabold mb-6 drop-shadow-md text-center">
-                📖 Produzione scritta
-            </h1>
+                        <ProgressBar label={"Pizze: "} earned={writPizzas} required={city.writing_pizza_goal}/>
+                    </div>
+                )}
+            </div>
 
             {/* Exercise block */}
             <div className="flex items-center justify-center flex-col font-semibold mb-10 text-center">
