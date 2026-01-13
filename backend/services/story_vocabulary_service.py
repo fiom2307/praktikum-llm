@@ -15,17 +15,19 @@ def generate_word_and_clues_for_story(user_id: int, city_key: str):
     city = get_city_by_key(city_key)
     city_id = city.id
 
-    # 1. Todos los ejercicios de la ciudad
-    exercises = db.query(StoryVocabularyExercise)\
-        .filter(StoryVocabularyExercise.city_id == city_id)\
+    # 1. All exercises for the city
+    exercises = (
+        db.query(StoryVocabularyExercise)
+        .filter(StoryVocabularyExercise.city_id == city_id)
         .all()
+    )
 
     if not exercises:
         return None
 
     exercise_ids = [e.id for e in exercises]
 
-    # 2. Último intento por ejercicio del usuario
+    # 2. Last attempt per exercise for this user
     subquery = (
         db.query(
             StoryVocabularyHistory.exercise_id,
@@ -52,7 +54,7 @@ def generate_word_and_clues_for_story(user_id: int, city_key: str):
         for row in db.query(subquery).all()
     }
 
-    # 3. Ejercicios NO completados
+    # 3. Exercises NOT completed yet
     not_completed = [
         e for e in exercises
         if not history_map.get(e.id, {}).get("completed", False)
@@ -61,15 +63,18 @@ def generate_word_and_clues_for_story(user_id: int, city_key: str):
     if not_completed:
         chosen = random.choice(not_completed)
     else:
-        # 4. Ejercicios completados pero incorrectos
+        # 4. Exercises completed but answered incorrectly
         incorrect = [
             e for e in exercises
             if history_map.get(e.id, {}).get("completed") is True
             and history_map.get(e.id, {}).get("correct") is False
         ]
 
+        # All exercises completed and correct
         if not incorrect:
-            return None  # o lanzar excepción
+            return {
+                "status": "done"
+            }
 
         chosen = random.choice(incorrect)
 
