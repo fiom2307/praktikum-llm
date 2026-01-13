@@ -12,20 +12,22 @@ import HelpModal from "../components/HelpModal";
 import MascotOverlay from "../components/MascotOverlay";
 
 function TextProductionPage() {
+    const username = localStorage.getItem("username");
     const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
+
     const [loading, setLoading] = useState(false);
     const [completed, setCompleted] = useState(false);
+
+    const [showTutorial, setShowTutorial] = useState(false);
+    const [topic, setTopic] = useState("");
     const { 
         updatePizzaCount, 
         currentCostumeId, 
         tutorialProgress, 
-        completeTutorialContext 
+        completeTutorialContext,
     } = useUser();
-    const [showTutorial, setShowTutorial] = useState(false);
-    const [topic, setTopic] = useState("");
     const [exerciseId, setExerciseId] = useState(null); 
-    const [refreshKey, setRefreshKey] = useState(0);
 
     const navigate = useNavigate();
     
@@ -38,7 +40,7 @@ function TextProductionPage() {
         if (fromCity === "napoli" && tutorialProgress?.writing === false) {
             setShowTutorial(true);
         }
-    }, [fromCity, tutorialProgress]);
+    }, [fromCity, tutorialProgress, setShowTutorial]);
 
     const writingTutorialDialogue = [
         "Benvenuto alla Produzione Scritta!",
@@ -52,44 +54,40 @@ function TextProductionPage() {
         if (fromCity === "napoli" && tutorialProgress?.writing === false) {
             setShowTutorial(true);
         }
-    }, [fromCity, tutorialProgress]);
+    }, [fromCity, tutorialProgress, setShowTutorial]);
 
-    useEffect(() => {
-        const topics = [
-            "Vacanze",
-            "Scuola e tempo libero",
-            "Identità e progetti per il futuro",
-            "Differenze culturali tra il Nord e il Sud Italia",
-            "Amore e amicizia",
-            "Feste italiane e cultura giovanile",
-            "Lettura e letteratura",
-            "Feste e tradizioni italiane"
-        ];
 
-        const loadTopic = async () => {
-            if (fromCity) {
-                try {
-                    const data = await createWritingText(fromCity);
-                    setTopic(data.text);
-                    setExerciseId(data.exerciseId);
-                } catch (err) {
-                    console.error("Failed to load writing text:", err);
-                }
+    const loadTopic = async () => {
+        if (!username) {
+            alert("Per favore, accedi per inviare le risposte.");
+            return;
+        }
+
+        if (completed) {
+            setTopic("Hai già completato questo esercizio! Generane uno nuovo.");
+            return;
+        }
+
+        setCompleted(false);
+        setLoading(true);
+
+        try {
+            let data;
+            if (fromMode !== "free") {
+                data = await createWritingText(fromCity);
             } else {
-                const randomTopic =
-                    topics[Math.floor(Math.random() * topics.length)];
-                setTopic(randomTopic);
-                setExerciseId(null);
+                data = await createWritingText("");
             }
 
-            setCompleted(false);
-        };
-
-        loadTopic();
-    }, [fromCity, refreshKey]);
-
-
-
+            setTopic(data.text);
+            setExerciseId(data.exerciseId);
+        } catch (error) {
+            console.error("Errore durante il caricamento del writing text:", error);
+            setTopic("Qualcosa è andato storto, per favore riprova.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleBack = () => {
         if (fromMode === "free") {
@@ -122,7 +120,7 @@ function TextProductionPage() {
             setCorrectedText(result.corrected_text);
             const res = await incrementPizzaCount(result.pizzas, "writing",fromCity);      
             updatePizzaCount(res.pizzaCount);
-            setCompleted(true)
+            setCompleted(true);
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);
             setCorrectedText("Qualcosa è andato storto, per favore riprova.");
@@ -131,9 +129,7 @@ function TextProductionPage() {
         }
     };
 
-    const changeTopic = () => {
-        setRefreshKey(prev => prev + 1);
-    };
+
 
 
 
@@ -167,18 +163,9 @@ function TextProductionPage() {
             <div className="flex items-center justify-center flex-col font-semibold mb-10 text-center">
                 <h3 className="text-lg sm:text-xl font-bold">Esercizio:</h3>
                 <p className="max-w-xl">
-                    {fromCity ? (
-                        <>
-                            {topic}
-                        </>
-                    ) : (
-                        <>
-                            Scrivi un testo di 50–150 parole sul tema:{" "}
-                            <span className="font-bold">{topic}</span>.
-                        </>
-                    )}
+                    {topic}
                 </p>
-                <ActionButton onClick={changeTopic} className="bg-[#f8edd5] hover:bg-[#e7d9ba] mt-2">Genera</ActionButton>
+                <ActionButton onClick={loadTopic} className="bg-[#f8edd5] hover:bg-[#e7d9ba] mt-2">Genera</ActionButton>
             </div>
 
             {/* Main content – responsive */}

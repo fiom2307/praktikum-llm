@@ -41,6 +41,21 @@ def correct_text_with_ai(user_id: int, user_text: str):
 
         previous_feedbacks_str = "\n\n---\n\n".join(previous_feedbacks)
         
+        histories = (
+            db.query(FreeWritingHistory)
+            .filter(FreeWritingHistory.user_id == user_id)
+            .order_by(FreeWritingHistory.created_at.desc())
+            .limit(5)
+            .all()
+        )
+
+        previous_answers = [
+            h.user_answer for h in histories if h.user_answer
+        ]
+
+        previous_answers_str = "\n\n---\n\n".join(previous_answers)
+
+        
         prompt = f"""You are an automatic feedback generator for a short Italian writing submission. 
 
             CONTEXT 
@@ -127,7 +142,7 @@ def correct_text_with_ai(user_id: int, user_text: str):
 
             6) Similarity cap 
 
-            - Compare {user_text} against {{PREVIOUS_USER_ANSWERS_STR}}. 
+            - Compare {user_text} against {previous_answers_str}. 
 
             - If there exists a previous text that is very similar (same storyline/structure with only minor edits): 
 
@@ -283,6 +298,73 @@ def correct_text_with_ai(user_id: int, user_text: str):
     )
 
     return {"corrected_text": corrected, "pizzas": pizzas}
+
+
+def generate_exercise_with_ai(user_id: int):
+    db = SessionLocal()
+    try:
+        histories = (
+            db.query(FreeWritingHistory)
+            .filter(FreeWritingHistory.user_id == user_id)
+            .order_by(FreeWritingHistory.created_at.desc())
+            .limit(5)
+            .all()
+        )
+
+        previous_texts = [h.llm_question for h in histories if h.llm_question]
+
+        previous_texts_str = "\n\n---\n\n".join(previous_texts)
+
+
+    finally:
+        db.close()
+
+    
+    prompt = f"""You generate one short Italian A2 writing task for a 14-year-old learner. 
+        CONTEXT 
+
+        The learner will write a short text in Italian. The target length is 50–150 words. 
+
+        HARD RULES 
+
+        - Output language for the student task: Italian. 
+
+        - Level: A2, age-appropriate. 
+
+        - Base the text on one of these topics: Holidays; School; free time; Identity;future plans; Love; friendship; Italian festivals; youth culture. 
+
+        - Do NOT name the topic explicitly (no “Topic: …”). 
+
+        - Task must be clear and simple, no long sentences. 
+
+        - Include exactly 2 simple requirements (A2-friendly). 
+
+        - Do NOT include an example text. 
+        
+        - Do NOT repeat the same texts from the last 5 excercises: {previous_texts_str} (DO NOT INCLUDE OR REPEAT)
+        
+        EXAMPLES:
+        
+        EXAMPLE 1:
+        Scrivi un breve testo sulla: Vacanze. Usa tra 50 e 150 parole.
+        
+        EXAMPLE 2:
+        Scrivi un breve testo sulla: Scuola e tempo libero. Usa tra 50 e 150 parole.
+        
+        EXAMPLE 3:
+        Scrivi un breve testo sulla: Identità e progetti per il futuro. Usa tra 50 e 150 parole.
+            
+        EXAMPLE :
+        Scrivi un breve testo sulla: Amore e amicizia. Usa tra 50 e 150 parole.
+                        """
+
+    
+    text = generate_from_prompt(prompt)
+    return {
+        "exerciseId": 0,
+        "cityKey": "",
+        "text": text,
+    }
 
 def extract_pizzas(text: str) -> int:
     match = re.search(r"Pizzas\s+(-?\d+)", text)
