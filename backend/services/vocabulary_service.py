@@ -127,20 +127,6 @@ def save_vocabulary_history(
     
 
 def check_word_with_ai(userId: int, word: str, clues: list, answer: str, attempt: int):
-
-    prompt = (
-        f"Word: {word}\n"
-        f"User answer: {answer}\n"
-        f"Clues: {json.dumps(clues, ensure_ascii=False)}\n\n"
-        "Compare the user's answer with the correct word in Italian.\n"
-        "If it matches exactly, return:\n"
-        '{"status": "correct", "hint": ""}\n'
-        "If it's close (e.g. small spelling mistake or a synonym), return:\n"
-        '{"status": "almost", "hint": "brief explanation in Italian"}\n'
-        "If it's wrong, return:\n"
-        '{"status": "incorrect", "hint": ""}\n'
-        "Return only valid JSON, no extra text."
-    )
     
     prompt = f"""
             You are an automatic feedback generator for a vocabulary recall item. 
@@ -229,13 +215,21 @@ OUTPUT FORMAT (MANDATORY)
 EXAMPLES
 
 Example 1:
-{{"status":"almost","hint":"Attenzione all’ortografia: controlla le doppie consonanti."}}
+{{"status":"almost", "hint":"Attenzione all’ortografia: controlla le doppie consonanti."}}
 
-Example 2:
+Example 2 (incorrect guess):
 {{"status":"incorrect","hint":""}}
 
-Example 3:
-{{"status":"almost","hint":"Manca l’accento finale sulla parola."}}
+Example 3 (almost guess):
+{{"status":"almost", "hint":"Manca l’accento finale sulla parola."}}
+
+Example 4 (correct guess):
+Word: {word}
+Student answer: {word}
+
+Output: 
+{{"status":"correct", "hint":""}}
+
 """
 
     raw_response = generate_from_prompt(prompt)
@@ -248,7 +242,9 @@ Example 3:
 
     is_correct = result.get("status") == "correct"
     is_completed = is_correct or attempt >= 3
-
+    
+    print(is_correct)
+    
     save_vocabulary_history(
         user_id=userId,
         word=word,

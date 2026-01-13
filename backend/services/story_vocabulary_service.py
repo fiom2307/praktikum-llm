@@ -230,16 +230,21 @@ OUTPUT FORMAT (MANDATORY)
 
 {{"status":"<correct|almost|incorrect>","hint":"<Italian hint or empty>"}}
 
-EXAMPLES
-
 Example 1:
-{{"status":"almost","hint":"Attenzione all’ortografia: controlla le doppie consonanti."}}
+{{"status":"almost", "hint":"Attenzione all’ortografia: controlla le doppie consonanti."}}
 
-Example 2:
+Example 2 (incorrect guess):
 {{"status":"incorrect","hint":""}}
 
-Example 3:
-{{"status":"almost","hint":"Manca l’accento finale sulla parola."}}
+Example 3 (almost guess):
+{{"status":"almost", "hint":"Manca l’accento finale sulla parola."}}
+
+Example 4 (correct guess):
+Word: {word}
+Student answer: {word}
+
+Output: 
+{{"status":"correct", "hint":""}}
 """
 
 
@@ -253,6 +258,8 @@ Example 3:
 
         is_correct = result.get("status") == "correct"
         is_completed = is_correct or attempt >= 3
+        
+        print(is_correct)
 
         save_story_vocabulary_history(
             user_id=userId,

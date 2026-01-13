@@ -6,7 +6,6 @@ import { useUser } from "../context/UserContext";
 import Modal from "../components/Modal";
 
 import logo from "../assets/logo.png";
-import wolf from "../assets/outfits/hello.png";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
