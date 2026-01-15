@@ -41,11 +41,10 @@ function CityMenuPage() {
 
   const isInitialEntry = location.state?.initialEntry === true;
 
-  const [showMascot, setShowMascot] = useState(() => {
-    const hasSeenIntro = localStorage.getItem(`seen_intro_${cityKey}`);
-    return isInitialEntry && !hasSeenIntro;
-  });
+  const userId = localStorage.getItem("userId");
 
+  const [showMascot, setShowMascot] = useState(false);
+  const [showBadgeAwarded, setShowBadgeAwarded] = useState(false);
   const [passportOpen, setPassportOpen] = useState(false);
 
   const cityDialogues = {
@@ -162,7 +161,20 @@ function CityMenuPage() {
   const badgeSrc = CITY_BADGES[cityKey];
   const infoLines = CITY_INFO[cityKey] || CITY_INFO.default;
 
-  const [showBadgeAwarded, setShowBadgeAwarded] = useState(false);
+  const markAnimationAsSeen = async (type) => {
+    try {
+      await fetch(`http://localhost:5000/mark_animation_seen/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cityKey: cityKey,
+          flagType: type // "intro" or "badge"
+        })
+      });
+    } catch (err) {
+      console.error(`Failed to mark ${type} as seen:`, err);
+    }
+  };
 
   const isSectionCompleted = (tasksDone, tasksTotal, pizzasDone, pizzasTotal) => {
     return (
@@ -209,28 +221,40 @@ function CityMenuPage() {
     loadCity();
   }, [cityName, navigate]);
 
-  useEffect(() => {
-    const hasSeenCongrats = localStorage.getItem(`badge_seen_${cityKey}`);
-    if (isAllDone && !hasSeenCongrats) {
-      setShowBadgeAwarded(true);
-    }
-  }, [isAllDone, cityKey]);
-
   const openPassport = () => setPassportOpen(true);
   const closePassport = () => setPassportOpen(false);
 
-  const handleMascotComplete = () => {
+  const handleMascotComplete = async () => {
     setShowMascot(false);
-    localStorage.setItem(`seen_intro_${cityKey}`, "true"); // record to local
-    setTimeout(() => {
-      openPassport();
-    }, 300);
+    setCity(prev => ({ ...prev, intro_seen: true }));
+
+    await markAnimationAsSeen("intro"); // intro has seen, notify backend
+    setTimeout(() => { openPassport(); }, 300);
   };
 
-  const handleBadgeComplete = () => {
+  const handleBadgeComplete = async () => {
     setShowBadgeAwarded(false);
-    localStorage.setItem(`badge_seen_${cityKey}`, "true");
+    setCity(prev => ({ ...prev, badge_congrats_seen: true }));
+    await markAnimationAsSeen("badge"); // badge has seen, notify backend
   };
+
+  useEffect(() => {
+    if (city && isInitialEntry && !city.intro_seen) {
+      setShowMascot(true);
+    }
+  }, [city, isInitialEntry]);
+
+  useEffect(() => {
+    // only when all the conditions are fulfilled show badges animation
+    // 1. task isAllDone
+    // 2. city loaded
+    // 3. city.intro_seen
+    // 4. !city.badge_congrats_seen
+    // 5. !showMascot
+    if (isAllDone && city && city.intro_seen && !city.badge_congrats_seen && !showMascot) {
+        setShowBadgeAwarded(true);
+    }
+  }, [isAllDone, city, showMascot]);
 
   const cityTitle = city?.name || (cityKey ? cityKey.charAt(0).toUpperCase() + cityKey.slice(1) : "");
 

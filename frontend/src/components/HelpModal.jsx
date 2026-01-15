@@ -13,7 +13,7 @@ export default function HelpModal({ costumeId }) {
         },
         { 
             q: "Vocabolario (Vocabulary)", 
-            a: "Clicca 'Genera' e indovina la parola usando i 3 indizi. Ogni parola indovinata = 1 Pizza!" 
+            a: "Clicca 'Genera' e indovina la parola usando i 3 indizi. Ogni parola indovinata = 1 Pizza! Le parole indovinate verranno aggiunte alle tue Flashcard per essere ripassate."
         },
         { 
             q: "Scrittura (Writing)", 
