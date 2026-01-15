@@ -42,6 +42,7 @@ function StoryPage() {
     getCityProgress()
       .then((backendCities) => {
         console.log("Backend Data Received:", backendCities);
+        
 
         const completed = backendCities
           .filter(c => 

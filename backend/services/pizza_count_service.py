@@ -59,10 +59,10 @@ def increment_pizza_count(user_id, amount, game_mode, city_key=None):
                         progress.writing_pizzas_earned += amount
                     if(progress.writing_tasks_done == 0):
                         progress.writing_tasks_done += 1
-
-
-                if progress.reading_pizzas_earned == 5 and progress.reading_tasks_done == 1 and progress.vocabulary_pizzas_earned == 10 and progress.reading_tasks_done == 10 and progress.writing_pizzas_earned >= 7 and progress.writing_tasks_done == 1:
+                        
+                if (progress.reading_pizzas_earned >= 5 and progress.reading_tasks_done >= 1) and (progress.vocabulary_pizzas_earned >= 10 and progress.vocabulary_tasks_done >= 10) and (progress.writing_pizzas_earned >= 7 and progress.writing_tasks_done >= 1):
                     if city.id == user.current_city_id:
+                        print("next city")
                         unlock_next_city(db, user_id, city)
 
         db.commit()
