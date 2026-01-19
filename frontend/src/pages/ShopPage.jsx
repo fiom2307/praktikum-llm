@@ -39,6 +39,11 @@ function ShopPage() {
         { id: 18, emoji: "🕶️", name: "Diva Retrò", cost: 25, isCostume: true },
         { id: 19, emoji: "🌺", name: "Belle Siciliana", cost: 25, isCostume: true },
         { id: 20, emoji: "🎭", name: "Mascherata Veneziana", cost: 30, isCostume: true },
+        { id: 21, emoji: "🌙", name: "Dolce Notte", cost: 25, isCostume: true },
+        { id: 22, emoji: "🏔️", name: "Grazia Alpina", cost: 25, isCostume: true },
+        { id: 23, emoji: "🐉", name: "La Madre dei Draghi", cost: 35, isCostume: true },
+        { id: 24, emoji: "🖼️", name: "Mona Lisa", cost: 25, isCostume: true },
+        { id: 25, emoji: "⭐", name: "Gio Gio", cost: 100, isCostume: true },
     ];
 
     const multipliers = [

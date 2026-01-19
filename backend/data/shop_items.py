@@ -159,6 +159,48 @@ SHOP_ITEMS = [
         "image_file": "venetianMasquerade.png",
         "is_costume": True
     },
+    {
+        "id": 21,
+        "name": "Dolce Notte",
+        "cost": 25,
+        "emoji": "🌙",
+        "image_file": "dolceNotte.png",
+        "is_costume": True
+    },
+    {
+        "id": 22,
+        "name": "Grazia Alpina",
+        "cost": 25,
+        "emoji": "🏔️",
+        "image_file": "fanciullaAlpina.png",
+        "is_costume": True
+    },
+    {
+        "id": 23,
+        "name": "La Madre dei Draghi",
+        "cost": 35,
+        "emoji": "🐉",
+        "image_file": "laMadreDeiDraghi.png",
+        "is_costume": True
+    },
+    {
+        "id": 24,
+        "name": "Mona Lisa",
+        "cost": 25,
+        "emoji": "🖼️",
+        "image_file": "monaLisa.png",
+        "is_costume": True
+    },
+    {
+        "id": 25,
+        "name": "Gio Gio",
+        "cost": 100,
+        "emoji": "⭐",
+        "image_file": "giogio.png",
+        "is_costume": True
+    },
+
+
 
     # MULTIPLIERS
     {

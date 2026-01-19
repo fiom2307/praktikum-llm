@@ -21,7 +21,12 @@ const COSTUME_MAP = {
     17: outfits.renessainceLady,
     18: outfits.retroDiva,
     19: outfits.sicilianBelle,
-    20: outfits.venetianMasquerade
+    20: outfits.venetianMasquerade,
+    21: outfits.dolceNotte,
+    22: outfits.fanciullaAlpina,
+    23: outfits.laMadreDeiDraghi,
+    24: outfits.monaLisa,
+    25: outfits.giogio
 };
 
 export default function Mascot({ costumeId = 0, ...props }) {
