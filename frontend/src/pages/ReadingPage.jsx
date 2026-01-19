@@ -23,7 +23,6 @@ function ReadingPage() {
         completeTutorialContext 
     } = useUser();
 
-    const [userText, setUserText] = useState("");
     const [correctedText, setCorrectedText] = useState("");
     const [generatedText, setGeneratedText] = useState("");
     const [exerciseId, setExerciseId] = useState(0)
@@ -40,6 +39,15 @@ function ReadingPage() {
     const [city, setCity] = useState("");
     const [readTasksDone, setReadTasksDone] = useState(0);
     const [readPizzas, setReadPizzas] = useState(0);
+
+    const initialText = `1. 
+2. 
+3. 
+4. 
+5.`;
+
+const [userText, setUserText] = useState(initialText);
+
 
     useEffect(() => {
         async function loadCity() {
@@ -231,6 +239,7 @@ function ReadingPage() {
                 {/* User text */}
                 <div className="flex items-center justify-center flex-col w-full max-w-md">
                     <h3 className="font-semibold">Il tuo testo</h3>
+
                     <textarea
                         value={userText}
                         onChange={(e) => setUserText(e.target.value)}
@@ -238,10 +247,19 @@ function ReadingPage() {
                             mt-1 mb-3 resize-none rounded-xl shadow-sm p-3 
                             w-full h-56 
                             focus:outline-none focus:ring-2 focus:ring-blue-400
+                            font-mono
                         "
                     />
-                    <ActionButton onClick={handleCorrect} disabled={!userText.trim()} className="bg-[#f8edd5] hover:bg-[#e7d9ba]">Correggi</ActionButton>
+
+                    <ActionButton
+                        onClick={handleCorrect}
+                        disabled={userText.trim() === initialText.trim()}
+                        className="bg-[#f8edd5] hover:bg-[#e7d9ba]"
+                    >
+                        Correggi
+                    </ActionButton>
                 </div>
+
 
                 {/* AI correction */}
                 <div className="flex flex-col items-center w-full max-w-md">
