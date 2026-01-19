@@ -17,8 +17,8 @@ export default function Header({ onBack }) {
       // 
       onBack();
     } else {
-      // back to main page
-      navigate("/");
+      // 
+      navigate("/"); //back to main page
     }
   };
 

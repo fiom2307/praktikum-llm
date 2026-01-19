@@ -23,6 +23,9 @@ class UserCityProgress(Base):
 
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
+    intro_seen = Column(Boolean, default=False)
+    badge_congrats_seen = Column(Boolean, default=False)
+
     __table_args__ = (
         UniqueConstraint("user_id", "city_id", name="uq_user_city"),
     )

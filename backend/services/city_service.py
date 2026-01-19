@@ -22,6 +22,8 @@ def get_all_city_progress_for_user(user_id: int):
             result.append({
                 "key": city.name.lower(),
                 "unlocked": progress.unlocked,
+                "intro_seen": progress.intro_seen if progress else False,
+                "badge_congrats_seen": progress.badge_congrats_seen if progress else False,
                 "reading_pizzas_earned": progress.reading_pizzas_earned or 0,
                 "vocabulary_pizzas_earned": progress.vocabulary_pizzas_earned or 0,
                 "writing_pizzas_earned": progress.writing_pizzas_earned or 0

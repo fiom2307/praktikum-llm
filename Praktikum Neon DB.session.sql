@@ -1,0 +1,1 @@
+select user_id, city_id, unlocked, intro_seen, badge_congrats_seen from user_city_progress where user_id = 26 

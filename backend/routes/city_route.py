@@ -32,6 +32,9 @@ def get_city(city_key, user_id):
             "key": city.name.lower(),
             "name": city.name,
             "level": city.order_index,
+            "intro_seen": progress.intro_seen,
+            "badge_congrats_seen": progress.badge_congrats_seen,
+            
             "vocabulary_pizza_goal": city.vocabulary_pizza_goal,
             "vocabulary_pizzas_earned": progress.vocabulary_pizzas_earned,
             "reading_pizza_goal": city.reading_pizza_goal,
