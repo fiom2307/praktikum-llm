@@ -32,18 +32,6 @@ def generate_word_and_clues_with_ai(user_id: int):
 
     finally:
         db.close()
-
-    prompt = (
-        "Generate one Italian vocabulary word that would be appropriate for a 14-year-old student "
-        "with an A2 level of Italian. Then, write three short clues in Italian (maximum 5 words each) "
-        "that help the student guess the word. "
-        "Each clue should be simple and clear, avoiding long sentences or rare words. "
-        "Return *only* valid JSON, without explanations or code block formatting. Example:\n"
-        '{"word": "gatto", "clues": ["È un animale.", "Fa miao.", "Ama dormire."]}'
-        "IMPORTANT:\n"
-        "- Do NOT generate any of the following words or very similar ones:\n"
-        f"{previous_words_str}\n\n"
-    )
     
     prompt = f"""You generate one Italian A2 vocabulary recall item for a 14-year-old learner.
 
@@ -62,18 +50,7 @@ def generate_word_and_clues_with_ai(user_id: int):
             - Each clue: max 5 words.
             - Do NOT include the target word (or a trivial close variant) in any clue.
             - Make the item guessable from the clues.
-            - Do not repeat the following words: {previous_words_str}.
-
-            CITY CONTEXT (optional)
-
-            If a city context is provided, adapt the clues to that city.
-
-            - City: {city_name}
-
-            CITY CONTEXT Additional Rules:
-
-            - If {city_name} is non-empty: make at least ONE clue clearly relate to the city context (e.g., landmark, food, culture, geography) WITHOUT using the city name.
-            - Still obey all HARD RULES.
+            - Do not repeat the following words and try to change topics: {previous_words_str}.
 
             OUTPUT
 
