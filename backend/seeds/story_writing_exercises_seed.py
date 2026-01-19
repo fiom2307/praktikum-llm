@@ -6,22 +6,22 @@ def seed_story_writing_exercises():
 
     exercises_by_city = {
         1: [  # Napoli
-            {"text": "Scrivi 5–6 frasi in italiano. Confronta le tue prime impressioni di Napoli e Torino. Non valutare: descrivi sensazioni, immagini e associazioni."},
+            {"text": "Scrivi 5-6 frasi in italiano in cui parli delle tue prime impressioni di Napoli e di Torino. Descrivi le tue emozioni ed immagini quando pensi alle due città."},
         ],
         2: [  # Palermo
-            {"text": "Scrivi 5–6 frasi in italiano. Descrivi Napoli dal punto di vista di una persona che ci vive. Concentrati su emozioni, atmosfera e identità, non sul turismo."},
+            {"text": "Scrivi 5-6 frasi in italiano in cui parli di Napoli. Immagina: sei un/una residente di Napoli e parli delle tue emozioni, dell‘atmosfera e della tua identità. Non parli del turismo."},
         ],
         3: [  # Roma    
-            {"text": "Scrivi 5–6 frasi in italiano. Descrivi un piccolo conflitto quotidiano a casa o in classe. Concentrati su emozioni, reazioni e su come la situazione si risolve."},
+            {"text": "Scrivi 5-6 frasi in italiano in cui parli di un conflitto quotidiano a casa, in famiglia o con gli amici e quale è una tua soluzione."},
         ],
         4: [  # Siena
-            {"text": "Scrivi 4–5 frasi in italiano. Esprimi i tuoi sentimenti o le tue opinioni su una città o un luogo. Usa almeno due delle seguenti strutture: “penso che…”, “credo che…”, “ho paura che…”, “è importante che…”."},
+            {"text": "Scrivi 5-6 frasi in cui parli di un viaggio con degli amici in una città italiana. Usa anche tre delle seguenti espressioni. \n\n “penso che…“		“non so se…“		“ho dubbi se …“	“è importante che…““è possibile che…“		“credo che…“		“non sono sicuro/sicura se …“"},
         ],
         5: [  # Venezia
-            {"text": "Scrivi 5–6 frasi in italiano su un conflitto con un amico e su come cerchi di risolverlo. Usa almeno due espressioni di opinione o di emozione."},
+            {"text": "Scrivi 5-6 frasi in cui parli di un conflitto con un amico o con un‘amica. Quali sono o sono state possibili soluzioni? Usa minimo tre espressioni diverse per parlare delle vostre emozioni."},
         ],
         6: [  # Torino
-            {"text": "Scrivi una breve email (70–90 parole) in cui confronti due città. Usa almeno due espressioni di contrasto."},
+            {"text": "Scrivi un‘e-mail di circa 90-110 parole ad un tuo amico/ una tua amica in Italia. Volete fare un viaggio insieme ma lui/lei vuole andare in una città italiana (quale?) dove tu non vuoi andare. Preferisci andare a Napoli! Parla della tua impressione di Napoli e di che cosa bisogna assolutamente vedere e fare a Napoli."},
         ],
     }
 
