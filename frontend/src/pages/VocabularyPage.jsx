@@ -136,7 +136,7 @@ function VocabularyPage() {
 
     const handleGenerateWordAndClues = async () => {
         if (!canGenerate) {
-            setMsg("Completa primero la palabra actual prima di generarne una nuova.");
+            setMsg("Completa prima la parola attuale, prima di generarne una nuova.");
             return;
         }
 

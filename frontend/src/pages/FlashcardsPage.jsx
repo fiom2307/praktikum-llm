@@ -50,7 +50,7 @@ function FlashcardsPage() {
                         text-base font-normal text-gray-700
                         opacity-0 max-h-0 overflow-hidden
                         transition-all duration-300
-                        group-hover:opacity-100 group-hover:max-h-40
+                        group-hover:opacity-100 group-hover:max-h-screen
                         "
                     >
                         <ReactMarkdown>{card.definition}</ReactMarkdown>
