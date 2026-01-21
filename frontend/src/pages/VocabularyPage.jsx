@@ -272,6 +272,9 @@ function VocabularyPage() {
                     <h1 className="text-3xl sm:text-4xl font-extrabold drop-shadow-md text-center">
                         Vocabolario
                     </h1>
+                    <p className="mt-2 font-bold text-sm text-center">
+                        Bitte keine persönliche Daten eingeben
+                    </p>
                     {fromCity && city && (
                         <div className="sm:px-32 lg:px-40 xl:px-32">
                             <ProgressBar label={"Attività: "} earned={vocabTasksDone} required={city.vocabulary_task_count} />
