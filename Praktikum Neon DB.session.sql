@@ -1,1 +1,0 @@
-select * from user_city_progress where user_id = 26

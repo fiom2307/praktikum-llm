@@ -6,6 +6,7 @@ class FreeWritingHistory(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    llm_question = Column(Text, nullable=True)
     user_answer = Column(Text)
     llm_feedback = Column(Text)
     created_at = Column(TIMESTAMP, server_default=func.now())

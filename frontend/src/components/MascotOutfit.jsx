@@ -26,7 +26,8 @@ const COSTUME_MAP = {
     22: outfits.fanciullaAlpina,
     23: outfits.laMadreDeiDraghi,
     24: outfits.monaLisa,
-    25: outfits.giogio
+    25: outfits.giogio,
+    26: outfits.romeHoliday
 };
 
 export default function Mascot({ costumeId = 0, ...props }) {

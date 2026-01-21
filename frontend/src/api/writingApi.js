@@ -1,12 +1,12 @@
 import { API_BASE_URL } from "./config";
 
-export async function correctText(userText, exerciseId) {
+export async function correctText(userText, exerciseId, topic = "") {
     const userId = localStorage.getItem("userId");
     
     const response = await fetch(`${API_BASE_URL}/correct_text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userId, text: userText , exerciseId: exerciseId}),
+        body: JSON.stringify({ userId: userId, text: userText , exerciseId: exerciseId, topic: topic}),
     });
     const data = await response.json();
     return data;

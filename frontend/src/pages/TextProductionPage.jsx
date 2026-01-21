@@ -43,6 +43,8 @@ function TextProductionPage() {
 
     useEffect(() => {
         async function loadCity() {
+            if (!fromCity || fromCity === "undefined") return;
+
             try {
                 const data = await getCity(fromCity);
                 setCity(data);
@@ -85,12 +87,9 @@ function TextProductionPage() {
             return;
         }
 
-        if (completed) {
-            setTopic("Hai già completato questo esercizio! Generane uno nuovo.");
-            return;
-        }
-
         setCompleted(false);
+        setUserText("");       // 
+        setCorrectedText("");  // 
         setLoading(true);
 
         try {
@@ -134,14 +133,14 @@ function TextProductionPage() {
         try {
             let result = null;
             if (fromMode === "free") {
-                result = await correctText(userText, 0);
+                result = await correctText(userText, 0, topic);
             }else {
-                result = await correctText(userText, exerciseId);
+                result = await correctText(userText, exerciseId, "");
             }
 
             let finalText = result.corrected_text;
             
-            if(fromCity) {
+            if(fromCity && city ) {
                 const reachedMaxTasks =
                     writTasksDone + 1 >= city.writing_task_count;
 
@@ -161,8 +160,16 @@ function TextProductionPage() {
             }
             
             setCorrectedText(finalText);
-            const res = await incrementPizzaCount(result.pizzas, "writing",fromCity);      
-            updatePizzaCount(res.pizzaCount);
+            
+            const res = await incrementPizzaCount(
+                result.pizzas, 
+                "writing", 
+                fromCity || null 
+            );      
+            
+            if (res && res.pizzaCount !== undefined) {
+                updatePizzaCount(res.pizzaCount);
+            }
             setCompleted(true);
         } catch (error) {
             console.error("Errore durante l’esecuzione dell’azione:", error);

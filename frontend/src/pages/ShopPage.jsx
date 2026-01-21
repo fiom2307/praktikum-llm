@@ -44,6 +44,8 @@ function ShopPage() {
         { id: 23, emoji: "🐉", name: "La Madre dei Draghi", cost: 100, isCostume: true },
         { id: 24, emoji: "🖼️", name: "Mona Lisa", cost: 100, isCostume: true },
         { id: 25, emoji: "⭐", name: "Gio Gio", cost: 100, isCostume: true },
+        { id: 26, emoji: "🍧", name: "Vacanze Romane", cost: 100, isCostume: true },
+    
     ];
 
     const multipliers = [

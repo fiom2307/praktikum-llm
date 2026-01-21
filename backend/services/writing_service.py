@@ -5,13 +5,14 @@ import re
 from models import User
 from services.reading_service import clean_llm_output
 
-def save_free_writing_history(user_id, user_answer, llm_feedback):
+def save_free_writing_history(user_id, user_answer, llm_feedback, llm_question):
     db = SessionLocal()
     try:
         entry = FreeWritingHistory(
             user_id=user_id,
             user_answer=user_answer,
-            llm_feedback=llm_feedback
+            llm_feedback=llm_feedback,
+            llm_question=llm_question
         )
         db.add(entry)
         db.commit()
@@ -20,7 +21,7 @@ def save_free_writing_history(user_id, user_answer, llm_feedback):
     finally:
         db.close()
 
-def correct_text_with_ai(user_id: int, user_text: str):
+def correct_text_with_ai(user_id: int, user_text: str, current_topic: str):
     db = SessionLocal()
     try:
         user = db.query(User).filter(User.id == user_id).first()
@@ -294,7 +295,8 @@ def correct_text_with_ai(user_id: int, user_text: str):
     save_free_writing_history(
         user_id=user_id,
         user_answer=user_text,
-        llm_feedback=corrected
+        llm_feedback=corrected,
+        llm_question=current_topic
     )
 
     return {"corrected_text": corrected, "pizzas": pizzas}
@@ -367,7 +369,7 @@ def generate_exercise_with_ai(user_id: int):
     }
 
 def extract_pizzas(text: str) -> int:
-    match = re.search(r"Pizzas\s+(-?\d+)", text)
+    match = re.search(r"Pizza[se]?\s+(-?\d+)", text, re.IGNORECASE)
     if match:
         return int(match.group(1))
     return 0

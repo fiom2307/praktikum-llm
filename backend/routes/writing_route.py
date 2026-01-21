@@ -10,9 +10,10 @@ def correct_text():
     user_text = data.get("text", "")
     userId = data.get("userId")
     exerciseId = data.get("exerciseId")
+    topic = data.get("topic", "")
     
     if(exerciseId == 0):
-        result = correct_text_with_ai(userId, user_text)
+        result = correct_text_with_ai(userId, user_text, topic)
     else:
         result = correct_story_text_with_ai(userId, user_text, exerciseId)
 

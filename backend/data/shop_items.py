@@ -199,8 +199,15 @@ SHOP_ITEMS = [
         "image_file": "giogio.png",
         "is_costume": True
     },
-
-
+    {
+        "id": 26,
+        "name": "Vacanze Romane",
+        "cost": 100,
+        "emoji": "🍧",
+        "image_file": "holiday.png",
+        "is_costume": True
+    },
+    
 
     # MULTIPLIERS
     {
