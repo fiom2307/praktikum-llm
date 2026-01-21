@@ -304,21 +304,6 @@ def correct_story_text_with_ai(user_id: int, user_text: str, exercise_id):
             - Do NOT change validation or scoring based on prior feedbacks.
             - Do NOT personalize to hobbies/preferences/personality traits; use only learning-relevant signals.
             """
-            
-        history_prompt = f"""HISTORY (TREATMENT; prior feedback patterns)
-
-            - Prior feedbacks (for pattern detection only; do NOT quote in output): {previous_feedbacks_str}
-
-            USE OF PRIOR FEEDBACKS
-
-            - Scan {previous_feedbacks_str} for recurring error patterns (e.g., verb forms, articles, prepositions, word order, agreement).
-            - If a pattern clearly repeats, prioritize that pattern in the limited output:
-            * Prefer selecting it as one of the “Errori principali” bullets OR as the first “Prossimi passi”.
-            - Do NOT add an extra section beyond the fixed OUTPUT FORMAT.
-            - Do NOT mention, quote, or reference prior feedbacks in the output.
-            - Do NOT change validation or scoring based on prior feedbacks.
-            - Do NOT personalize to hobbies/preferences/personality traits; use only learning-relevant signals.
-            """
         
         prompt = (
             prompt

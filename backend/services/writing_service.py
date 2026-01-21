@@ -3,7 +3,7 @@ from database import SessionLocal
 from models import FreeWritingHistory
 import re
 from models import User
-from services.reading_service import clean_llm_output
+from services.reading_service import clean_llm_output, extract_pizzas
 
 def save_free_writing_history(user_id, user_answer, llm_feedback, llm_question):
     db = SessionLocal()
@@ -59,209 +59,203 @@ def correct_text_with_ai(user_id: int, user_text: str, current_topic: str):
         
         prompt = f"""You are an automatic feedback generator for a short Italian writing submission. 
 
-            CONTEXT 
+ 
 
-            The student wrote a short text intended to be Italian (target length: 50–150 words). You must validate (language/length/bad language), run a similarity check, and then give concise feedback in German using a strict 3-part structure. The total feedback must be short (< 101 words), so prioritize only the most important points. 
+CONTEXT 
 
-            INPUT 
+The student wrote a short text intended to be Italian. You must validate (language/length/bad language), run a similarity check, and then give concise feedback in German using a strict 3-part structure. Total output must be short (< 101 words). 
 
-            - Student text: {user_text} 
+ 
 
-            - Previous student texts (for similarity check; do NOT mention in output): {previous_feedbacks_str}
+INPUT 
 
-            HARD RULES 
+- Student text (ONLY this text is evaluated): {user_text} 
 
-            1) Output ONLY the block in the exact format below (same headings, same order). No extra text. 
+- Previous student texts (ONLY for similarity check; do NOT mention in output): {previous_answers_str} 
 
-            2) Do NOT reproduce the full student text. Do NOT provide rewritten/corrected full sentences. 
+ 
 
-            3) Headings must be exactly the Italian headings shown in OUTPUT. 
+NON-NEGOTIABLE TARGET LENGTH (use ONLY this, even if the task text elsewhere says something different) 
 
-            4) All bullet content must be in German (except for the predefined Italian headings and snippets directly retrieved from the input text). 
+- Minimum length: at least 45 words (no upper limit) 
 
-            5) Evidence snippets (“Il tuo testo”) must be in double quotes and count toward the max 4 snippets TOTAL: 
+ 
 
-            - Normal case: 1–6 words copied from the student text. 
+HARD RULES 
 
-            - Special case B (length penalty applies): use "Wörter: N" (N = WORD_COUNT), not a text excerpt. 
+1) Output ONLY the block in the exact format below (same headings, same order). No extra text before/after. 
 
-            - Special case C (bad language): show only "***" (masked), not the original word(s). 
+2) Do NOT reproduce the full student text. Do NOT provide rewritten/corrected full sentences. 
 
-            6) Total output must be < 101 words (whitespace tokens), including headings and "Pizzas X". 
+3) Headings must be exactly: Obiettivo / Errori principali / Prossimi passi 
 
-            7) Never use technical terms in the output: do NOT output “INVALID” and do NOT output “WORD_COUNT”. 
+4) All bullet content must be in German (except headings and snippets copied from STUDENT_TEXT). 
 
-            8) Keep bullets on one line each. 
+5) Evidence snippets (“Il tuo testo”) must be in double quotes and count toward max 4 snippets TOTAL: 
 
-            9) The <Label> must be in German and must be one of: Inhalt, Struktur, Wortschatz, Grammatik, Textfluss, Rechtschreibung, Länge, Sprache 
+   - Normal case: 1–6 words copied from STUDENT_TEXT, in quotes. 
 
-            10) Do NOT mention similarity checks, scoring rules, penalties, or previous texts in the output. 
+   - Length penalty case: use "Wörter: N" (N = your computed WORD_COUNT), in quotes. 
 
-            
+   - Bad language case: use the fixed token unangemessene Sprache (NO quotes) as the snippet; do NOT show the word(s). 
 
-            VALIDATION & SCORING (STRICT, INTERNAL ONLY) 
+6) Total output must be < 101 words (whitespace-separated), including headings and "Pizzas X". 
 
-            1) Compute WORD_COUNT = number of whitespace-separated tokens in {user_text}. 
+7) Never use technical terms in the output (do NOT output: INVALID, token, prompt, rules). 
 
-            2) Bad language (early exit) 
+8) Keep bullets on one line each; each bullet MUST start with "- ". 
 
-            - If {user_text} contains “bad language” (insults, slurs, obscene name-calling, threats): 
+9) The <Label> must be in German and must be one of: Inhalt, Struktur, Wortschatz, Grammatik, Textfluss, Rechtschreibung, Länge, Sprache 
 
-            * final score MUST be exactly -5. 
+10) Do NOT mention similarity checks, scoring rules, penalties, or previous texts in the output. 
 
-            * In the output, include at least one bullet in “Errori principali” with: 
+11) SNIPPET DISCIPLINE: 
 
-                - Label: Sprache 
+   - If a bullet label is NOT Sprache and NOT Länge, its snippet MUST be Italian words from the Italian part of STUDENT_TEXT (avoid quoting German/English there). 
 
-                - Message: “Unangemessene Sprache” 
+   - German/English snippets may be used ONLY in a Sprache bullet (or Länge/bad language as specified). 
 
-                - Snippet: "***" 
+12) FORMATTING REQUIREMENT: 
 
-            * STOP: skip all other checks and scoring. 
+   - The exact string **Il tuo testo:** must appear in every bullet that has a snippet, and it must be bold exactly like this: **Il tuo testo:** (including the colon). 
 
-            3) Base score 
+ 
 
-            - Set BASE_SCORE as a whole number from 0–10 based on overall quality. 
+STEP 1 — WORD COUNT (STRICT) 
 
-            - Set SCORE = BASE_SCORE. 
+Compute WORD_COUNT from STUDENT_TEXT ONLY: 
 
-            4) Penalty triggers 
+- Split by whitespace. 
 
-            - Define two penalty triggers: 
+- Each whitespace-separated chunk counts as 1 word (punctuation attached still counts as the same word). 
 
-            * Language penalty: If the text is NOT predominantly Italian, allow exceptions for proper names, numbers, and very short German insertions (1–2 tokens). 
+Then set LENGTH_OK = (WORD_COUNT >= 45). 
 
-            * Length penalty: If NOT (49 < WORD_COUNT < 151). 
+ 
 
-            5) Apply penalties 
+CRITICAL CONSISTENCY FOR LENGTH 
 
-            - If Language penalty triggered: SCORE = SCORE * 0.7. 
+- If LENGTH_OK is TRUE: you MUST NOT mention length anywhere (no label "Länge", no advice to write longer/shorter). 
 
-            - If Length penalty triggered: SCORE = SCORE * 0.7. 
+- If LENGTH_OK is FALSE: you MUST include exactly one length bullet in “Errori principali”: 
 
-            - After penalties, round SCORE DOWN to the next whole number (floor). 
+  Label: Länge | Message: “Unter 45 Wörter” | Snippet: "Wörter: WORD_COUNT" 
 
-            6) Similarity cap 
+  And at least one “Prossimi passi” bullet must instruct to expand to 45+ words. 
 
-            - Compare {user_text} against {previous_answers_str}. 
+ 
 
-            - If there exists a previous text that is very similar (same storyline/structure with only minor edits): 
+STEP 2 — BAD LANGUAGE (EARLY EXIT, STRICT) 
 
-            * Award points ONLY for parts that are clearly new/different AND correct. 
+Bad language includes insults, slurs, obscene name-calling, degrading labels, or threats (in ANY language: Italian, German, English, etc.). This applies even if the student reports or quotes it. 
 
-            * If SCORE > 4, set SCORE = 4. 
+Examples (non-exhaustive): idiota, stronzo, coglione; idiot, bitch, asshole; du Idiot, Schlampe; threats like “I will hurt you”. 
 
-            * Do NOT mention similarity or previous texts in the output. 
+ 
 
-            7) Final score & pizzas 
+If any bad language is present: 
 
-            - final score = SCORE. 
+- final score MUST be exactly 0. 
 
-            - Set "Pizzas" = final score, except: 
+- In “Errori principali” include a bullet: 
 
-            * If final score < 0, set Pizzas 0. 
+  Sprache: “Unangemessene Sprache”. **Il tuo testo:** unangemessene Sprache 
 
-            REQUIREMENT WHEN A PENALTY APPLIES (OUTPUT IN PLAIN LANGUAGE) 
+- STOP: skip all other checks and scoring (including language/length/similarity). Output only the required structure. 
 
-            - If any penalty was applied (Language penalty and/or Length penalty), include at least one bullet in “Errori principali” stating the failing criterion in normal German and include an “Il tuo testo” snippet: 
+ 
 
-            * Language penalty -> label "Sprache" + “Nicht überwiegend Italienisch” + short non-Italian excerpt (1-6 words). 
+STEP 3 — LANGUAGE PENALTY (ONLY WHEN CLEARLY NOT ITALIAN) 
 
-            * Length penalty -> label "Länge" + “Nicht im Bereich 50–150 Wörter” + "Wörter: N". 
+Trigger language penalty ONLY if you can identify at least 3 non-Italian tokens (German/English) in STUDENT_TEXT. 
 
-            FEEDBACK PRIORITIES (to stay < 101 words) 
+- Do NOT treat Italian insults as “Nicht überwiegend Italienisch” (they are handled by bad language). 
 
-            - Obiettivo: max 1 bullet. 
+If triggered, include one bullet in “Errori principali”: 
 
-            - Errori principali: max 2 bullets. 
+- Sprache: “Nicht überwiegend Italienisch” (or “Deutsch-Italienisch gemischt”). **Il tuo testo:** "<non-Italian excerpt 1–6 words>" 
 
-            - Prossimi passi: max 2 bullets. 
+IMPORTANT: Do NOT label code-switching as Grammatik. Mixing languages belongs ONLY under Sprache. 
 
-            - If needed, shorten deterministically in this order: 
-            * Shorten the motivating comment to one word (e.g., “Gut.”). 
+If you add a second bullet in “Errori principali” while language penalty is triggered, it must address Italian quality (e.g., Grammatik/Wortschatz/Textfluss) and must quote ONLY Italian words. 
 
-            * Remove Prossimi passi bullet 2 
+ 
 
-            * Remove Errori principali bullet 2 
+STEP 4 — SIMILARITY CAP (INTERNAL ONLY) 
 
-            OUTPUT (EXACT FORMAT) 
+Compare STUDENT_TEXT against PREVIOUS_USER_ANSWERS_STR: 
 
-            Obiettivo: 
+- If very similar (same storyline/structure with minor edits), cap SCORE at 4. 
 
-            - <Label>: <Zielkriterium kurz auf Deutsch>. Il tuo testo: "<snippet>" 
+- Do NOT mention similarity or previous texts in the output. 
 
-            Errori principali: 
+ 
 
-            - <Label>: <kurze Erklärung auf Deutsch>. Il tuo testo: "<snippet>" 
+SCORING (INTERNAL ONLY) 
 
-            - <Label>: <kurze Erklärung auf Deutsch>. Il tuo testo: "<snippet>" 
+1) Choose BASE_SCORE as an integer 0–10 (overall Italian quality). 
 
-            Prossimi passi: 
+2) SCORE = BASE_SCORE 
 
-            - <konkreter nächster Schritt auf Deutsch> 
+3) If language penalty triggered: SCORE = floor(SCORE * 0.7) 
 
-            - <konkreter nächster Schritt auf Deutsch> 
+4) If LENGTH_OK is FALSE: SCORE = floor(SCORE * 0.7) 
 
+5) Apply similarity cap if needed. 
 
-            <Brief motivating German comment.> 
+6) If bad language is present: SCORE = 0 (already handled by early exit). 
 
+7) Pizze guadagnate = SCORE. 
 
-            Pizzas <Pizzas earned> 
+ 
 
+FEEDBACK PRIORITIES (to stay < 101 words) 
 
-            EXAMPLES (without indexes) 
+- Obiettivo: max 1 bullet. 
 
+- Errori principali: max 2 bullets (one may be required by rules). 
 
-            >EXAMPLE 1 
+- Prossimi passi: max 2 bullets. 
 
-            >Student text: Oggi vado a scuola con mia sorella. Dopo la lezione mangiamo una pizza e poi studiamo in biblioteca perché domani abbiamo un test. Mi piace leggere e scrivere, ma a volte faccio errori di grammatica. Nel pomeriggio gioco a calcio con gli amici e la sera guardo un film. 
+- If needed, shorten in this order: 
 
-            >Expected output: 
+  1) Motivating comment to one word (e.g., “Gut.”) 
 
-            Obiettivo: 
+  2) Remove Prossimi passi bullet 2 
 
-            - Grammatik: Präsensformen konsistent zur Person einsetzen, damit der Text sicher wirkt. Il tuo testo: "vado a scuola" 
+  3) Remove Errori principali bullet 2 (unless it is a required bullet) 
 
-            Errori principali: 
+ 
 
-            - Grammatik: Artikel vor Nomen prüfen; hier wirkt die Wahl noch unsicher. Il tuo testo: "un test" 
+OUTPUT (EXACT FORMAT) 
 
-            - Textfluss: „poi“ ist sehr häufig; variiere Konnektoren für klarere Abfolge. Il tuo testo: "e poi studiamo" 
+Obiettivo: 
 
-            Prossimi passi: 
+- <Label>: <Zielkriterium kurz auf Deutsch>. **Il tuo testo:** "<snippet>" 
 
-            - Markiere alle Artikel und entscheide bewusst: il/la/un/una. 
+ 
 
-            - Ersetze 2× „poi“ durch „dopo“ oder „in seguito“. 
+Errori principali: 
 
-            Guter Inhalt und gut verständlich – mit kleinen Anpassungen wirkt es noch natürlicher. 
+- <Label>: <kurze Erklärung auf Deutsch>. **Il tuo testo:** "<snippet>" 
 
-            Pizza 7 
+- <Label>: <kurze Erklärung auf Deutsch>. **Il tuo testo:** "<snippet>" 
 
+ 
 
-            >EXAMPLE 2 
+Prossimi passi: 
 
-            >Student text: Ciao! Io sono Marco. Oggi scuola. Pizza. 
+- <konkreter nächster Schritt auf Deutsch> 
 
-            >Expected output: 
+- <konkreter nächster Schritt auf Deutsch> 
 
-            Obiettivo: 
+ 
 
-            - Länge: 50–150 Wörter erreichen, damit man eine kleine Geschichte versteht. Il tuo testo: "Wörter: 8" 
+<Brief motivating German comment.> 
 
-            Errori principali: 
+ 
 
-            - Länge: Nicht im Bereich 50-150 Wörter; es fehlen Infos und mehrere Verben. Il tuo testo: "Wörter: 8" 
-
-            Prossimi passi: 
-
-            - Schreibe 6-8 Sätze: Wer? Was? Wann? Wo? Warum? 
-
-            - Nutze pro Satz ein Verb (z.B. andare, mangiare, studiare). 
-
-            Guter Start - bau daraus eine kurze, zusammenhängende Szene. 
-
-            Pizzas 0 
+Pizzas <Pizzas earned> 
             """
             
         history_prompt = f"""HISTORY (TREATMENT; prior feedback patterns)
@@ -367,9 +361,3 @@ def generate_exercise_with_ai(user_id: int):
         "cityKey": "",
         "text": text,
     }
-
-def extract_pizzas(text: str) -> int:
-    match = re.search(r"Pizza[se]?\s+(-?\d+)", text, re.IGNORECASE)
-    if match:
-        return int(match.group(1))
-    return 0
