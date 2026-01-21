@@ -82,6 +82,20 @@ def correct_story_text_with_ai(user_id: int, user_text: str, exercise_id):
         ]
 
         previous_feedbacks_str = "\n\n---\n\n".join(previous_feedbacks)
+        
+        histories = (
+            db.query(StoryWritingHistory)
+            .filter(StoryWritingHistory.user_id == user_id)
+            .order_by(StoryWritingHistory.created_at.desc())
+            .limit(5)
+            .all()
+        )
+
+        previous_answers = [
+            h.user_answer for h in histories if h.user_answer
+        ]
+
+        previous_answers_str = "\n\n---\n\n".join(previous_answers)
 
         prompt = f"""You are an automatic feedback generator for a short Italian writing submission. 
 
@@ -169,7 +183,7 @@ def correct_story_text_with_ai(user_id: int, user_text: str, exercise_id):
 
             6) Similarity cap 
 
-            - Compare {user_text} against {{PREVIOUS_USER_ANSWERS_STR}}. 
+            - Compare {user_text} against {previous_answers_str}. 
 
             - If there exists a previous text that is very similar (same storyline/structure with only minor edits): 
 

@@ -111,6 +111,20 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
         user = db.query(User).filter(User.id == user_id).first()
         if not user:
             return {"corrected_answers": "", "pizzas": 0}
+        
+        histories = (
+            db.query(StoryReadingHistory)
+            .filter(StoryReadingHistory.user_id == user_id)
+            .order_by(StoryReadingHistory.created_at.desc())
+            .limit(5)
+            .all()
+        )
+
+        previous_feedbacks = [
+            h.llm_feedback for h in histories if h.llm_feedback
+        ]
+
+        previous_feedbacks_str = "\n\n---\n\n".join(previous_feedbacks)
 
         prompt = F"""You are an automatic feedback generator for Italian reading comprehension items.
 
@@ -211,13 +225,13 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
             >Pizzas 1 Index: 1
             """
         
-        history_prompt = """HISTORY (TREATMENT; prior feedback patterns)
+        history_prompt = f"""HISTORY (TREATMENT; prior feedback patterns)
 
-            - Prior feedbacks (for pattern detection only; do NOT quote in output): {{PREVIOUS_FEEDBACKS_STR}}
+            - Prior feedbacks (for pattern detection only; do NOT quote in output): {previous_feedbacks_str}
 
             USE OF PRIOR FEEDBACKS
 
-            - Scan {{PREVIOUS_FEEDBACKS_STR}} for recurring error patterns (e.g., verb forms, articles, prepositions, word order, agreement).
+            - Scan {previous_feedbacks_str} for recurring error patterns (e.g., verb forms, articles, prepositions, word order, agreement).
             - If a pattern clearly repeats, prioritize that pattern in the limited output:
             * Prefer selecting it as one of the “Errori principali” bullets OR as the first “Prossimi passi”.
             - Do NOT add an extra section beyond the fixed OUTPUT FORMAT.
