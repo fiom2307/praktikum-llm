@@ -2,7 +2,7 @@ SHOP_ITEMS = [
     {
         "id": 1,
         "name": "Darth Vader",
-        "cost": 30,
+        "cost": 100,
         "emoji": "⚫️",
         "image_file": "darthVader.png",
         "is_costume": True
@@ -10,7 +10,7 @@ SHOP_ITEMS = [
     {
         "id": 2,
         "name": "Gladiatore",
-        "cost": 25,
+        "cost": 50,
         "emoji": "🛡️",
         "image_file": "gladiator.png",
         "is_costume": True
@@ -18,7 +18,7 @@ SHOP_ITEMS = [
     {
         "id": 3,
         "name": "Pizzaiolo",
-        "cost": 25,
+        "cost": 30,
         "emoji": "👨‍🍳",
         "image_file": "chef.png",
         "is_costume": True
@@ -26,7 +26,7 @@ SHOP_ITEMS = [
     {
         "id": 4,
         "name": "Il Padrino",
-        "cost": 25,
+        "cost": 80,
         "emoji": "🌹",
         "image_file": "godfather.png",
         "is_costume": True
@@ -34,7 +34,7 @@ SHOP_ITEMS = [
     {
         "id": 5,
         "name": "Maradona",
-        "cost": 30,
+        "cost": 100,
         "emoji": "⚽",
         "image_file": "maradona.png",
         "is_costume": True
@@ -42,7 +42,7 @@ SHOP_ITEMS = [
     {
         "id": 6,
         "name": "Pilota Ferrari",
-        "cost": 25,
+        "cost": 80,
         "emoji": "🏎️",
         "image_file": "ferrari.png",
         "is_costume": True
@@ -50,7 +50,7 @@ SHOP_ITEMS = [
     {
         "id": 7,
         "name": "Barista",
-        "cost": 25,
+        "cost": 30,
         "emoji": "☕",
         "image_file": "barista.png",
         "is_costume": True
@@ -58,7 +58,7 @@ SHOP_ITEMS = [
     {
         "id": 8,
         "name": "Maschera Veneziana",
-        "cost": 25,
+        "cost": 50,
         "emoji": "🎭",
         "image_file": "masked.png",
         "is_costume": True
@@ -66,7 +66,7 @@ SHOP_ITEMS = [
     {
         "id": 9,
         "name": "Super Idraulico",
-        "cost": 30,
+        "cost": 80,
         "emoji": "🍄",
         "image_file": "mario.png",
         "is_costume": True
@@ -74,7 +74,7 @@ SHOP_ITEMS = [
     {
         "id": 10,
         "name": "L'artista",
-        "cost": 30,
+        "cost": 90,
         "emoji": "🎨",
         "image_file": "davinci.png",
         "is_costume": True
@@ -82,7 +82,7 @@ SHOP_ITEMS = [
     {
         "id": 11,
         "name": "Motociclista Vespa",
-        "cost": 25,
+        "cost": 30,
         "emoji": "🛵",
         "image_file": "biker.png",
         "is_costume": True
@@ -90,7 +90,7 @@ SHOP_ITEMS = [
     {
         "id": 12,
         "name": "L'Imperatore",
-        "cost": 30,
+        "cost": 100,
         "emoji": "👑",
         "image_file": "juliusCaesar.png",
         "is_costume": True
@@ -98,7 +98,7 @@ SHOP_ITEMS = [
     {
         "id": 13,
         "name": "Il Capitano",
-        "cost": 30,
+        "cost": 90,
         "emoji": "⛵️",
         "image_file": "columbus.png",
         "is_costume": True
@@ -106,7 +106,7 @@ SHOP_ITEMS = [
     {
         "id": 14,
         "name": "Pugile",
-        "cost": 25,
+        "cost": 50,
         "emoji": "🥊",
         "image_file": "boxer.png",
         "is_costume": True
@@ -114,7 +114,7 @@ SHOP_ITEMS = [
     {
         "id": 15,
         "name": "Fanciulla Alpina",
-        "cost": 25,
+        "cost": 50,
         "emoji": "🏔️",
         "image_file": "alpineMaid.png",
         "is_costume": True
@@ -122,7 +122,7 @@ SHOP_ITEMS = [
     {
         "id": 16,
         "name": "Eleganza di Mezzanotte",
-        "cost": 30,
+        "cost": 70,
         "emoji": "🖤",
         "image_file": "midnightElegance.png",
         "is_costume": True
@@ -130,7 +130,7 @@ SHOP_ITEMS = [
     {
         "id": 17,
         "name": "Signora del Rinascimento",
-        "cost": 30,
+        "cost": 70,
         "emoji": "👑",
         "image_file": "renessainceLady.png",
         "is_costume": True
@@ -138,7 +138,7 @@ SHOP_ITEMS = [
     {
         "id": 18,
         "name": "Diva Retrò",
-        "cost": 25,
+        "cost": 30,
         "emoji": "🕶️",
         "image_file": "retroDiva.png",
         "is_costume": True
@@ -146,7 +146,7 @@ SHOP_ITEMS = [
     {
         "id": 19,
         "name": "Belle Siciliana",
-        "cost": 25,
+        "cost": 50,
         "emoji": "🌺",
         "image_file": "sicillianBelle.png",
         "is_costume": True
@@ -154,7 +154,7 @@ SHOP_ITEMS = [
     {
         "id": 20,
         "name": "Mascherata Veneziana",
-        "cost": 30,
+        "cost": 80,
         "emoji": "🎭",
         "image_file": "venetianMasquerade.png",
         "is_costume": True
@@ -162,7 +162,7 @@ SHOP_ITEMS = [
     {
         "id": 21,
         "name": "Dolce Notte",
-        "cost": 25,
+        "cost": 30,
         "emoji": "🌙",
         "image_file": "dolceNotte.png",
         "is_costume": True
@@ -170,7 +170,7 @@ SHOP_ITEMS = [
     {
         "id": 22,
         "name": "Grazia Alpina",
-        "cost": 25,
+        "cost": 50,
         "emoji": "🏔️",
         "image_file": "fanciullaAlpina.png",
         "is_costume": True
@@ -178,7 +178,7 @@ SHOP_ITEMS = [
     {
         "id": 23,
         "name": "La Madre dei Draghi",
-        "cost": 35,
+        "cost": 100,
         "emoji": "🐉",
         "image_file": "laMadreDeiDraghi.png",
         "is_costume": True
@@ -186,7 +186,7 @@ SHOP_ITEMS = [
     {
         "id": 24,
         "name": "Mona Lisa",
-        "cost": 25,
+        "cost": 100,
         "emoji": "🖼️",
         "image_file": "monaLisa.png",
         "is_costume": True
