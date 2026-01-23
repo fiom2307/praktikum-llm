@@ -173,6 +173,11 @@ function VocabularyPage() {
             setMsg("Genera una parola prima di controllare la risposta.");
             return;
         }
+
+        if (!answer.trim()) {
+            setMsg("Per favore, inserisci almeno una risposta prima di consegnare.");
+            return;
+        }
         
         if (attempts >= 3) {
             setMsg(`Nessun altro tentativo. Genera una nuova parola.`);
