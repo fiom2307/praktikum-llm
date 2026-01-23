@@ -25,7 +25,6 @@ def save_story_writing_history(user_id, user_answer, llm_feedback, exercise_id):
 def fetch_writing_text_service(user_id: int, city_key: str | None):
     db = SessionLocal()
     try:
-        # 1️⃣ Resolver ciudad
         if city_key:
             city = (
                 db.query(City)
@@ -41,7 +40,6 @@ def fetch_writing_text_service(user_id: int, city_key: str | None):
                 return {"error": "User not found"}
             city_id = user.current_city_id
 
-        # 2️⃣ Traer ejercicio de WRITING (solo 1 por ciudad)
         exercise = (
             db.query(StoryWritingExercise)
             .filter(StoryWritingExercise.city_id == city_id)
@@ -51,7 +49,6 @@ def fetch_writing_text_service(user_id: int, city_key: str | None):
         if not exercise:
             return {"error": "No writing exercise found for this city"}
 
-        # 3️⃣ Respuesta al frontend
         return {
             "exerciseId": exercise.id,
             "cityKey": city_key,

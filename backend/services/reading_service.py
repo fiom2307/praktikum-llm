@@ -76,7 +76,11 @@ HARD RULES (OVERRIDES FIRST)
 
   and no further output. 
 
+- If any student answer is only the word "vero" or "true" or "wahr", output only:
+
+ Pizzas 0
  
+ and no further output. 
 
 - Otherwise, follow all rules below and produce the full output in OUTPUT FORMAT. 
 
@@ -421,12 +425,9 @@ def generate_reading_text_from_ai(user_id: int):
                 - Passage length: 120–170 words.
                 - Passage must be 6–9 short sentences, separated by periods (so sentence numbers are unambiguous).
                 - Create exactly 5 questions in Italian, numbered 1–5.
-                - Mix question types:
-                * 2x vero/falso (TF)
-                * 2x multiple choice with A/B/C (MC)
-                * 1x open short answer (OPEN)
+                - All Questions must be OPEN ANSWER. NO true or false. NO multiple choice.
+                - Multiple choice and true or false questions are BANNED COMPLETELY.
                 - Always change the order of the questions.
-                - For MC: provide options A/B/C (each option max 6 words), 1 correct + 2 plausible distractors.
                 - For OPEN: the correct answer must be max 6 words and directly supported by the passage.
                 - Do NOT include any extra commentary.
                 - Do NOT repeat the following text or their topics (DONT DO SOMETHING SIMILAR): {previous_texts_str}
@@ -439,9 +440,10 @@ def generate_reading_text_from_ai(user_id: int):
 
                 OUTPUT
 
-                Return a text, do not return the answer index. After (MC) always put and extra line before writing anything else.
+                Return a text, do not return the answer index.
                 Do not specify the type of question in english only in italian.
-                - Do NOT repeat the following text or their topics: {previous_texts_str}
+                NO true or false questions. NO multiple choice questions.
+                Only open answer questions.
                 """
 
     

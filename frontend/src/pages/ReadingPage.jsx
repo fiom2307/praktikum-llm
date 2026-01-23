@@ -124,7 +124,7 @@ function ReadingPage() {
             return;
         }
         if(!generatedText.trim()) {
-            setCorrectedText("Genera prima un esercizio, poi rispondi..");
+            setCorrectedText("Genera prima un esercizio, poi rispondi.");
             return;
         }
 
@@ -132,6 +132,7 @@ function ReadingPage() {
             setCorrectedText("Per favore, inserisci almeno una risposta prima di consegnare.");
             return;
         }
+        
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
