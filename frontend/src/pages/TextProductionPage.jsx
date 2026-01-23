@@ -40,6 +40,7 @@ function TextProductionPage() {
     const [city, setCity] = useState("");
     const [writTasksDone, setWritTasksDone] = useState(0);
     const [writPizzas, setWritPizzas] = useState(0);
+    const [generated, setGenerated] = useState(false);
 
     useEffect(() => {
         async function loadCity() {
@@ -102,6 +103,7 @@ function TextProductionPage() {
 
             setTopic(data.text);
             setExerciseId(data.exerciseId);
+            setGenerated(true);
         } catch (error) {
             console.error("Errore durante il caricamento del writing text:", error);
             setTopic("Qualcosa è andato storto, per favore riprova.");
@@ -123,6 +125,8 @@ function TextProductionPage() {
     };
 
     const handleCorrect = async () => {
+        if(!generated) return;
+
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
