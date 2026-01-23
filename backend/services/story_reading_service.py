@@ -35,57 +35,43 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
         if not city:
             return {"reading_text": "❌ Città non valida."}
 
-        # 2️⃣ Fetch reading exercises for this city
-        exercises = (
+        # 2️⃣ Fetch the ONLY reading exercise for this city
+        exercise = (
             db.query(StoryReadingExercise)
             .filter(StoryReadingExercise.city_id == city.id)
-            .all()
+            .first ()
         )
-        if not exercises:
+        if not exercise:
             return {"reading_text": "❌ Nessun esercizio disponibile per questa città."}
 
         exercise_ids = [e.id for e in exercises]
 
-        # 3️⃣ Fetch user history for these exercises
+        # 3️⃣ Fetch user history for this exercise
         histories = (
             db.query(StoryReadingHistory)
             .filter(
                 StoryReadingHistory.user_id == user_id,
-                StoryReadingHistory.exercise_id.in_(exercise_ids)
+                StoryReadingHistory.exercise_id == exercise.id
             )
             .all()
         )
 
-        # 4️⃣ Merge correctly answered questions per exercise
-        correct_by_exercise = {}
+        # 4️⃣ Collect correctly answered question indexes
+        correct = set()
         for h in histories:
-            correct_by_exercise.setdefault(h.exercise_id, set())
             if h.correct_question_indexes:
-                correct_by_exercise[h.exercise_id].update(h.correct_question_indexes)
+                correct.update(h.correct_question_indexes)
 
-        # 5️⃣ Determine valid exercises and remaining questions
         ALL_QUESTIONS = {0, 1, 2, 3, 4}
-        candidates = []
+        remaining = sorted(list(ALL_QUESTIONS - correct))
 
-        for ex in exercises:
-            correct = correct_by_exercise.get(ex.id, set())
-            remaining = sorted(list(ALL_QUESTIONS - correct))
+        # 5️⃣ All questions completed
+        if not remaining:
+            return {"status": "done"}
 
-            if remaining:  # there are still unanswered questions
-                candidates.append((ex, remaining))
-
-        # All reading exercises completed
-        if not candidates:
-            return {
-                "status": "done"
-            }
-
-        # 6️⃣ Choose a random exercise
-        ex, remaining_indexes = random.choice(candidates)
-
-        # 7️⃣ Build FINAL MARKDOWN
+        # 6️⃣ Build markdown
         questions_md = "\n".join(
-            [f"{i+1}. {ex.questions[i]}" for i in remaining_indexes]
+            f"{i+1}. {exercise.questions[i]}" for i in remaining
         )
 
         reading_text_md = f"""
@@ -98,7 +84,7 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 """
 
         return {
-            "exercise_id": ex.id,
+            "exercise_id": exercise.id,
             "reading_text": reading_text_md
         }
 

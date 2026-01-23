@@ -173,9 +173,7 @@ function ReadingPage() {
                 },
             (result) => {
                 if (result?.status === "done") {
-                    setGeneratedText(
-                        "Hai completato tutti gli esercizi di lettura di questa città! Torna alla pagina precedente per sbloccare il prossimo passo."
-                    );
+                    handleBack();
                     return;
                 }
                 setExerciseId(result.exercise_id)

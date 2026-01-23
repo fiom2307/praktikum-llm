@@ -150,8 +150,7 @@ function VocabularyPage() {
             setFlashcardSaved(false);
 
             if (data?.status === "done") {
-                setMsg("Hai completato tutti gli esercizi di questa città! Torna alla pagina precedente per sbloccare il prossimo passo.");
-                setCanGenerate(false);
+                handleBack();
                 return;
             }
 

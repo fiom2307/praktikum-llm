@@ -97,6 +97,10 @@ function TextProductionPage() {
             let data;
             if (fromMode !== "free") {
                 data = await createWritingText(fromCity);
+                if (data?.status === "done") {
+                    handleBack();
+                    return;
+                }
             } else {
                 data = await createWritingText("");
             }

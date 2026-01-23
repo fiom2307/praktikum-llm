@@ -2,7 +2,7 @@ from services.openai_service import generate_from_prompt
 from database import SessionLocal
 from models import StoryWritingHistory, StoryWritingExercise
 from services.writing_service import extract_pizzas
-from models import User
+from models import User, UserCityProgress
 from models.city_model import City
 from services.reading_service import clean_llm_output
 
@@ -22,36 +22,45 @@ def save_story_writing_history(user_id, user_answer, llm_feedback, exercise_id):
     finally:
         db.close()
         
-def fetch_writing_text_service(user_id: int, city_key: str | None):
+def fetch_writing_text_service(user_id: int, city_key: str):
     db = SessionLocal()
     try:
-        # 1️⃣ Resolver ciudad
-        if city_key:
-            city = (
-                db.query(City)
-                .filter(City.name.ilike(city_key))
-                .first()
+        # Resolve city
+        city = (
+            db.query(City)
+            .filter(City.name.ilike(city_key))
+            .first()
+        )
+        if not city:
+            return {"error": "Città non valida"}
+        
+        # Fetch user progress for this city
+        progress = (
+            db.query(UserCityProgress)
+            .filter(
+                UserCityProgress.user_id == user_id,
+                UserCityProgress.city_id == city.id
             )
-            if not city:
-                return {"error": "Città non valida"}
-            city_id = city.id
-        else:
-            user = db.query(User).filter(User.id == user_id).first()
-            if not user:
-                return {"error": "User not found"}
-            city_id = user.current_city_id
+            .first()
+        )
 
-        # 2️⃣ Traer ejercicio de WRITING (solo 1 por ciudad)
+        if (
+            progress.writing_pizzas_earned >= city.writing_pizza_goal
+            and progress.writing_tasks_done >= city.writing_task_count
+        ):
+            return {"status": "done"}
+
+        # Fetch the ONLY writing exercise for this city
         exercise = (
             db.query(StoryWritingExercise)
-            .filter(StoryWritingExercise.city_id == city_id)
+            .filter(StoryWritingExercise.city_id == city.id)
             .first()
         )
 
         if not exercise:
             return {"error": "No writing exercise found for this city"}
 
-        # 3️⃣ Respuesta al frontend
+        # Response
         return {
             "exerciseId": exercise.id,
             "cityKey": city_key,
