@@ -259,6 +259,7 @@ function VocabularyPage() {
                         setShowTutorial(false);
                         completeTutorialContext("vocabulary"); 
                     }}
+                    
                     currentImage={currentCostumeId}
                 />
             )}
@@ -313,6 +314,7 @@ function VocabularyPage() {
                             type="text"
                             value={answer}
                             onChange={(e) => setAnswer(e.target.value)}
+                            onPaste={(e) => e.preventDefault()}
                             placeholder="Inserisci la tua risposta"
                             disabled={!word}
                             className="border border-gray-400 rounded-xl px-8 py-3 text-center focus:outline-none focus:ring-2 focus:ring-[#3399bd] w-full sm:w-auto"

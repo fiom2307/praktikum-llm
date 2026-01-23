@@ -254,6 +254,7 @@ function TextProductionPage() {
                     <textarea
                         value={userText}
                         onChange={(e) => setUserText(e.target.value)}
+                        onPaste={(e) => e.preventDefault()}
                         className="mt-1 resize-none rounded-xl shadow-sm p-3 w-full h-56 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     <br />

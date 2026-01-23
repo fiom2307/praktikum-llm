@@ -179,6 +179,12 @@ function ReadingPage() {
                 }
                 setExerciseId(result.exercise_id)
                 setGeneratedText(result.reading_text)
+                setUserText(`1. 
+2. 
+3. 
+4. 
+5. `)
+                setCorrectedText("")
             },
             (msg) => setGeneratedText(msg)
         );
@@ -261,6 +267,7 @@ function ReadingPage() {
                     <textarea
                         value={userText}
                         onChange={(e) => setUserText(e.target.value)}
+                        onPaste={(e) => e.preventDefault()}
                         className="
                             mt-1 mb-3 resize-none rounded-xl shadow-sm p-3 
                             w-full h-56 
