@@ -44,9 +44,15 @@ function ReadingPage() {
 2. 
 3. 
 4. 
-5.`;
+5. `;
 
-const [userText, setUserText] = useState(initialText);
+    const hasRealContent = (text) => {
+        const withoutPlaceholders = text.replace(/^\s*\d+\.\s*$/gm, "");
+
+        return /[a-zA-ZàèéìòùÀÈÉÌÒÙ]/.test(withoutPlaceholders);
+    };
+
+    const [userText, setUserText] = useState(initialText);
 
 
     useEffect(() => {
@@ -114,8 +120,18 @@ const [userText, setUserText] = useState(initialText);
     }
 
     const handleCorrect = async () => {
-        if(!generatedText.trim()) return;
-        if (!userText.trim()) return;
+        if (!hasRealContent(userText)) {
+            return;
+        }
+        if(!generatedText.trim()) {
+            setCorrectedText("Genera prima un esercizio, poi rispondi..");
+            return;
+        }
+
+        if (!userText.trim()) {
+            setCorrectedText("Per favore, inserisci almeno una risposta prima di consegnare.");
+            return;
+        }
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
             return;
@@ -256,7 +272,7 @@ const [userText, setUserText] = useState(initialText);
 
                     <ActionButton
                         onClick={handleCorrect}
-                        disabled={userText.trim() === initialText.trim()}
+                        disabled={!hasRealContent(userText)}
                         className="bg-[#f8edd5] hover:bg-[#e7d9ba]"
                     >
                         Correggi

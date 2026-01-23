@@ -425,6 +425,7 @@ def generate_reading_text_from_ai(user_id: int):
                 * 2x vero/falso (TF)
                 * 2x multiple choice with A/B/C (MC)
                 * 1x open short answer (OPEN)
+                - Always change the order of the questions.
                 - For MC: provide options A/B/C (each option max 6 words), 1 correct + 2 plausible distractors.
                 - For OPEN: the correct answer must be max 6 words and directly supported by the passage.
                 - Do NOT include any extra commentary.

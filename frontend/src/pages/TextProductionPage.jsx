@@ -126,6 +126,10 @@ function TextProductionPage() {
 
     const handleCorrect = async () => {
         if(!generated) return;
+        if (!userText.trim()) {
+            setCorrectedText("Per favore, inserisci almeno una risposta prima di consegnare.");
+            return;
+        }
 
         if (completed) {
             setCorrectedText("Hai già completato questo esercizio! Generane uno nuovo.");
