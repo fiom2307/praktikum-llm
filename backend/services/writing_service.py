@@ -189,7 +189,6 @@ Compare STUDENT_TEXT against PREVIOUS_USER_ANSWERS_STR:
 
 - Do NOT mention similarity or previous texts in the output. 
 
- 
 
 SCORING (INTERNAL ONLY) 
 
@@ -207,7 +206,6 @@ SCORING (INTERNAL ONLY)
 
 7) Pizze guadagnate = SCORE. 
 
- 
 
 FEEDBACK PRIORITIES (to stay < 101 words) 
 
@@ -225,7 +223,6 @@ FEEDBACK PRIORITIES (to stay < 101 words)
 
   3) Remove Errori principali bullet 2 (unless it is a required bullet) 
 
- 
 
 OUTPUT (EXACT FORMAT) 
 
@@ -233,7 +230,6 @@ Obiettivo:
 
 - <Label>: <Zielkriterium kurz auf Deutsch>. **Il tuo testo:** "<snippet>" 
 
- 
 
 Errori principali: 
 
@@ -241,7 +237,6 @@ Errori principali:
 
 - <Label>: <kurze Erklärung auf Deutsch>. **Il tuo testo:** "<snippet>" 
 
- 
 
 Prossimi passi: 
 
@@ -249,11 +244,9 @@ Prossimi passi:
 
 - <konkreter nächster Schritt auf Deutsch> 
 
- 
 
 <Brief motivating German comment.> 
 
- 
 
 Pizzas <Pizzas earned> 
             """
