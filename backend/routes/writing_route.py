@@ -20,7 +20,7 @@ def correct_text():
     return jsonify(result)
 
 @writing_routes.route("/fetch_writing_text", methods=["POST"])
-def fetch_reading_text():
+def fetch_writing_text():
     data = request.get_json()
     city_key=data.get("cityKey")
     
