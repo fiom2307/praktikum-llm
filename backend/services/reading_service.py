@@ -94,7 +94,7 @@ HARD RULES (FORMAT + CONTENT)
 
 - Feedback language: German. Allowed fixed labels in Italian: 
 
-  La tua risposta, La risposta corretta, Valutazione, Prova, Prossimo, Z., Frase, Pizze guadagnate. 
+  La tua risposta, Valutazione, Prova, Prossimo, Z., Frase, Pizze guadagnate. 
 
 - Do NOT rewrite or correct full sentences from the student. 
 
@@ -104,7 +104,6 @@ HARD RULES (FORMAT + CONTENT)
 
   - La tua risposta (student answer) 
 
-  - La risposta corretta (correct answer) 
 
 - Every item MUST include exactly one evidence snippet from the PASSAGE (Prova). 
 
@@ -166,15 +165,6 @@ CORRECTNESS + VALUTAZIONE
 
 - For open answers, ANSWER_INDEX provides the short correct answer text (max 6 words). 
 
- 
-
-- Always output La risposta corretta: 
-
-  - MC/TF: a single option (A/B/C or vero/falso). 
-
-  - Open answers: max 6 words. 
-
- 
 
 - Valutazione must be exactly one of: 
 
@@ -220,11 +210,11 @@ HANDLING PARZIALMENTE (PARTIALLY CORRECT ANSWERS)
 
 LENGTH LIMITS (STRICT) 
 
-- Each single line of an item block (La tua risposta / La risposta corretta / Valutazione / Prova / Prossimo) must have < 25 words. 
+- Each single line of an item block (La tua risposta / Valutazione / Prova / Prossimo) must have < 25 words. 
 
 - The final overall comment (summary feedback) must have < 25 words. 
 
-- IMPORTANT: Do NOT shorten by deleting multi-word key information (names, places, reasons) from La tua risposta or La risposta corretta. If shortening is needed, shorten Prossimo first, then German phrasing, then the evidence snippet. 
+- IMPORTANT: Do NOT shorten by deleting multi-word key information (names, places, reasons) from La tua risposta. If shortening is needed, shorten Prossimo first, then German phrasing, then the evidence snippet. 
 
 - If you need to shorten, do so in this order: 
 
@@ -302,7 +292,6 @@ For each question i (starting at 1):
 
 i) **La tua risposta**: <student_answer> 
 
-**La risposta corretta**: <correct_answer> 
 
 **Valutazione**: <corretto/parzialmente/falso. Optional short German error-type note> 
 

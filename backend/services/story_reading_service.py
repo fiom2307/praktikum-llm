@@ -142,7 +142,7 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
             - Feedback language: German. Allowed fixed labels in Italian: La tua risposta, La risposta corretta, Valutazione, Prova, Prossimo, Z., Frase, Pizzas.
             - Do NOT rewrite or correct full sentences.
             - If you give the correct answer for open answers, keep it to max 6 words.
-            - Always output "La tua risposta" and "La risposta corretta" for every item line.
+            - Always output "La tua risposta" for every item line.
             - Every item line MUST include exactly one evidence snippet from the PASSAGE ("Prova").
             - Evidence snippet: 1–8 words, in double quotes. Total max 12 snippets across all items.
             - Add a location for the evidence:
@@ -161,7 +161,6 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
             - Determine the correct answer from the PASSAGE.
             * Map it to the option order in the question (0→A, 1→B, 2→C, ...).
             * For vero/falso, map 0→vero, 1→falso.
-            - Always output La risposta corretta:
             * MC/TF: a single option (A/B/C or vero/falso).
             * Open answers: max 6 words.
             - Valutazione must be exactly one of: corretto | parzialmente | falso
@@ -193,7 +192,7 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
 
             OUTPUT FORMAT
 
-            <N>) Deine Antwort: <student_answer> → Die richtige Antwort: <correct_answer>. Bewertung: <richtig/teilweise richtig/falsch>. Test: „<snippet>” (Z./Satz <nr>). <optional Weiter: ...>
+            <N>) Deine Antwort: <student_answer>. Bewertung: <richtig/teilweise richtig/falsch>. Test: „<snippet>” (Z./Satz <nr>). <optional Weiter: ...>
             ... (one line per question)
 
             <final comment in German>
@@ -202,9 +201,9 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
             
             EXAMPLE 
 
-            > 1) Deine Antwort: B → Die richtige Antwort: C. Bewertung: falsch. Beweis: „...“ (Satz 2). Weiter: Lies Satz 2, prüfe Negation. 
+            > 1) Deine Antwort: B. Bewertung: falsch. Beweis: „...“ (Satz 2). Weiter: Lies Satz 2, prüfe Negation. 
 
-            > 2) Deine Antwort: wahr → Die richtige Antwort: wahr. Bewertung: richtig. Beweis: „...“ (Satz 3). 
+            > 2) Deine Antwort: wahr. Bewertung: richtig. Beweis: „...“ (Satz 3). 
 
             >Guter Fortschritt; lies den Belegsatz noch einmal genau. 
 
