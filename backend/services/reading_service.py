@@ -76,11 +76,6 @@ HARD RULES (OVERRIDES FIRST)
 
   and no further output. 
 
-- If any student answer is only the word "vero" or "true" or "wahr", output only:
-
- Pizzas 0
- 
- and no further output. 
 
 - Otherwise, follow all rules below and produce the full output in OUTPUT FORMAT. 
 
@@ -94,8 +89,7 @@ HARD RULES (FORMAT + CONTENT)
 
 - Feedback language: German. Allowed fixed labels in Italian: 
 
-  La tua risposta, Valutazione, Prova, Prossimo, Z., Frase, Pizze guadagnate. 
-
+  La tua risposta, La risposta corretta, Valutazione, Prova, Prossimo, Z., Frase, Pizze guadagnate. 
 - Do NOT rewrite or correct full sentences from the student. 
 
 - If you give the correct answer for open answers, keep it to max 6 words. 
@@ -103,6 +97,8 @@ HARD RULES (FORMAT + CONTENT)
 - For every item, always output both: 
 
   - La tua risposta (student answer) 
+  
+    - La risposta corretta (correct answer) 
 
 
 - Every item MUST include exactly one evidence snippet from the PASSAGE (Prova). 
@@ -165,6 +161,11 @@ CORRECTNESS + VALUTAZIONE
 
 - For open answers, ANSWER_INDEX provides the short correct answer text (max 6 words). 
 
+- Always output La risposta corretta: 
+
+  - MC/TF: a single option (A/B/C or vero/falso). 
+
+  - Open answers: max 6 words. 
 
 - Valutazione must be exactly one of: 
 
@@ -215,6 +216,8 @@ LENGTH LIMITS (STRICT)
 - The final overall comment (summary feedback) must have < 25 words. 
 
 - IMPORTANT: Do NOT shorten by deleting multi-word key information (names, places, reasons) from La tua risposta. If shortening is needed, shorten Prossimo first, then German phrasing, then the evidence snippet. 
+
+- IMPORTANT: Do NOT shorten by deleting multi-word key information (names, places, reasons) from La tua risposta or La risposta corretta. If shortening is needed, shorten Prossimo first, then German phrasing, then the evidence snippet. 
 
 - If you need to shorten, do so in this order: 
 
@@ -291,6 +294,8 @@ For each question i (starting at 1):
  
 
 i) **La tua risposta**: <student_answer> 
+
+**La risposta corretta**: <correct_answer> 
 
 
 **Valutazione**: <corretto/parzialmente/falso. Optional short German error-type note> 
@@ -414,12 +419,15 @@ def generate_reading_text_from_ai(user_id: int):
                 - Passage length: 120–170 words.
                 - Passage must be 6–9 short sentences, separated by periods (so sentence numbers are unambiguous).
                 - Create exactly 5 questions in Italian, numbered 1–5.
-                - All Questions must be OPEN ANSWER. NO true or false. NO multiple choice.
-                - Multiple choice and true or false questions are BANNED COMPLETELY.
+                - Mix question types:
+                * 2x vero/falso (TF)
+                * 3x multiple choice with A/B/C (MC)
+                - IMPORTANT: For MC: provide options A/B/C (each option max 6 words), 1 correct + 2 plausible distractors.
                 - Always change the order of the questions.
-                - For OPEN: the correct answer must be max 6 words and directly supported by the passage.
+                - Open answer questions are BANNED, do NOT generate open answer questions.
+                - ONLY true/false (TF) question and multiple choice (MC) questions are permited to be generated.
                 - Do NOT include any extra commentary.
-                - Do NOT repeat the following text or their topics (DONT DO SOMETHING SIMILAR): {previous_texts_str}
+                - Do NOT repeat the following text or their topics (DO NOT USE AS INSPIRATION FOR NEW TEXT OR PASSAGE): {previous_texts_str}
 
                 Generate a text based on topics that a 14 year old kid in school would find inetresting or general topics, 
                 like school, hollidays, family, etc. Try to use different names for the protagonists of the stories (female and male protagonists).
@@ -429,10 +437,37 @@ def generate_reading_text_from_ai(user_id: int):
 
                 OUTPUT
 
-                Return a text, do not return the answer index.
+                Return a text, do not return the answer index.  After (MC) always put and extra line before writing the possible answers A/B/C.
                 Do not specify the type of question in english only in italian.
-                NO true or false questions. NO multiple choice questions.
-                Only open answer questions.
+                NO open answer questions.
+                ONLY multiple choice and true or false questions allowed.
+                ALWAYS Provide answer options A/B/C for multiple choice questions. 
+                ALWAYS shuffle the position of the questions around, they should always have a different order as the one presented in the example.
+                
+                EXAMPLE:
+                
+                PASSAGE
+                <<TEXT>>
+                
+                DOMADE
+                1. <<FIRST QUESTION>> 
+                  A) <Posible answer A>
+                  B)<Posible answer B>
+                  C)<Posible answer C>
+                
+                2. <<Second QUESTION>> (V/F)
+                
+                3. <<THIRD QUESTION>> 
+                  A) <Posible answer A>
+                  B)<Posible answer B>
+                  C)<Posible answer C>
+                  
+                4. <<FOURTH QUESTION>> (V/F)
+                
+                5. <<FIFTH QUESTION>> 
+                  A) <Posible answer A>
+                  B)<Posible answer B>
+                  C)<Posible answer C>
                 """
 
     

@@ -141,7 +141,6 @@ def correct_story_answers_ai(user_id: int, generated_text: str, user_text: str, 
             - Do NOT reproduce the full passage or the full questions.
             - Feedback language: German. Allowed fixed labels in Italian: La tua risposta, La risposta corretta, Valutazione, Prova, Prossimo, Z., Frase, Pizzas.
             - Do NOT rewrite or correct full sentences.
-            - If you give the correct answer for open answers, keep it to max 6 words.
             - Always output "La tua risposta" for every item line.
             - Every item line MUST include exactly one evidence snippet from the PASSAGE ("Prova").
             - Evidence snippet: 1–8 words, in double quotes. Total max 12 snippets across all items.
