@@ -44,7 +44,6 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
         if not exercise:
             return {"reading_text": "❌ Nessun esercizio disponibile per questa città."}
 
-        exercise_ids = [e.id for e in exercises]
 
         # 3️⃣ Fetch user history for this exercise
         histories = (
@@ -76,7 +75,7 @@ def get_city_reading_text_for_user(user_id: int, city_key: str):
 
         reading_text_md = f"""
 
-{ex.text}
+{exercise.text}
 
 ---
 
