@@ -9,6 +9,7 @@ from .user_route import user_routes
 from .form_settings_route import form_settings_routes
 from routes.city_route import city_routes
 from .user_city_progress_route import user_city_progress_routes
+from .admin_route import admin_routes
 
 def register_routes(app):
     app.register_blueprint(auth_routes)
@@ -22,3 +23,4 @@ def register_routes(app):
     app.register_blueprint(form_settings_routes)
     app.register_blueprint(city_routes)
     app.register_blueprint(user_city_progress_routes)
+    app.register_blueprint(admin_routes)

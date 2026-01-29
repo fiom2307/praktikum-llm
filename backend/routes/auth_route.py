@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from services.auth_service import authenticate_user, register_user
+from services.auth_service import authenticate_user, register_user, reset_own_password
 from services.user_service import get_user_by_username
 from models import user_to_dict
 import re
@@ -60,3 +60,25 @@ def register():
     new_user = register_user(username, password)
 
     return jsonify({"success": True, "user": new_user}), 201
+
+@auth_routes.route("/user/reset-password", methods=["POST"])
+def user_reset_password():
+    data = request.get_json()
+
+    username = data.get("username")
+    old_password = data.get("old_password")
+    new_password = data.get("new_password")
+
+    if not username or not old_password or not new_password:
+        return jsonify({
+            "success": False,
+            "message": "Dati obbligatori mancanti"
+        }), 400
+
+    response, status = reset_own_password(
+        username,
+        old_password,
+        new_password
+    )
+
+    return jsonify(response), status

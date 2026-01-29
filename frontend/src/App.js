@@ -13,7 +13,12 @@ import InventoryPage from "./pages/InventoryPage";
 import StoryPage from "./pages/StoryPage";
 import FreeModePage from "./pages/FreeModePage";
 import FormFloatingGate from "./components/FormFloatingGate";
+import AdminPage from "./pages/AdminPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
+const isAdmin = () => {
+  return localStorage.getItem("username") === "admin";
+};
 
 // check token
 const getAuthToken = () => {
@@ -114,6 +119,24 @@ function App() {
               <InventoryPage />
             </ProtectedRoute>
           } />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                {isAdmin() ? <AdminPage /> : <Navigate to="/" />}
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/change-password"
+            element={
+              <ProtectedRoute>
+                <ChangePasswordPage />
+              </ProtectedRoute>
+            }
+          />
           
         </Routes>
       </Router>

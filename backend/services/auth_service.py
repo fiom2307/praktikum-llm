@@ -4,8 +4,10 @@ from passlib.context import CryptContext
 import random
 from sqlalchemy import func
 from models import City, UserCityProgress
+import re
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+PASSWORD_REGEX = r"^(?=.*[A-Z])(?=.*[!@#$%^&*()\-_+=\[\]{};:'\",.<>/?]).{6,16}$"
 
 def authenticate_user(username, password):
     db = SessionLocal()
@@ -72,4 +74,55 @@ def assign_group(db):
     else:
         return random.choice(["treatment", "control"])
 
+def reset_own_password(username, old_password, new_password):
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.username == username).first()
 
+        if not user:
+            return {
+                "success": False,
+                "message": "Utente non trovato"
+            }, 404
+
+        if not pwd_context.verify(old_password, user.password_hashed):
+            return {
+                "success": False,
+                "message": "La password attuale non è corretta"
+            }, 403
+
+
+        if not new_password:
+            return {
+                "success": False,
+                "message": "La nuova password è obbligatoria"
+            }, 400
+
+        if len(new_password) < 6:
+            return {
+                "success": False,
+                "message": "La password deve contenere almeno 6 caratteri"
+            }, 400
+
+        if len(new_password) > 16:
+            return {
+                "success": False,
+                "message": "La password non può superare i 16 caratteri"
+            }, 400
+
+        if not re.match(PASSWORD_REGEX, new_password):
+            return {
+                "success": False,
+                "message": "La password deve contenere almeno una lettera maiuscola e un carattere speciale"
+            }, 400
+
+        user.password_hashed = pwd_context.hash(new_password)
+        db.commit()
+
+        return {
+            "success": True,
+            "message": "Password aggiornata con successo"
+        }, 200
+
+    finally:
+        db.close()

@@ -9,6 +9,7 @@ export default function Header({ onBack }) {
 
   const { pizzaCount, updatePizzaCount } = useUser();
   const username = localStorage.getItem("username");
+  const isAdmin = username === "admin";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -109,6 +110,32 @@ export default function Header({ onBack }) {
               >
                 Negozio
               </button>
+
+              {/* Change password button */}
+              <button
+                className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                  location.pathname === "/change-password"
+                    ? "text-gray-400 cursor-default pointer-events-none"
+                    : ""
+                }`}
+                onClick={() => handleNavigate("/change-password")}
+              >
+                Cambia password
+              </button>
+
+              {/* Admin panel (only admin) */}
+              {isAdmin && (
+                <button
+                  className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                    location.pathname === "/admin"
+                      ? "text-gray-400 cursor-default pointer-events-none"
+                      : ""
+                  }`}
+                  onClick={() => handleNavigate("/admin")}
+                >
+                  Admin Reset Password
+                </button>
+              )}
               
               <div className="my-2 h-px bg-gray-200"></div>
               

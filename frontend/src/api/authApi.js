@@ -28,3 +28,17 @@ export async function registerUser(username, password) {
 
     return response.json();
 }
+
+export async function resetOwnPassword(username, oldPassword, newPassword) {
+  const response = await fetch(`${API_BASE_URL}/user/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username,
+      old_password: oldPassword,
+      new_password: newPassword,
+    }),
+  });
+
+  return response.json();
+}
